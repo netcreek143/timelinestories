@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Timeline Stories - Your Dream Wedding</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500;600&family=Great+Vibes&display=swap"
+        rel="stylesheet">
+    <!-- GSAP Core & Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+    <!-- Color Thief Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="navbar-wrapper">
+            <div class="logo">
+                <img src="images/logo.png" alt="Timeline Stories Logo" class="logo-img">
+            </div>
+
+            <nav class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">About us</a>
+                <a href="#">Our Process</a>
+                <a href="#">Case Study</a>
+                <a href="#">Testimonial</a>
+                <a href="#">Contact</a>
+            </nav>
+
+            <div class="nav-action">
+                <button class="btn-gold-pill">Plan My Event</button>
+            </div>
+
+            <div class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Wrapper to create the bottom rounded black background -->
+    <div class="main-dark-wrapper">
+
+
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-overlay"></div>
+
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1>Your Dream Wedding</h1>
+                    <div class="hero-subtitle">Perfectly Brought to Life.</div>
+                    <p class="hero-desc">
+                        From concept to celebration, we craft weddings that reflect your story,
+                        style, and vision. Every detail planned. Every moment unforgettable.
+                    </p>
+                    <button class="btn-ghost-arrow">
+                        Plan My Event
+                        <span class="arrow-circle">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="slider-controls">
+                <button class="control-btn prev">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+                <div class="hero-nav">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <button class="control-btn next">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="page-content">
+            <div class="section-header">
+                <h3 class="subtitle">C R A F T I N G &nbsp; E X P E R I E N C E S .</h3>
+                <h2 class="title">Creating Memories.</h2>
+            </div>
+
+            <div class="cards-grid">
+                <!-- Row 1 -->
+                <div class="card span-5">
+                    <img src="./images/card1.png" alt="Event setup" class="card-img" />
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
+                                <path d="M8 2v4M16 2v4M4 10h16M12 14l-2 2 4 4" />
+                            </svg>
+                        </div>
+                        <h4 class="card-title">Premium Event<br>Management Company</h4>
+                    </div>
+                </div>
+
+                <div class="card span-7">
+                    <img src="./images/card2.png" alt="Specialized weddings" class="card-img" />
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                        </div>
+                        <h4 class="card-title">Specialized in Weddings, Receptions,<br>Destination & Corporate Events
+                        </h4>
+                    </div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="card span-7">
+                    <img src="./images/card3.png" alt="Team meeting" class="card-img" />
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+                            </svg>
+                        </div>
+                        <h4 class="card-title">Highly Experienced Creative &<br>Execution Team</h4>
+                    </div>
+                </div>
+
+                <div class="card span-5">
+                    <img src="images/card4.png" alt="Execution" class="card-img" />
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4" />
+                            </svg>
+                        </div>
+                        <h4 class="card-title">End-to-End<br>Event Execution</h4>
+                    </div>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="card span-5">
+                    <img src="images/card5.png" alt="Material & Decor" class="card-img" />
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
+                                <path d="M4 12h16M12 4v16" />
+                            </svg>
+                        </div>
+                        <h4 class="card-title">Large Material &<br>Decor Inventory</h4>
+                    </div>
+                </div>
+
+                <div class="card span-7">
+                    <img src="images/card6.png" alt="Fully Customized" class="card-img" />
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <path d="M16 2v4M8 2v4M3 10h18" />
+                                <path d="M12 14l2 2 4-4" />
+                            </svg>
+                        </div>
+                        <h4 class="card-title">Fully Customized<br>Event Solutions</h4>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+    </div> <!-- End main-dark-wrapper -->
+
+    <!-- Our Process Section -->
+    <section class="our-process-section">
+        <div class="process-header">
+
+            <h2 class="process-title">
+                From Vision to Reality<br>
+                <span class="process-title-large">Our Process</span>
+            </h2>
+        </div>
+
+        <div class="process-cards-grid">
+            <div class="process-card gold-card">
+                <div class="process-icon-badge">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                        <path d="M12 11c-1.5 0-2.5 1-3 1.5 0.5 0.5 1.5 1.5 3 1.5s2.5-1 3-1.5c-0.5-0.5-1.5-1.5-3-1.5z">
+                        </path>
+                        <circle cx="12" cy="12.5" r="1"></circle>
+                    </svg>
+                </div>
+                <h4>Understanding Your<br>Vision & Requirements</h4>
+                <p>We listen carefully to understand your ideas, preferences, and expectations.</p>
+            </div>
+
+            <div class="process-card dark-card">
+                <div class="process-icon-badge">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <path d="M12 18l4-4 1.5 1.5-4 4Z"></path>
+                    </svg>
+                </div>
+                <h4>Concept Creation &<br>Mood Board</h4>
+                <p>Creative concepts and visual mood boards designed to match your style.</p>
+            </div>
+
+            <div class="process-card dark-card">
+                <div class="process-icon-badge">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                        <path d="M12 7l-2.5 1.5v3L12 13l2.5-1.5v-3L12 7z"></path>
+                    </svg>
+                </div>
+                <h4>Sketch & 3D Design<br>Visualization</h4>
+                <p>See your event come to life through detailed sketches and realistic 3D designs.</p>
+            </div>
+
+            <div class="process-card dark-card">
+                <div class="process-icon-badge">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                        <path d="M16 11l2 2 4-4"></path>
+                    </svg>
+                </div>
+                <h4>Client Approval &<br>Refinement</h4>
+                <p>Every detail refined together until everything feels perfect.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Strength Section (Scroll Track) -->
+    <section class="our-strength-section">
+        <div class="strength-sticky-container">
+            <div class="strength-header">
+                <h2>Our Strength</h2>
+                <p>Everything you need for a perfectly planned and beautifully<br>executed event - all under one roof.
+                </p>
+            </div>
+
+            <div class="arc-layout-wrapper">
+                <div class="arc-container">
+
+                    <!-- The rotatable wheel group -->
+                    <div class="arc-wheel" id="arcWheel">
+                        <svg viewBox="0 0 1000 1000" class="strength-arc-svg" preserveAspectRatio="xMidYMid meet">
+                            <!-- Main perfect circle (masked by container) -->
+                            <circle cx="500" cy="500" r="420" fill="none" stroke="rgba(255,255,255,0.15)"
+                                stroke-width="1.5" />
+                        </svg>
+
+                        <!-- Indicator badges (inside the rotating wheel) -->
+                        <div class="arc-indicator node-1" style="left: 50.000%; top: 8.000%;">
+                            <div class="node-number-badge">1</div>
+                            <div class="node-dot"></div>
+                            <div class="node-line"></div>
+                        </div>
+                        <div class="arc-indicator node-2" style="left: 82.837%; top: 23.813%;">
+                            <div class="node-number-badge">2</div>
+                            <div class="node-dot"></div>
+                            <div class="node-line"></div>
+                        </div>
+                        <div class="arc-indicator node-3" style="left: 90.947%; top: 59.346%;">
+                            <div class="node-number-badge">3</div>
+                            <div class="node-dot"></div>
+                            <div class="node-line"></div>
+                        </div>
+                        <div class="arc-indicator node-4" style="left: 68.223%; top: 87.841%;">
+                            <div class="node-number-badge">4</div>
+                            <div class="node-dot"></div>
+                            <div class="node-line"></div>
+                        </div>
+                        <div class="arc-indicator node-5" style="left: 31.777%; top: 87.841%;">
+                            <div class="node-number-badge">5</div>
+                            <div class="node-dot"></div>
+                            <div class="node-line"></div>
+                        </div>
+                        <div class="arc-indicator node-6" style="left: 9.053%; top: 59.346%;">
+                            <div class="node-number-badge">6</div>
+                            <div class="node-dot"></div>
+                            <div class="node-line"></div>
+                        </div>
+                        <div class="arc-indicator node-7" style="left: 17.163%; top: 23.813%;">
+                            <div class="node-number-badge">7</div>
+                            <div class="node-dot"></div>
+                            <div class="node-line"></div>
+                        </div>
+                    </div> <!-- End arc-wheel -->
+
+                    <!-- Content wrapper (text blocks) -->
+                    <div class="arc-content-wrapper">
+
+                        <div class="arc-center-content active" data-index="0">
+                            <h3>Large Decor &<br>Event Material Inventory</h3>
+                            <p>Our extensive in-house decor inventory allows faster execution and better<br>control. We
+                                maintain a wide range of premium materials and event elements.<br>Ensuring consistent
+                                quality for every event we deliver.</p>
+                        </div>
+
+                        <div class="arc-center-content" data-index="1">
+                            <h3>Creative Production &<br>Custom Fabrication</h3>
+                            <p>We build tailor-made event structures, sets, and props that perfectly align with your
+                                vision. <br>Our state-of-the-art production facility ensures precision and
+                                quality,<br>creating physical environments that leave a lasting impression.</p>
+                        </div>
+
+                        <div class="arc-center-content" data-index="2">
+                            <h3>End-to-End Planning &<br>Flawless Execution</h3>
+                            <p>From initial concept through to the final tear-down, our dedicated team handles every
+                                detail with care.<br>We proactively manage timelines, logistics, and vendors <br>so that
+                                you can simply enjoy the moment without worry.</p>
+                        </div>
+
+                        <div class="arc-center-content" data-index="3">
+                            <h3>Venue Selection &<br>Immersive Styling</h3>
+                            <p>We collaborate with top-tier venues to find the perfect backdrop for your story.<br>Our
+                                design team integrates architecture and aesthetics to transform spaces <br>into
+                                immersive experiences that captivate guests from entry to exit.</p>
+                        </div>
+
+                        <div class="arc-center-content" data-index="4">
+                            <h3>Technical Production &<br>Audio Visual Excellence</h3>
+                            <p>State-of-the-art lighting, crystal-clear sound, and dynamic visual displays.<br>We handle
+                                the complex technical infrastructure behind the scenes <br>to guarantee a flawless and
+                                high-impact presentation.</p>
+                        </div>
+
+                        <div class="arc-center-content" data-index="5">
+                            <h3>Guest Experience &<br>Hospitality Management</h3>
+                            <p>Creating unforgettable moments through personalized touchpoints.<br>From RSVP management
+                                to premium on-site concierge services,<br>we ensure every guest feels valued and
+                                incredibly well cared for.</p>
+                        </div>
+
+                        <div class="arc-center-content" data-index="6">
+                            <h3>Flawless Event<br>Coordination</h3>
+                            <p>We believe that every event should be as unique as the story it tells.<br>Our team works
+                                tirelessly to coordinate every stakeholder and vendor,<br>ensuring a seamless experience
+                                that exceeds all expectations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Study Section -->
+    <section class="case-study-section">
+        <div class="case-study-header">
+            <h2 class="case-study-title">Case Study</h2>
+            <p class="case-study-desc">Explore real events that showcase our creative ideas and professional execution.
+                From initial concepts to final celebrations, every detail is carefully planned. See how we transform
+                visions into unforgettable experiences.</p>
+        </div>
+
+        <div class="case-study-stage">
+            <!-- SVG Arc Background -->
+            <div class="case-arc-container">
+                <svg viewBox="0 0 1400 1400" class="case-arc-svg">
+                    <circle cx="700" cy="700" r="698" />
+                </svg>
+            </div>
+
+            <!-- Interactive Cards Stage -->
+            <div class="case-cards-wrapper" id="caseCardsWrapper">
+                <!-- Card 1 (Left Theme) -->
+                <div class="case-card theme-gold" data-index="0">
+                    <div class="card-project-tag">Project Journey</div>
+                    <h3 class="card-title">Event Vision</h3>
+                    <p class="card-subtitle">Transforming ideas into physical realities with precision.</p>
+                    <div class="card-grid">
+                        <div class="grid-item">
+                            <div class="grid-icon">✓</div>Initial Setup
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">✓</div>Brand Visibility
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">✓</div>Structured Planning
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">✓</div>Smooth Execution
+                        </div>
+                    </div>
+                    <div class="card-image-wrap">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80"
+                            alt="Case Study 1">
+                    </div>
+                </div>
+
+                <!-- Card 2 (Active Dark Theme) -->
+                <div class="case-card theme-dark" data-index="1">
+                    <div class="card-project-tag">Project Journey</div>
+                    <h3 class="card-title">Dream<br>Wedding Story</h3>
+                    <p class="card-subtitle">From Vision to Reality - A Dream Wedding Story</p>
+                    <div class="card-grid">
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Client Discussion
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Concept Planning
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Sketch Creation
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>3D Visualization
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Final Execution
+                        </div>
+                    </div>
+                    <div class="card-image-wrap">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80"
+                            alt="Case Study 2">
+                    </div>
+                </div>
+
+                <!-- Card 3 (Right Light Theme) -->
+                <div class="case-card theme-light" data-index="2">
+                    <div class="card-project-tag">Project Journey</div>
+                    <h3 class="card-title">Luxury Reception</h3>
+                    <p class="card-subtitle">Transforming Celebration into a Luxury Experience</p>
+                    <div class="card-grid">
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Professional Setup
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Brand Flow
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Structured Planning
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Smooth Flow
+                        </div>
+                    </div>
+                    <div class="card-image-wrap">
+                        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80"
+                            alt="Case Study 3">
+                    </div>
+                </div>
+
+                <!-- Card 4 (Gold Theme) -->
+                <div class="case-card theme-gold" data-index="3">
+                    <div class="card-project-tag">Project Journey</div>
+                    <h3 class="card-title">Corporate Gala</h3>
+                    <p class="card-subtitle">Elevating Brand Presence through Grand Events</p>
+                    <div class="card-grid">
+                        <div class="grid-item">
+                            <div class="grid-icon">✓</div>Venue Design
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">✓</div>Lighting Setup
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">✓</div>Guest Logistics
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">✓</div>Live Coverage
+                        </div>
+                    </div>
+                    <div class="card-image-wrap">
+                        <img src="https://images.unsplash.com/photo-1540575861501-7ad05823123d?auto=format&fit=crop&q=80"
+                            alt="Case Study 4">
+                    </div>
+                </div>
+
+                <!-- Card 5 (Dark Theme) -->
+                <div class="case-card theme-dark" data-index="4">
+                    <div class="card-project-tag">Project Journey</div>
+                    <h3 class="card-title">Award Night</h3>
+                    <p class="card-subtitle">Celebrating Excellence with World-Class Production</p>
+                    <div class="card-grid">
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Stage Magic
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Audio Clarity
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Artist Coordination
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Post-Event Reel
+                        </div>
+                    </div>
+                    <div class="card-image-wrap">
+                        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80"
+                            alt="Case Study 5">
+                    </div>
+                </div>
+
+                <!-- Card 6 (Light Theme) -->
+                <div class="case-card theme-light" data-index="5">
+                    <div class="card-project-tag">Project Journey</div>
+                    <h3 class="card-title">Garden Social</h3>
+                    <p class="card-subtitle">Elegant Outdoor Gatherings with Organic Charm</p>
+                    <div class="card-grid">
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Natural Decor
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Ambient Vibes
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Bespoke Catering
+                        </div>
+                        <div class="grid-item">
+                            <div class="grid-icon">›</div>Sunset Timing
+                        </div>
+                    </div>
+                    <div class="card-image-wrap">
+                        <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80"
+                            alt="Case Study 6">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Cursor Indicator -->
+        <div class="drag-cursor" id="dragCursor">
+            <span>Drag</span>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="test-header">
+            <h2 class="test-title">What Our Clients Say</h2>
+            <p class="test-desc">Our clients trust us to create beautiful and stress-free events. From customized
+                designs to flawless execution, we focus on delivering experiences that exceed expectations. Here's what
+                our clients say about working with Timeline Stories.</p>
+            <div class="test-divider"></div>
+        </div>
+
+        <div class="test-container">
+            <div class="test-slider-stage">
+                <div class="test-cards-wrap" id="testCardsWrap">
+                    <div class="test-video-card active" data-index="0">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80"
+                            alt="Client 1">
+                        <div class="play-btn"><span>▶</span></div>
+                    </div>
+                    <div class="test-video-card" data-index="1">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80"
+                            alt="Client 2">
+                        <div class="play-btn"><span>▶</span></div>
+                    </div>
+                    <div class="test-video-card" data-index="2">
+                        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80"
+                            alt="Client 3">
+                        <div class="play-btn"><span>▶</span></div>
+                    </div>
+                </div>
+
+                <div class="test-content-wrap">
+                    <div class="test-quote-start">“</div>
+                    <div class="test-text-content active" data-index="0">
+                        <h3 class="test-item-title">Wedding</h3>
+                        <p class="test-item-quote">The team understood exactly what we wanted and transformed our ideas
+                            into a beautiful wedding setup. Every detail was thoughtfully planned and perfectly
+                            executed. The entire process was smooth and completely stress-free, allowing us to truly
+                            enjoy our special day.</p>
+                        <h4 class="test-client-info">Aravindh – Chennai</h4>
+                    </div>
+                    <div class="test-text-content" data-index="1">
+                        <h3 class="test-item-title">Reception</h3>
+                        <p class="test-item-quote">From planning to execution, everything was handled with extreme
+                            professionalism. The decor was breathtaking and far exceeded our original vision. Our guests
+                            are still talking about how elegant the setup was.</p>
+                        <h4 class="test-client-info">Suriya – Madurai</h4>
+                    </div>
+                    <div class="test-text-content" data-index="2">
+                        <h3 class="test-item-title">Corporate</h3>
+                        <p class="test-item-quote">Professional, efficient, and creative. Timeline Stories delivered a
+                            world-class gala for our brand. They managed the complexity effortlessly, and the results
+                            were truly impressive.</p>
+                        <h4 class="test-client-info">Rahul – Bangalore</h4>
+                    </div>
+                    <div class="test-quote-end">”</div>
+                </div>
+            </div>
+
+            <div class="test-controls">
+                <button class="test-arrow prev" id="prevTest">←</button>
+                <div class="test-dots" id="testDots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <button class="test-arrow next" id="nextTest">→</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Timeline Stories Section -->
+    <section class="why-section">
+        <div class="why-top-header">
+            <h2 class="why-title">Why Timeline Stories?</h2>
+            <p class="why-top-desc">From initial planning to final execution, we manage every detail of your event. Our
+                team ensures smooth coordination at every stage. Giving you a hassle-free event experience.</p>
+        </div>
+        <div class="container-why">
+            <div class="why-left">
+                <div class="why-image-wrap">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80"
+                        alt="Wedding Decor">
+                </div>
+            </div>
+
+            <div class="why-right">
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header">
+                            <h3>Complete End-to-End Event Management</h3>
+                            <span class="acc-icon"></span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>From initial planning to final execution, we manage every detail of your event. Our team
+                                ensures smooth coordination at every stage. Giving you a hassle-free event experience.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3>Fully Customized Event Designs</h3>
+                            <span class="acc-icon"></span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>We create bespoke designs that reflect your personality and style. No two events are the
+                                same with Timeline Stories.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3>Sketch + 3D Before Execution</h3>
+                            <span class="acc-icon"></span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Visualize your event before it happens. Our 3D renders allow for precise planning and
+                                client satisfaction.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3>Experienced Creative & Production Team</h3>
+                            <span class="acc-icon"></span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Our team brings years of industry experience to handle even the most complex production
+                                requirements.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3>Premium Quality Decor & Materials</h3>
+                            <span class="acc-icon"></span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>We source only the finest materials and decor items to ensure your event looks and feels
+                                luxurious.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3>Stress-Free Event Execution</h3>
+                            <span class="acc-icon"></span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Our meticulous planning means you can relax and truly enjoy your event, knowing we have
+                                everything under control.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- Contact Form Section (Light) -->
+    <section class="contact-form-section">
+        <div class="contact-header">
+            <h2 class="contact-main-title">Plan Your Event With Timeline Stories</h2>
+            <p class="contact-subtitle">Tell us about your event and our team will help you plan a perfect
+                celebration. From concept to execution, we provide complete event solutions. Get in touch with
+                us for a free consultation.</p>
+        </div>
+
+        <div class="form-container">
+            <form id="contactForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="phone" name="phone" placeholder="Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group select-group">
+                        <select id="eventType" name="eventType" required>
+                            <option value="" disabled selected>Event Type</option>
+                            <option value="wedding">Wedding</option>
+                            <option value="reception">Reception</option>
+                            <option value="corporate">Corporate</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <span class="select-arrow"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="date" name="date" placeholder="Date" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="location" name="location" placeholder="Event Location" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="budget" name="budget" placeholder="Budget" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="venue" name="venue" placeholder="Preferred Venue" required>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <textarea id="message" name="message" placeholder="Message" rows="5"></textarea>
+                </div>
+                <button type="submit" class="submit-btn-gold">Request Estimate</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Section (Dark Luxury) -->
+    <footer class="footer-dark">
+        <div class="footer-container">
+            <!-- Column 1: Logo & Company -->
+            <div class="footer-col col-info">
+                <div class="footer-logo">
+                    <img src="images/logo.png" alt="Timeline Stories Logo" class="footer-logo-img">
+                    <div class="logo-text-footer">
+                        <h3>Timeline Stories</h3>
+                        <span>Wedding & Event Organizers</span>
+                    </div>
+                </div>
+                <p class="footer-company-desc">Timeline Stories creates beautifully planned and professionally
+                    executed events. We turn your ideas into memorable celebrations.</p>
+                <div class="footer-action">
+                    <a href="#" class="btn-outline-gold">
+                        Plan Your Event Today
+                        <span class="arrow-circle">↗</span>
+                    </a>
+                </div>
+                <div class="footer-socials">
+                    <a href="#" class="social-icon">Instagram</a>
+                    <a href="#" class="social-icon">Facebook</a>
+                    <a href="#" class="social-icon">X</a>
+                    <a href="#" class="social-icon">YouTube</a>
+                </div>
+            </div>
+
+            <!-- Column 2: Quick Links -->
+            <div class="footer-col col-links">
+                <h4 class="footer-col-title">Quick Links</h4>
+                <ul class="footer-link-list">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Timeline Stories</a></li>
+                    <li><a href="#">Our Process</a></li>
+                    <li><a href="#">Our Strength</a></li>
+                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#">Testimonials</a></li>
+                    <li><a href="#">Why Choose Timeline Stories</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Contact Details -->
+            <div class="footer-col col-contact">
+                <h4 class="footer-col-title">Contact</h4>
+
+                <div class="contact-item">
+                    <h5>Email ID</h5>
+                    <a href="mailto:info@timelinestories.in">info@timelinestories.in</a>
+                </div>
+
+                <div class="contact-item">
+                    <h5>Contact Number</h5>
+                    <a href="tel:+918428006999">+91 84280 06999</a>
+                </div>
+
+                <div class="contact-item">
+                    <h5>Address</h5>
+                    <p>#557/1, Sadasiva Nagar Extension IV,<br>Madambakkam, Chennai,<br>Tamil Nadu-600 126.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom">
+            <div class="bottom-container">
+                <p class="copyright">© 2026 Timeline Stories. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <span class="divider">|</span>
+                    <a href="#">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP Core & Plugins (Moved to bottom for performance) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+
+    <!-- Main Custom Script -->
+    <script src="script.js"></script>
+</body>
+
+</html>
