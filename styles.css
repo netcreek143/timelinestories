@@ -862,22 +862,22 @@ html.lenis {
 
 /* The number badge floating above the arc */
 .node-number-badge {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
-  background-color: #000000;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #000000;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-sans);
   font-size: 14px;
-  font-weight: 500;
-  /* Always visible now */
-  transform: translateY(-35px);
-  opacity: 0.6;
+  font-weight: 600;
+  /* Visible and subtle */
+  transform: translateY(-32px);
+  opacity: 0.4;
   visibility: visible;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -916,7 +916,7 @@ html.lenis {
   height: 64px;
   background-color: #fff;
   border: none;
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
   color: #000;
   opacity: 1;
   font-size: 22px;
