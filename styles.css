@@ -611,6 +611,8 @@ html.lenis {
   margin-top: clamp(-160px, -11vw, -80px);
   padding-top: clamp(160px, 18vw, 260px);
   padding-bottom: clamp(60px, 6.5vw, 100px);
+  padding-left: 80px;
+  padding-right: 80px;
   z-index: 1;
   text-align: center;
   overflow: hidden;
