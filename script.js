@@ -247,6 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateRotation() {
         if (!scrollTrack || !wheel) return;
         const rect = scrollTrack.getBoundingClientRect();
+
+        // Use native height (300vh) for the full scroll track length
         const totalScrollable = Math.max(1, rect.height - window.innerHeight);
         const currentScroll = Math.max(0, -rect.top);
         let progress = currentScroll / totalScrollable;
@@ -258,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const counterRotation = -rotation;
 
         wheel.style.transform = `rotate(${rotation}deg)`;
-        const activeIndex = Math.min(6, Math.round(progress * 6));
+        const activeIndex = Math.min(6, Math.max(0, Math.round(progress * 6)));
 
         indicators.forEach((ind, i) => {
             ind.style.transform = `translate(-50%, -50%) rotate(${counterRotation}deg)`;
@@ -278,6 +280,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ticking = true;
         }
     });
+
+    // Ensure the first item is active by default and rotation is set
     updateRotation();
     setTimeout(updateRotation, 100);
 

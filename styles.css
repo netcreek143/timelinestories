@@ -1,26 +1,32 @@
-html {
+html,
+body {
   scroll-behavior: smooth;
+  overflow-x: clip;
+  width: 100%;
 }
 
 :root {
-  --primary-gold: #c29e5b;
-  --primary-gold-hover: #b38e4a;
-  --bg-black: #000000;
-  --bg-white: #ffffff;
-  --text-dark: #121212;
-  --text-light: #ffffff;
-  --font-serif: 'Prata', serif;
+  --primary-gold: #D4AF37;
+  --bg-black: #0a0a0a;
+  --text-light: #f5f5f5;
+  --text-dark: #111111;
+
   --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Prata', serif;
 
-  /* Fluid Scaling Foundations (Baseline: 1440px) */
-  --container-max-width: 1600px;
-  --fluid-gutter: clamp(20px, 4vw, 80px);
+  /* Expert Layout Constraints */
+  --container-max-width: 1440px;
+  /* Fluid gutter: 5% on mobile, scaling up to max 80px on desktop */
+  --fluid-gutter: clamp(5%, 6vw, 8%);
 
-  /* Fluid Typography */
-  --h1-fs: clamp(60px, 8.5vw, 120px);
-  --h2-fs: clamp(40px, 5.5vw, 84px);
-  --h3-fs: clamp(24px, 2.5vw, 36px);
-  --body-fs: clamp(16px, 1.1vw, 18px);
+  /* Standardized Vertical Spacing */
+  --section-padding-y: clamp(6rem, 10vh, 10rem);
+
+  /* Fluid Typography (Expert clamp strategy) */
+  --h1-fs: clamp(3.5rem, 6.5vw, 6rem);
+  --h2-fs: clamp(2.5rem, 5vw, 4.5rem);
+  --h3-fs: clamp(1.8rem, 3vw, 2.5rem);
+  --body-fs: clamp(1rem, 1.1vw, 1.15rem);
 }
 
 * {
@@ -31,7 +37,7 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-white);
+  background-color: #ffffff;
   color: var(--text-dark);
   font-size: var(--body-fs);
   line-height: 1.6;
@@ -115,8 +121,10 @@ html.lenis {
 }
 
 .navbar-wrapper {
+  max-width: 100%;
   width: 100%;
-  padding: 0 var(--fluid-gutter);
+  margin: 0;
+  padding: 0 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -192,26 +200,35 @@ html.lenis {
 }
 
 .hero-content {
-  text-align: left;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-.hero-content h1 {
-  font-family: 'Prata', serif;
-  color: #fff;
+.hero-title {
+  font-family: var(--font-serif);
   font-size: var(--h1-fs);
-  line-height: 1.05;
+  color: var(--text-light);
+  line-height: 1.1;
+  text-transform: capitalize;
+  margin-bottom: clamp(15px, 2vh, 20px);
   font-weight: 300;
-  margin-bottom: clamp(12px, 2vw, 24px);
-  letter-spacing: -1px;
+  letter-spacing: -2px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .hero-subtitle {
-  font-family: 'Inter', sans-serif;
-  color: #D4AF37;
-  font-size: clamp(24px, 3.5vw, 48px);
+  font-family: var(--font-sans);
+  font-size: clamp(1.1rem, 1.3vw, 1.25rem);
+  color: #d8d8d8;
   letter-spacing: 2px;
-  font-weight: 360;
-  margin-bottom: clamp(12px, 2vw, 24px);
+  text-transform: uppercase;
+  margin-bottom: clamp(20px, 4vh, 40px);
+  font-weight: 400;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  max-width: 600px;
+  margin-left: auto;
 }
 
 .hero-desc {
@@ -220,6 +237,7 @@ html.lenis {
   font-size: var(--body-fs);
   line-height: 1.6;
   font-weight: 400;
+  text-align: right;
   margin-bottom: clamp(24px, 3vw, 40px);
 }
 
@@ -330,10 +348,10 @@ html.lenis {
 
 /* Main Content Section */
 .page-content {
-  background-color: var(--bg-white);
+  background-color: #ffffff;
   border-radius: clamp(40px, 8vw, 100px);
-  max-width: calc(100% - clamp(40px, 15vw, 320px));
-  width: calc(100% - clamp(40px, 15vw, 320px));
+  max-width: calc(100% - clamp(40px, 10vw, 160px));
+  width: 100%;
   margin: 0 auto clamp(80px, 12vw, 160px) auto;
   padding: clamp(60px, 8vw, 120px) var(--fluid-gutter);
   position: relative;
@@ -622,11 +640,11 @@ html.lenis {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: clamp(16px, 2.5vw, 30px);
-  max-width: var(--container-max-width);
+  width: calc(100% - 160px);
   margin: 0 auto;
-  padding: 0 var(--fluid-gutter);
+  max-width: 100%;
 }
 
 .process-card {
@@ -734,12 +752,11 @@ html.lenis {
   /* Make the section tall so we can scroll through it */
   height: 300vh;
   position: relative;
-  overflow: clip;
-  /* clip instead of hidden to contain sticky properly */
 }
 
 /* Sticky Container */
 .strength-sticky-container {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   height: 100vh;
@@ -747,8 +764,10 @@ html.lenis {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding-top: 80px;
   overflow: hidden;
+  background-color: var(--bg-black);
 }
 
 .strength-header {
@@ -779,6 +798,21 @@ html.lenis {
   width: 100%;
   max-width: 2000px;
   margin: 0 auto;
+  transition: transform 0.4s ease;
+}
+
+@media (max-width: 1200px) {
+  .arc-layout-wrapper {
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+}
+
+@media (max-width: 1024px) {
+  .arc-layout-wrapper {
+    transform: scale(0.75);
+    transform-origin: top center;
+  }
 }
 
 .arc-container {
@@ -839,8 +873,10 @@ html.lenis {
   font-family: var(--font-sans);
   font-size: 22px;
   font-weight: 700;
-  /* Pushed higher above the arc dot */
-  transform: translateY(-65px);
+  /* Hidden by default, slides up when active */
+  transform: translateY(-40px);
+  opacity: 0;
+  visibility: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   transition: all 0.4s ease;
 }
@@ -878,6 +914,9 @@ html.lenis {
   border: none;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
   color: #000;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-65px);
 }
 
 .arc-indicator.active .node-dot {
@@ -1026,19 +1065,16 @@ html.lenis {
   }
 }
 
-.our-strength-section {
-  padding: 0;
-}
-
 /* ==========================================================================
    CASE STUDY SECTION
    ========================================================================== */
 .case-study-section {
   position: relative;
-  background-color: #fcfcfc;
-  padding: clamp(80px, 10vw, 140px) 0 clamp(100px, 12vw, 180px);
+  background-color: #ffffff;
+  padding: clamp(80px, 10vh, 140px) 0 clamp(100px, 12vw, 180px);
   overflow: hidden;
   text-align: center;
+  z-index: 10;
 }
 
 .case-study-header {
@@ -1085,8 +1121,8 @@ html.lenis {
   /* Center alignment for cards */
   left: 50%;
   transform: translateX(-50%);
-  width: 1600px;
-  height: 1600px;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   z-index: 1;
 }
@@ -1412,9 +1448,8 @@ html.lenis {
 }
 
 .test-container {
-  max-width: 1600px;
+  width: calc(100% - 160px);
   margin: 0 auto;
-  padding: 0 60px;
 }
 
 .test-slider-stage {
@@ -1689,9 +1724,8 @@ html.lenis {
   grid-template-columns: 1fr 1fr;
   gap: clamp(40px, 6vw, 70px);
   align-items: start;
-  max-width: var(--container-max-width);
+  width: calc(100% - 160px);
   margin: 0 auto;
-  padding: 0 var(--fluid-gutter);
 }
 
 .why-image-wrap {
@@ -1808,6 +1842,16 @@ html.lenis {
   font-family: 'Inter', sans-serif;
 }
 
+.contact-main {
+  text-align: right;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  width: 100%;
+  padding-right: var(--fluid-gutter);
+  padding-left: var(--fluid-gutter);
+  padding-bottom: 20px;
+}
+
 .contact-header {
   text-align: center;
   max-width: 1400px;
@@ -1845,6 +1889,12 @@ html.lenis {
   grid-template-columns: 1fr 1fr;
   gap: 30px;
   margin-bottom: 30px;
+}
+
+@media (max-width: 1024px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .form-group {
@@ -1921,8 +1971,8 @@ html.lenis {
 }
 
 .submit-btn-gold:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
+  filter: brightness(1.15) drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
+  transform: translateY(-2px);
 }
 
 /* ==========================
