@@ -646,7 +646,6 @@ html.lenis {
   grid-template-columns: repeat(4, 1fr);
   gap: clamp(12px, 2vw, 24px);
   width: 100%;
-  max-width: 1200px;
   margin: 0 auto;
 }
 
