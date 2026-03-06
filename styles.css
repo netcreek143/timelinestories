@@ -214,7 +214,7 @@ html.lenis {
   line-height: 1.05;
   text-transform: capitalize;
   margin-bottom: clamp(10px, 1.5vh, 15px);
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: -2px;
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
@@ -224,7 +224,7 @@ html.lenis {
   font-size: clamp(2rem, 3.5vw, 3rem);
   color: #D4AF37;
   margin-bottom: clamp(15px, 3vh, 30px);
-  font-weight: 400;
+  font-weight: 300;
   letter-spacing: -0.5px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
@@ -640,7 +640,7 @@ html.lenis {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: clamp(16px, 2.5vw, 30px);
   width: calc(100% - 160px);
   margin: 0 auto;
