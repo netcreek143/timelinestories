@@ -227,13 +227,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // Handle scroll context
+    // Handle scroll context with hiding and popping effect
+    let lastScrollY = window.scrollY;
     window.addEventListener('scroll', () => {
+        // Shadow toggle
         if (window.scrollY > 50) {
             navbar.style.boxShadow = "0 10px 30px rgba(0,0,0,0.3)";
         } else {
             navbar.style.boxShadow = "none";
         }
+
+        // Hide/Show based on scroll direction (User requested inverted logic)
+        if (window.scrollY < lastScrollY && window.scrollY > 120) {
+            // Scrolling up toward top -> hide
+            navbar.style.transform = "translateY(-100%)";
+        } else if (window.scrollY > lastScrollY) {
+            // Scrolling down toward bottom -> show
+            navbar.style.transform = "translateY(0)";
+        } else if (window.scrollY <= 120) {
+            // Always show at the very top
+            navbar.style.transform = "translateY(0)";
+        }
+
+        lastScrollY = window.scrollY;
     });
 
     // --- Our Strength Section (Orbital Slider) ---

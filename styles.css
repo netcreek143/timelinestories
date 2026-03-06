@@ -112,7 +112,7 @@ html.lenis {
   width: 100%;
   height: clamp(80px, 8.5vw, 120px);
   z-index: 9999;
-  transition: background 0.6s ease;
+  transition: background 0.6s ease, transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.6s ease;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
