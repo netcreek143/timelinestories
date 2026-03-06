@@ -389,7 +389,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const isMobile = window.innerWidth <= 768;
             const isTablet = window.innerWidth <= 1024 && !isMobile;
-            const spacing = isMobile ? 400 : (isTablet ? 500 : 620);
+
+            // Fluid Desktop Multiplier (Baseline 1440px)
+            const desktopFactor = Math.max(0.75, Math.min(1.25, window.innerWidth / 1440));
+
+            const spacing = isMobile ? 400 : (isTablet ? 500 : 620 * desktopFactor);
             const scaleFactor = isMobile ? 0.04 : (isTablet ? 0.06 : 0.08);
 
             caseCards.forEach((card, i) => {
@@ -399,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (cardOffset < -n / 2) cardOffset += n;
 
                 const absOffset = Math.abs(cardOffset);
-                const radius = 800;
+                const radius = 800 * (isMobile ? 0.7 : (isTablet ? 0.85 : desktopFactor));
                 const angle = (cardOffset * spacing) / radius;
                 const translateX = Math.sin(angle) * radius;
                 const translateY = (1 - Math.cos(angle)) * radius + (absOffset * 10);
@@ -438,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Only show if cards are reasonably close in the loop
                     if (Math.abs(nextIdx - i) === 1 || (Math.abs(nextIdx - i) === n - 1)) {
-                        const cardWidth = isMobile ? 330 : (isTablet ? 380 : 440);
+                        const cardWidth = isMobile ? 330 : (isTablet ? 380 : 440 * desktopFactor);
                         const connWidth = dist - (cardWidth * scale * 0.15); // Adjust width for scale
                         connector.style.width = `${connWidth}px`;
 
