@@ -1,4 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Premium Smooth Scroll (Lenis) ---
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+        infinite: false,
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Sync ScrollTrigger with Lenis
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
     // --- Dynamic Navbar Background ---
     const navbar = document.querySelector('.navbar');
     const heroBg = document.querySelector('.hero-bg');
@@ -289,10 +314,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let position = 1;
         let velocity = 0;
 
-        const SENSITIVITY = 0.0025;
-        const FRICTION = 0.95;
-        const VELOCITY_FACTOR = 0.0008;
-        const EDGE_RESISTANCE = 0.08;
+        const SENSITIVITY = 0.0012;
+        const FRICTION = 0.92;
+        const VELOCITY_FACTOR = 0.0006;
+        const EDGE_RESISTANCE = 0.1;
         const CURSOR_LERP = 0.14;
 
         const onPointerDown = (e) => {
@@ -319,6 +344,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isDragging) {
                 const deltaX = lastX_drag - startX_drag;
                 velocity = deltaX * VELOCITY_FACTOR;
+                // Limit velocity to move roughly one by one
+                velocity = Math.max(-0.15, Math.min(0.15, velocity));
             }
             isDragging = false;
             dragCursor.classList.remove('dragging');
@@ -342,16 +369,22 @@ document.addEventListener('DOMContentLoaded', () => {
             dragCursor.style.left = `${cursorX}px`;
             dragCursor.style.top = `${cursorY}px`;
 
+            const n = caseCards.length;
             if (!isDragging) {
                 position -= velocity;
                 velocity *= FRICTION;
-                const limit = Math.max(0, Math.min(caseCards.length - 1, Math.round(position)));
-                if (Math.abs(velocity) < 0.0005) {
-                    position += (limit - position) * 0.1;
+
+                // Wrap position for looping
+                position = (position % n + n) % n;
+
+                const limit = Math.round(position);
+                if (Math.abs(velocity) < 0.001) {
+                    position += (limit - position) * 0.12;
                     velocity = 0;
                 }
-                if (position < 0) position += (0 - position) * EDGE_RESISTANCE;
-                if (position > caseCards.length - 1) position += (caseCards.length - 1 - position) * EDGE_RESISTANCE;
+            } else {
+                // Ensure position wraps even while dragging
+                position = (position % n + n) % n;
             }
 
             const isMobile = window.innerWidth <= 768;
@@ -360,22 +393,64 @@ document.addEventListener('DOMContentLoaded', () => {
             const scaleFactor = isMobile ? 0.04 : (isTablet ? 0.06 : 0.08);
 
             caseCards.forEach((card, i) => {
-                const cardOffset = i - position;
+                // Shortest path logic for loop
+                let cardOffset = i - position;
+                if (cardOffset > n / 2) cardOffset -= n;
+                if (cardOffset < -n / 2) cardOffset += n;
+
                 const absOffset = Math.abs(cardOffset);
-                const radius = 1100;
+                const radius = 800;
                 const angle = (cardOffset * spacing) / radius;
                 const translateX = Math.sin(angle) * radius;
-                const translateY = (1 - Math.cos(angle)) * radius + (absOffset * 40);
+                const translateY = (1 - Math.cos(angle)) * radius + (absOffset * 10);
                 const rotationY = cardOffset * (isMobile ? -10 : -15);
                 const rotationZ = cardOffset * (isMobile ? 15 : 25);
                 const scale = Math.max(0.92, 1 - (absOffset * scaleFactor));
                 const zIndex = Math.round(100 - absOffset * 10);
                 const opacity = Math.max(0.7, 1 - (absOffset * 0.25));
 
-                card.style.transform = `translate3d(${translateX}px, ${translateY}px, ${absOffset * -150}px) rotateY(${rotationY}deg) rotateZ(${rotationZ}deg) scale(${scale})`;
+                card.style.transform = `
+                    translate3d(${translateX}px, ${translateY}px, 0)
+                    rotateY(${rotationY}deg)
+                    rotateZ(${rotationZ}deg)
+                    scale(${scale})
+                `;
                 card.style.zIndex = zIndex;
-                card.style.opacity = opacity;
-                card.style.visibility = absOffset > 1.4 ? 'hidden' : 'visible';
+                card.style.opacity = (absOffset > 2.5) ? 0 : opacity;
+                card.style.visibility = (absOffset > 2.5) ? 'hidden' : 'visible';
+
+                // --- Dynamic Connector Logic ---
+                const connector = card.querySelector('.card-connector');
+                if (connector) {
+                    const nextIdx = (i + 1) % n;
+                    let nextOffset = nextIdx - position;
+                    if (nextOffset > n / 2) nextOffset -= n;
+                    if (nextOffset < -n / 2) nextOffset += n;
+
+                    const nextAbsOffset = Math.abs(nextOffset);
+                    const nextAngle = (nextOffset * spacing) / radius;
+                    const nextX = Math.sin(nextAngle) * radius;
+                    const nextY = (1 - Math.cos(nextAngle)) * radius + (nextAbsOffset * 10);
+
+                    const dx = nextX - translateX;
+                    const dy = nextY - translateY;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    // Only show if cards are reasonably close in the loop
+                    if (Math.abs(nextIdx - i) === 1 || (Math.abs(nextIdx - i) === n - 1)) {
+                        const cardWidth = isMobile ? 330 : (isTablet ? 380 : 440);
+                        const connWidth = dist - (cardWidth * scale * 0.15); // Adjust width for scale
+                        connector.style.width = `${connWidth}px`;
+
+                        // Calculate target angle relative to card rotation
+                        const globalAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+                        const relativeAngle = globalAngle - rotationZ;
+                        connector.style.transform = `rotate(${relativeAngle}deg)`;
+                        connector.style.opacity = (absOffset > 1.8 || nextAbsOffset > 1.8) ? 0 : 1;
+                    } else {
+                        connector.style.opacity = 0;
+                    }
+                }
             });
 
             requestAnimationFrame(animateCase);
@@ -392,18 +467,49 @@ document.addEventListener('DOMContentLoaded', () => {
     let testIdx = 0;
 
     function updateTestSlider() {
-        testCards.forEach((card, i) => card.classList.toggle('active', i === testIdx));
-        testTexts.forEach((text, i) => text.classList.toggle('active', i === testIdx));
+        const n = testCards.length;
+
+        testCards.forEach((card, i) => {
+            // Remove all position classes first
+            card.classList.remove('pos-1', 'pos-2', 'pos-3', 'exiting');
+
+            // Calculate relative index to testIdx (which is Pos 3)
+            let relIdx = i - testIdx;
+
+            // Adjust for circularity to keep logic within [-2, 1] range roughly
+            if (relIdx > n / 2) relIdx -= n;
+            if (relIdx < -n / 2) relIdx += n;
+
+            if (relIdx === 0) {
+                card.classList.add('pos-3'); // Main (Right)
+            } else if (relIdx === -1) {
+                card.classList.add('pos-2'); // Middle
+            } else if (relIdx === -2) {
+                card.classList.add('pos-1'); // Left
+            } else if (relIdx === -3 || relIdx === (n - 3)) {
+                card.classList.add('exiting'); // To the left off-screen
+            }
+        });
+
+        // Update text content and dots based on Pos 3 (testIdx)
+        testTexts.forEach((text, i) => {
+            text.classList.toggle('active', i === testIdx);
+            text.style.display = (i === testIdx) ? 'block' : 'none';
+        });
+
         testDots.forEach((dot, i) => dot.classList.toggle('active', i === testIdx));
     }
 
     if (testPrevBtn) {
+        testIdx = 2; // Start with 3rd card as main to fill all positions
+        updateTestSlider();
+
         testPrevBtn.addEventListener('click', () => {
             testIdx = (testIdx > 0) ? testIdx - 1 : testCards.length - 1;
             updateTestSlider();
         });
         testNextBtn.addEventListener('click', () => {
-            testIdx = (testIdx < testCards.length - 1) ? testIdx + 1 : 0;
+            testIdx = (testIdx + 1) % testCards.length;
             updateTestSlider();
         });
         testDots.forEach((dot, i) => {
@@ -412,6 +518,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateTestSlider();
             });
         });
+
+        // Add Wheel Support for "Scrolled Next" requirement
+        const testSection = document.querySelector('.testimonials-section');
+        let lastScrollTime = 0;
+        const scrollDebounce = 1000; // 1s sync with transition
+
+        if (testSection) {
+            testSection.addEventListener('wheel', (e) => {
+                const now = Date.now();
+                if (now - lastScrollTime < scrollDebounce) return;
+
+                if (Math.abs(e.deltaY) > 30) {
+                    if (e.deltaY > 0) {
+                        // Scroll down -> Next
+                        testIdx = (testIdx + 1) % testCards.length;
+                    } else {
+                        // Scroll up -> Prev
+                        testIdx = (testIdx > 0) ? testIdx - 1 : testCards.length - 1;
+                    }
+                    updateTestSlider();
+                    lastScrollTime = now;
+                    e.preventDefault();
+                }
+            }, { passive: false });
+        }
     }
 
     // --- Why Section Accordion Logic ---
@@ -419,12 +550,9 @@ document.addEventListener('DOMContentLoaded', () => {
     accItems.forEach(item => {
         const header = item.querySelector('.accordion-header');
         if (header) {
-            header.addEventListener('click', () => {
-                const isOpen = item.classList.contains('active');
+            header.addEventListener('mouseenter', () => {
                 accItems.forEach(i => i.classList.remove('active'));
-                if (!isOpen) {
-                    item.classList.add('active');
-                }
+                item.classList.add('active');
             });
         }
     });
@@ -465,4 +593,33 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // --- Creating Memories Image Parallax ---
+    const memoryCards = document.querySelectorAll('.cards-grid .card');
+
+    memoryCards.forEach(card => {
+        const img = card.querySelector('.card-img');
+
+        card.addEventListener('mouseleave', () => {
+            if (img) img.style.transform = `scale(1.15) translate(0, 0)`;
+        });
+
+        card.addEventListener('mousemove', (e) => {
+            if (!img) return;
+
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            // Move image in opposite direction of cursor for parallax effect
+            // Max movement of ±15px
+            const moveX = (centerX - x) / 10;
+            const moveY = (centerY - y) / 10;
+
+            img.style.transform = `scale(1.15) translate(${moveX}px, ${moveY}px)`;
+        });
+    });
 });
