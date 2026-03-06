@@ -237,19 +237,18 @@ document.addEventListener('DOMContentLoaded', () => {
             navbar.style.boxShadow = "none";
         }
 
-        // Hide/Show based on scroll direction (User requested inverted logic)
-        if (window.scrollY < lastScrollY && window.scrollY > 120) {
-            // Scrolling up toward top -> hide
-            navbar.style.transform = "translateY(-100%)";
-        } else if (window.scrollY > lastScrollY) {
-            // Scrolling down toward bottom -> show
-            navbar.style.transform = "translateY(0)";
-        } else if (window.scrollY <= 120) {
-            // Always show at the very top
-            navbar.style.transform = "translateY(0)";
+        // Hide/Show based on scroll direction with a threshold to prevent Lenis jitter
+        const currentScrollY = window.scrollY;
+        if (Math.abs(currentScrollY - lastScrollY) > 5) { // 5px threshold filter
+            if (currentScrollY > lastScrollY && currentScrollY > 120) {
+                // Scrolling down -> hide navbar
+                navbar.style.transform = "translateY(-100%)";
+            } else {
+                // Scrolling up -> show navbar
+                navbar.style.transform = "translateY(0)";
+            }
+            lastScrollY = currentScrollY;
         }
-
-        lastScrollY = window.scrollY;
     });
 
     // --- Our Strength Section (Orbital Slider) ---
