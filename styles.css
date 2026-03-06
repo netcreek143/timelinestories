@@ -862,20 +862,20 @@ html.lenis {
 
 /* The number badge floating above the arc */
 .node-number-badge {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #000000;
+  color: #ffffff;
   border-radius: 50%;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-sans);
   font-size: 14px;
-  font-weight: 700;
-  /* Fully visible now */
+  font-weight: 600;
+  /* Perfect inactive look */
   transform: translateY(-32px);
   opacity: 1;
   visibility: visible;
