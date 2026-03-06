@@ -643,9 +643,11 @@ html.lenis {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: clamp(12px, 2vw, 24px);
-  width: 90%;
+  width: 100%;
+  max-width: 1360px;
+  /* 1200px content + 80px padding on each side */
   margin: 0 auto;
-  max-width: 1200px;
+  padding: 0 80px;
 }
 
 .process-card {
@@ -1624,6 +1626,7 @@ html.lenis {
   font-size: var(--h2-fs);
   margin-bottom: clamp(15px, 2vw, 25px);
   line-height: 1.1;
+  font-weight: 400;
 }
 
 .test-item-quote {
@@ -1637,7 +1640,7 @@ html.lenis {
 
 .test-client-info {
   font-size: clamp(18px, 1.6vw, 24px);
-  font-weight: 600;
+  font-weight: 300;
   color: #fff;
   letter-spacing: 0.5px;
 }
