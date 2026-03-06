@@ -34,25 +34,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const sliderData = [
         {
             image: 'images/herosection1.png',
-            title: 'Your Dream Wedding',
+            title: 'Your Dream<br>Wedding',
             subtitle: 'Perfectly Brought to Life.',
             desc: 'From concept to celebration, we craft weddings that reflect your story, style, and vision. Every detail planned. Every moment unforgettable.'
         },
         {
             image: 'images/herosection2.png',
-            title: 'Royal Palace Weddings',
+            title: 'Royal Palace<br>Weddings',
             subtitle: 'Majesty in Rajasthan.',
             desc: "Experience a wedding of royal proportions in the heart of India's heritage palaces, where history meets luxury in a grand celebration."
         },
         {
             image: 'images/herosection3.png',
-            title: 'Beachfront Destination',
+            title: 'Beachfront<br>Destination',
             subtitle: 'Elegance by the Ocean.',
             desc: 'Exchange your vows against the timeless backdrop of the Indian Ocean, blending tradition with the tranquil beauty of the coast.'
         },
         {
             image: 'images/herosection4.png',
-            title: 'Heritage Fort Magic',
+            title: 'Heritage Fort<br>Magic',
             subtitle: 'Timeless Fort Celebrations.',
             desc: 'Celebrate your story amidst the glowing walls of a historic Indian fort, illuminated by thousands of lights and marigold blooms.'
         }
@@ -170,9 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Swap content at the midpoint
         tl.add(() => {
             heroBg.style.backgroundImage = `url('${currentSlide.image}')`;
-            heroHeadline.textContent = currentSlide.title;
-            heroSubtitle.textContent = currentSlide.subtitle;
-            heroDesc.textContent = currentSlide.desc;
+            heroHeadline.innerHTML = currentSlide.title;
+            heroSubtitle.innerHTML = currentSlide.subtitle;
+            heroDesc.innerHTML = currentSlide.desc;
             updateNavbarColor(currentSlide.image);
         });
 
@@ -217,9 +217,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initial set without fade/delay
         const initial = sliderData[0];
         heroBg.style.backgroundImage = `url('${initial.image}')`;
-        if (heroHeadline) heroHeadline.textContent = initial.title;
-        if (heroSubtitle) heroSubtitle.textContent = initial.subtitle;
-        if (heroDesc) heroDesc.textContent = initial.desc;
+        if (heroHeadline) heroHeadline.innerHTML = initial.title;
+        if (heroSubtitle) heroSubtitle.innerHTML = initial.subtitle;
+        if (heroDesc) heroDesc.innerHTML = initial.desc;
         updateNavbarColor();
 
         // Start auto-sliding

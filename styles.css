@@ -200,67 +200,67 @@ html.lenis {
 }
 
 .hero-content {
-  text-align: right;
+  text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
+  max-width: 680px;
 }
 
 .hero-title {
-  font-family: var(--font-serif);
-  font-size: var(--h1-fs);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(4rem, 7vw, 7rem);
   color: var(--text-light);
-  line-height: 1.1;
+  line-height: 1.05;
   text-transform: capitalize;
-  margin-bottom: clamp(15px, 2vh, 20px);
-  font-weight: 300;
+  margin-bottom: clamp(10px, 1.5vh, 15px);
+  font-weight: 500;
   letter-spacing: -2px;
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .hero-subtitle {
   font-family: var(--font-sans);
-  font-size: clamp(1.1rem, 1.3vw, 1.25rem);
-  color: #d8d8d8;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: clamp(20px, 4vh, 40px);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  color: #D4AF37;
+  margin-bottom: clamp(15px, 3vh, 30px);
   font-weight: 400;
+  letter-spacing: -0.5px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  max-width: 600px;
-  margin-left: auto;
 }
 
 .hero-desc {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
   font-family: 'Inter', sans-serif;
-  font-size: var(--body-fs);
-  line-height: 1.6;
+  font-size: clamp(1rem, 1.1vw, 1.2rem);
+  line-height: 1.5;
   font-weight: 400;
-  text-align: right;
-  margin-bottom: clamp(24px, 3vw, 40px);
+  text-align: left;
+  margin-bottom: clamp(24px, 4vw, 48px);
+  max-width: 600px;
 }
 
 .btn-ghost-arrow {
   display: inline-flex;
   align-items: center;
-  gap: 15px;
-  background: transparent;
+  justify-content: space-between;
+  gap: 16px;
+  background: #000000;
   color: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 8px 6px 20px;
   border-radius: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--primary-gold);
   cursor: pointer;
   transition: all 0.3s ease;
-  gap: 30px;
+  min-width: 160px;
 }
 
 .arrow-circle {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   background: #fff;
   border-radius: 50%;
   display: flex;
