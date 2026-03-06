@@ -39,7 +39,7 @@
             </nav>
 
             <div class="nav-action">
-                <button class="btn-gold-pill">Plan My Event</button>
+                <button class="btn-gold-pill plan-event-btn">Plan My Event</button>
             </div>
 
             <div class="mobile-toggle" id="mobileToggle">
@@ -66,7 +66,7 @@
                         From concept to celebration, we craft weddings that reflect your story,
                         style, and vision. Every detail planned. Every moment unforgettable.
                     </p>
-                    <button class="btn-ghost-arrow">
+                    <button class="btn-ghost-arrow plan-event-btn">
                         Plan My Event
                         <span class="arrow-circle">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5"
@@ -891,6 +891,58 @@
 
     <!-- Main Custom Script -->
     <script src="script.js"></script>
+    <!-- Plan My Event Popup Modal -->
+    <div id="planEventModal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <div class="modal-header">
+                <h2 class="modal-title">Plan Your Event</h2>
+                <p class="modal-subtitle">Share your vision with us and we'll bring it to life.</p>
+            </div>
+            <form id="modalContactForm" action="thank-you.html">
+                <div class="modal-form-grid">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="phone" placeholder="Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group select-group">
+                        <select name="eventType" required>
+                            <option value="" disabled selected>Event Type</option>
+                            <option value="wedding">Wedding</option>
+                            <option value="reception">Reception</option>
+                            <option value="corporate">Corporate</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <span class="select-arrow"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="date" placeholder="Date" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="location" placeholder="Event Location" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="budget" placeholder="Budget" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="venue" placeholder="Preferred Venue" required>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <textarea name="message" placeholder="Message" rows="4"></textarea>
+                </div>
+                <div class="modal-submit-wrap">
+                    <button type="submit" class="btn-gold-fill">Submit Inquiry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>

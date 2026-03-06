@@ -598,8 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (isValid) {
-                alert('Thank you for your request. We will get back to you soon!');
-                contactForm.reset();
+                window.location.href = 'thank-you.html';
             } else {
                 alert('Please fill in all required fields.');
             }
@@ -645,4 +644,53 @@ document.addEventListener('DOMContentLoaded', () => {
             img.style.transform = `scale(1.15) translate(${moveX}px, ${moveY}px)`;
         });
     });
+    // --- Plan My Event Modal Logic ---
+    const modal = document.getElementById('planEventModal');
+    const openModalBtns = document.querySelectorAll('.plan-event-btn');
+    const closeModalBtn = document.getElementById('closeModal');
+    const modalForm = document.getElementById('modalContactForm');
+
+    if (modal && openModalBtns.length > 0) {
+        openModalBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scroll
+                if (lenis) lenis.stop(); // Stop Lenis scroll
+            });
+        });
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            if (lenis) lenis.start();
+        };
+
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeModal);
+        }
+
+        // Close on overlay click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // ESC key to close
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
+
+    if (modalForm) {
+        modalForm.addEventListener('submit', (e) => {
+            // Let the natural form action handle the redirect if preferred,
+            // or use custom JS for processing and then redirect.
+            // Requirement says "once submitted i should get thank you page"
+            // We can just let it submit to thank-you.html as defined in the HTML action.
+        });
+    }
 });

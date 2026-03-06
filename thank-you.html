@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Timeline Stories</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prata&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .thank-you-container {
+            max-width: 800px;
+            padding: 40px;
+        }
+
+        .thank-you-title {
+            font-family: 'Prata', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: #D4AF37;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .thank-you-message {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            color: #ccc;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.3s;
+        }
+
+        .redirect-timer {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1s;
+        }
+
+        .btn-gold-outline {
+            display: inline-block;
+            padding: 14px 36px;
+            border: 1.5px solid #D4AF37;
+            color: #D4AF37;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.6s;
+        }
+
+        .btn-gold-outline:hover {
+            background: #D4AF37;
+            color: #000;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="thank-you-container">
+        <h1 class="thank-you-title">Thank You!</h1>
+        <p class="thank-you-message">Your event inquiry has been received. Our team will get in touch with you shortly
+            to plan your perfect celebration.</p>
+        <a href="index.html" class="btn-gold-outline">Back to Home</a>
+        <p class="redirect-timer">Redirecting back to home in <span id="timer">15</span> seconds...</p>
+    </div>
+
+    <script>
+        let timeLeft = 15;
+        const timerElement = document.getElementById('timer');
+
+        const countdown = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                window.location.href = 'index.html';
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>
