@@ -922,6 +922,34 @@ html.lenis {
   opacity: 1;
 }
 
+.arc-indicator.node-1 {
+  --base-rotate: 0deg;
+}
+
+.arc-indicator.node-2 {
+  --base-rotate: 51.42deg;
+}
+
+.arc-indicator.node-3 {
+  --base-rotate: 102.85deg;
+}
+
+.arc-indicator.node-4 {
+  --base-rotate: 154.28deg;
+}
+
+.arc-indicator.node-5 {
+  --base-rotate: 205.71deg;
+}
+
+.arc-indicator.node-6 {
+  --base-rotate: 257.14deg;
+}
+
+.arc-indicator.node-7 {
+  --base-rotate: 308.57deg;
+}
+
 .arc-content-wrapper {
   position: absolute;
   top: 50%;
