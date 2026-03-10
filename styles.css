@@ -1521,10 +1521,10 @@ html.lenis {
 
 @keyframes testPopUp {
   0% {
-    transform: translateY(120%) scale(0.7);
-    /* Direct rising from bottom */
+    transform: translateY(-50%) scale(0.4);
+    /* Pop up from back to front (center) */
     opacity: 0;
-    filter: blur(10px);
+    filter: blur(15px);
   }
 
   100% {
