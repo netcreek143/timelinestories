@@ -1573,7 +1573,7 @@ html.lenis {
 }
 
 .test-container {
-  width: calc(100% - 160px);
+  width: calc(100% - clamp(60px, 8vw, 160px));
   margin: 0 auto;
 }
 
@@ -1587,10 +1587,11 @@ html.lenis {
 }
 
 .test-cards-wrap {
-  flex: 1.4;
+  flex: 1;
   height: clamp(380px, 35vw, 480px);
   position: relative;
   display: block;
+  min-width: 0;
 }
 
 .test-video-card {
@@ -1696,8 +1697,7 @@ html.lenis {
 .test-content-wrap {
   flex: 1;
   position: relative;
-  padding-left: clamp(20px, 3.5vw, 60px);
-  /* Reduced padding to move text closer to cards */
+  padding-left: clamp(15px, 2.5vw, 40px);
 }
 
 .test-quote-start,
@@ -1739,8 +1739,7 @@ html.lenis {
 .test-item-title {
   color: #D4AF37;
   font-family: 'Prata', serif;
-  font-size: clamp(2rem, 3.2vw, 3.8rem);
-  /* Slightly scaled down from var(--h2-fs) for desktop balance */
+  font-size: clamp(1.8rem, 2.8vw, 3.2rem);
   margin-bottom: clamp(15px, 2vw, 25px);
   line-height: 1.1;
   font-weight: 400;
@@ -1920,6 +1919,44 @@ html.lenis {
 
 /* RESPONSIVE REFINEMENTS */
 /* RESPONSIVE REFINEMENTS */
+
+@media (max-width: 1440px) {
+  .test-container {
+    width: calc(100% - 80px);
+  }
+
+  .test-cards-wrap {
+    flex: 0.9;
+  }
+
+  .test-content-wrap {
+    flex: 1.1;
+    padding-left: 15px;
+  }
+
+  .test-video-card {
+    width: clamp(200px, 20vw, 280px);
+    height: clamp(280px, 28vw, 380px);
+  }
+
+  .test-video-card.pos-3 {
+    left: 40%;
+  }
+
+  .test-item-title {
+    font-size: clamp(1.6rem, 2.5vw, 2.6rem);
+  }
+
+  .arc-container {
+    width: 90%;
+  }
+
+  .node-number-badge {
+    width: 54px;
+    height: 54px;
+    font-size: 19px;
+  }
+}
 
 @media (max-width: 1024px) {
   .container-why {
