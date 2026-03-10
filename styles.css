@@ -1699,7 +1699,7 @@ html.lenis {
   font-size: clamp(3rem, 4.5vw, 4.5rem);
   color: #000;
   font-weight: 400;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   line-height: 1.1;
   letter-spacing: -2px;
   white-space: nowrap;
@@ -1718,7 +1718,7 @@ html.lenis {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(40px, 6vw, 70px);
-  align-items: start;
+  align-items: center;
   width: calc(100% - 160px);
   margin: 0 auto;
 }
@@ -1730,7 +1730,7 @@ html.lenis {
 }
 
 .why-image-wrap img {
-  width: 90%;
+  width: 100%;
   height: auto;
   display: block;
 }
