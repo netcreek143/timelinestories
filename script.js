@@ -693,4 +693,47 @@ document.addEventListener('DOMContentLoaded', () => {
             // We can just let it submit to thank-you.html as defined in the HTML action.
         });
     }
+
+    // --- Video Testimonial Modal Logic ---
+    const videoModal = document.getElementById('videoTestimonialModal');
+    const testimonialVideo = document.getElementById('testimonialVideo');
+    const closeVideoBtn = document.getElementById('closeVideoModal');
+    const videoOverlay = videoModal?.querySelector('.video-modal-overlay');
+
+    if (videoModal && testimonialVideo) {
+        testCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const videoUrl = card.getAttribute('data-video-url');
+                if (videoUrl) {
+                    testimonialVideo.src = videoUrl;
+                    videoModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    if (lenis) lenis.stop();
+
+                    testimonialVideo.load();
+                    testimonialVideo.play().catch(e => console.log("Auto-play blocked:", e));
+                    testimonialVideo.muted = false; // Ensure audio plays
+                }
+            });
+        });
+
+        const closeTestimonialVideo = () => {
+            videoModal.classList.remove('active');
+            testimonialVideo.pause();
+            testimonialVideo.src = "";
+            document.body.style.overflow = '';
+            if (lenis) lenis.start();
+        };
+
+        closeVideoBtn?.addEventListener('click', closeTestimonialVideo);
+        videoOverlay?.addEventListener('click', closeTestimonialVideo);
+
+        // ESC key to close
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+                closeTestimonialVideo();
+            }
+        });
+    }
 });
+
