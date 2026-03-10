@@ -2139,10 +2139,36 @@ html.lenis {
   color: #fff !important;
 }
 
-.modal-container .form-group input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 0.8;
-  cursor: pointer;
+/* Custom Flatpickr Overrides for Luxury Theme */
+.flatpickr-calendar {
+  font-family: 'Inter', sans-serif !important;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.startRange.prevMonthDay,
+.flatpickr-day.endRange.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay,
+.flatpickr-day.startRange.nextMonthDay,
+.flatpickr-day.endRange.nextMonthDay {
+  background: #D4AF37 !important;
+  border-color: #D4AF37 !important;
+  color: #000 !important;
+}
+
+.flatpickr-day.today {
+  border-color: #D4AF37 !important;
 }
 
 .modal-container .form-group input:focus,

@@ -775,6 +775,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Modern Date Picker Initialization ---
+    flatpickr('input[type="date"]', {
+        dateFormat: "d M Y",
+        minDate: "today",
+        disableMobile: true // Ensure custom UI instead of native mobile spinner
+    });
+
+
     // --- Google Sheets Form Integration ---
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxH4ggCzOR0miE-WElTt76lUnNwzYwPVRII1GidwKY3l4ihUSFQZUhD_Gqk5J_kjuqXNA/exec';
 
