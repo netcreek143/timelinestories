@@ -1224,6 +1224,9 @@ html.lenis {
   z-index: 5;
   /* Lower than cards (which start at 80+) */
   pointer-events: none;
+  /* Push into background to avoid Z-fighting with cards */
+  transform: translateZ(-50px);
+  transform-style: preserve-3d;
 }
 
 /* Card Connector Lines - Ticks between cards */

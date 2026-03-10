@@ -484,13 +484,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         const connWidth = dist - (cardWidth * scale * 0.15); // Adjust width for scale
 
                         // Position the element from the center
+                        // Use translate3d to ensure it stays on its parent's Plane (-50px)
                         connector.style.left = `${centerX + translateX}px`;
                         connector.style.top = `${centerY + translateY}px`;
                         connector.style.width = `${connWidth}px`;
 
                         // Calculate target angle
                         const globalAngle = Math.atan2(dy, dx) * (180 / Math.PI);
-                        connector.style.transform = `rotate(${globalAngle}deg)`;
+                        connector.style.transform = `translate3d(0, 0, 0) rotate(${globalAngle}deg)`;
 
                         // Fade out connectors much sooner to keep background clean
                         connector.style.opacity = (absOffset > 1.2 || nextAbsOffset > 1.2) ? 0 : 1;
