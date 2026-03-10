@@ -2139,6 +2139,12 @@ html.lenis {
   color: #fff !important;
 }
 
+.modal-container .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.8;
+  cursor: pointer;
+}
+
 .modal-container .form-group input:focus,
 .modal-container .form-group select:focus,
 .modal-container .form-group textarea:focus {
