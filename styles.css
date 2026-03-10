@@ -1790,6 +1790,12 @@ html.lenis {
   justify-content: center;
 }
 
+.test-arrow svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
+
 .test-arrow:hover {
   background: #fff;
   color: #000;
