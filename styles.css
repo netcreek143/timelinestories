@@ -1944,6 +1944,7 @@ html.lenis {
   .test-content-wrap {
     flex: 1.1;
     padding-left: 15px;
+    transform: translateY(-5%);
   }
 
   .test-video-card {
@@ -1969,7 +1970,12 @@ html.lenis {
   }
 
   .test-item-title {
-    font-size: clamp(1.6rem, 2.5vw, 2.6rem);
+    font-size: clamp(1.4rem, 2.2vw, 2.2rem);
+    margin-bottom: 15px;
+  }
+
+  .test-item-quote {
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
   }
 
   .arc-container {
@@ -1980,6 +1986,19 @@ html.lenis {
     width: 54px;
     height: 54px;
     font-size: 19px;
+  }
+
+  .arc-content-wrapper {
+    top: 42%;
+  }
+
+  .arc-center-content h3 {
+    font-size: clamp(20px, 2.2vw, 30px);
+    margin-bottom: 12px;
+  }
+
+  .arc-center-content p {
+    font-size: clamp(13px, 1.2vw, 16px);
   }
 }
 
