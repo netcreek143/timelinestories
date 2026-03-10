@@ -815,6 +815,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 dataObj[key] = value;
             }
 
+            // --- TESTING ONLY: Send lead to Webhook ---
+            try {
+                fetch('https://api.dsignxtcrm.com/ingest/wk_mmknofof', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(dataObj)
+                }).catch(err => console.error('Webhook error:', err));
+            } catch (e) {
+                console.error('Webhook dispatch error:', e);
+            }
+            // --- END TESTING ONLY ---
+
             try {
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
                     redirect: "follow",
