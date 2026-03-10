@@ -49,7 +49,11 @@ function doPost(e) {
             + 'Source: ' + (data.source || '-') + '\n'
             + 'Time: ' + timestamp.toLocaleString('en-IN');
 
-        MailApp.sendEmail(NOTIFICATION_EMAIL, subject, body);
+        MailApp.sendEmail({
+            to: NOTIFICATION_EMAIL,
+            subject: subject,
+            body: body
+        });
 
         return ContentService.createTextOutput(
             JSON.stringify({ status: 'success' })

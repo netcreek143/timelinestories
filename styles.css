@@ -2202,6 +2202,42 @@ html.lenis {
   box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
 }
 
+/* Modal Responsiveness */
+@media (max-width: 1300px),
+(max-height: 850px) {
+  .modal-container {
+    padding: 30px 40px;
+    max-width: 800px;
+  }
+
+  .modal-header {
+    margin-bottom: 25px;
+  }
+
+  .modal-title {
+    font-size: 2.2rem;
+  }
+
+  .modal-form-grid {
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .modal-container .form-group input,
+  .modal-container .form-group select {
+    padding: 12px 18px;
+  }
+
+  .modal-close {
+    top: 20px;
+    right: 20px;
+  }
+
+  .btn-gold-fill {
+    padding: 12px 32px;
+  }
+}
+
 @media (max-width: 768px) {
   .modal-container {
     padding: 40px 25px;
