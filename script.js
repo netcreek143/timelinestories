@@ -444,7 +444,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rotationZ = cardOffset * (isMobile ? 15 : 25);
                 const scale = Math.max(0.92, 1 - (absOffset * scaleFactor));
                 const zIndex = Math.round(100 - absOffset * 10);
-                const opacity = Math.max(0.7, 1 - (absOffset * 0.25));
+                // Keep cards fully opaque while on stage to prevent connectors showing through
+                const opacity = (absOffset > 2.0) ? 0 : 1;
 
                 card.style.transform = `
                     translate3d(${translateX}px, ${translateY}px, 0)
@@ -453,8 +454,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     scale(${scale})
                 `;
                 card.style.zIndex = zIndex;
-                card.style.opacity = (absOffset > 2.5) ? 0 : opacity;
-                card.style.visibility = (absOffset > 2.5) ? 'hidden' : 'visible';
+                card.style.opacity = opacity;
+                card.style.visibility = (absOffset > 2.2) ? 'hidden' : 'visible';
 
                 // --- Dynamic Connector Logic ---
                 const connector = card.querySelector('.card-connector');
@@ -483,7 +484,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         const globalAngle = Math.atan2(dy, dx) * (180 / Math.PI);
                         const relativeAngle = globalAngle - rotationZ;
                         connector.style.transform = `rotate(${relativeAngle}deg)`;
-                        connector.style.opacity = (absOffset > 1.8 || nextAbsOffset > 1.8) ? 0 : 1;
+
+                        // Fade out connectors much sooner to keep background clean
+                        connector.style.opacity = (absOffset > 1.2 || nextAbsOffset > 1.2) ? 0 : 1;
                     } else {
                         connector.style.opacity = 0;
                     }
