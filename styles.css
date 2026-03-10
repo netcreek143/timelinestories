@@ -1222,27 +1222,29 @@ html.lenis {
   /* Extend from the right edge */
   width: 0;
   /* Handled by JS */
-  height: 40px;
+  height: 25px;
   transform-origin: left center;
   /* Rotate from the attachment point */
   pointer-events: none;
   z-index: -1;
-  /* vertical tick marks using repeating linear gradient */
+  /* vertical tick marks using repeating linear gradient - refined */
   background: repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.25) 0px,
-      rgba(0, 0, 0, 0.25) 2px,
-      transparent 2px,
-      transparent 27px);
-  mask-image: linear-gradient(to bottom, black 100%, transparent 100%);
+      rgba(0, 0, 0, 0.15) 0px,
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 22px);
+  /* Added horizontal fade mask for smoother integration */
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
   display: block;
 }
 
 .theme-gold .card-connector {
   background: repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.2) 0px,
-      rgba(0, 0, 0, 0.2) 2px,
-      transparent 2px,
-      transparent 17px);
+      rgba(0, 0, 0, 0.12) 0px,
+      rgba(0, 0, 0, 0.12) 1px,
+      transparent 1px,
+      transparent 18px);
 }
 
 /* On last card, the loop connector is handled by its sibling in a circular loop, but we show it anyway */
