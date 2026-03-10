@@ -836,12 +836,17 @@ html.lenis {
   display: block;
 }
 
+.arc-wheel {
+  --wheel-rotate: 0deg;
+}
+
 .arc-indicator {
   position: absolute;
   width: 0;
   height: 0;
   z-index: 10;
-  transform: translate(-50%, -50%);
+  /* Rotate the whole indicator radial from the arc center */
+  transform: translate(-50%, -50%) rotate(var(--base-rotate));
   will-change: transform;
   display: flex;
   flex-direction: column;
@@ -864,12 +869,12 @@ html.lenis {
   font-family: var(--font-sans);
   font-size: 22px;
   font-weight: 700;
-  /* Perfectly aligned to arc */
-  transform: translateY(-65px);
+  /* Perpendicular distance from arc center */
+  transform: translateY(-65px) rotate(calc(-1 * (var(--base-rotate) + var(--wheel-rotate))));
   opacity: 1;
   visibility: visible;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* The dot exactly on the arc */
@@ -890,11 +895,11 @@ html.lenis {
 .node-line {
   width: 1.5px;
   height: 0;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.3);
   position: absolute;
-  top: 0;
-  /* Start exactly from the dot center at origin */
-  left: 0;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) rotate(180deg);
   transform-origin: top center;
   transition: height 0.5s ease, opacity 0.5s ease;
   opacity: 0;

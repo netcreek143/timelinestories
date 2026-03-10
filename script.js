@@ -274,13 +274,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const sliceDeg = 360 / 7;
                 const MAX_ROTATION = -(sliceDeg * 6);
                 const rotation = progress * MAX_ROTATION;
-                const counterRotation = -rotation;
 
                 wheel.style.transform = `rotate(${rotation}deg)`;
+                wheel.style.setProperty('--wheel-rotate', `${rotation}deg`);
+
                 const activeIndex = Math.min(6, Math.max(0, Math.round(progress * 6)));
 
                 indicators.forEach((ind, i) => {
-                    ind.style.transform = `translate(-50%, -50%) rotate(${counterRotation}deg)`;
                     ind.classList.toggle('active', i === activeIndex);
                 });
 
