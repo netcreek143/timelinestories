@@ -514,28 +514,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const testTexts = document.querySelectorAll('.test-text-content');
     let testIdx = 0;
 
-    function updateTestSlider() {
+    function updateTestSlider(direction = 'init') {
         const n = testCards.length;
 
         testCards.forEach((card, i) => {
-            // Remove all position classes first
-            card.classList.remove('pos-1', 'pos-2', 'pos-3', 'exiting');
+            let diff = (i - testIdx + n) % n;
+            let currentClass = Array.from(card.classList).find(c => c.startsWith('pos-'));
+            let newClass = '';
 
-            // Calculate relative index to testIdx (which is Pos 3)
-            let relIdx = i - testIdx;
+            if (diff === 0) newClass = 'pos-3'; // Active
+            else if (diff === n - 1) newClass = 'pos-2'; // Middle Left
+            else if (diff === n - 2) newClass = 'pos-1'; // Far Left
+            else newClass = 'pos-right'; // Wait Right
 
-            // Adjust for circularity to keep logic within [-2, 1] range roughly
-            if (relIdx > n / 2) relIdx -= n;
-            if (relIdx < -n / 2) relIdx += n;
+            // Handle Teleportation to prevent crossing the screen
+            let needsTeleport = false;
+            if (direction === 'next' && currentClass === 'pos-1' && newClass === 'pos-right') {
+                needsTeleport = true;
+            } else if (direction === 'prev' && currentClass === 'pos-right' && newClass === 'pos-1') {
+                needsTeleport = true;
+            }
 
-            if (relIdx === 0) {
-                card.classList.add('pos-3'); // Main (Right)
-            } else if (relIdx === -1) {
-                card.classList.add('pos-2'); // Middle
-            } else if (relIdx === -2) {
-                card.classList.add('pos-1'); // Left
-            } else if (relIdx === -3 || relIdx === (n - 3)) {
-                card.classList.add('exiting'); // To the left off-screen
+            if (needsTeleport) {
+                card.style.transition = 'none';
+            }
+
+            // Apply new classes
+            card.classList.remove('pos-1', 'pos-2', 'pos-3', 'pos-right');
+            card.classList.add(newClass);
+
+            if (needsTeleport) {
+                // Force reflow
+                void card.offsetWidth;
+                // Restore transition immediately after reflow so future moves are animated
+                card.style.transition = '';
             }
         });
 
@@ -554,16 +566,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         testPrevBtn.addEventListener('click', () => {
             testIdx = (testIdx > 0) ? testIdx - 1 : testCards.length - 1;
-            updateTestSlider();
+            updateTestSlider('prev');
         });
+
         testNextBtn.addEventListener('click', () => {
             testIdx = (testIdx + 1) % testCards.length;
-            updateTestSlider();
+            updateTestSlider('next');
         });
         testDots.forEach((dot, i) => {
             dot.addEventListener('click', () => {
                 testIdx = i;
-                updateTestSlider();
+                updateTestSlider('jump');
             });
         });
 
@@ -581,11 +594,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (e.deltaY > 0) {
                         // Scroll down -> Next
                         testIdx = (testIdx + 1) % testCards.length;
+                        updateTestSlider('next');
                     } else {
                         // Scroll up -> Prev
                         testIdx = (testIdx > 0) ? testIdx - 1 : testCards.length - 1;
+                        updateTestSlider('prev');
                     }
-                    updateTestSlider();
                     lastScrollTime = now;
                     e.preventDefault();
                 }
