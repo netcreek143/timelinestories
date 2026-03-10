@@ -1482,55 +1482,50 @@ html.lenis {
   pointer-events: none;
 }
 
-/* Position 1: Leftmost, Smallest, ~70% blurred (Gaussian) */
+/* Position 1: Leftmost, Smallest */
 .test-video-card.pos-1 {
-  left: -5%;
+  left: -15%;
   transform: translateY(-50%) scale(0.65);
-  filter: blur(2px) brightness(0.65);
-  /* Heavy Gaussian blur */
-  opacity: 0.9;
+  filter: blur(4px) brightness(0.5);
+  opacity: 0.7;
   z-index: 30;
-  /* Highest to be on top */
   pointer-events: auto;
 }
 
-/* Position 2: Middle, Medium, ~45% blurred (Gaussian) */
+/* Position 2: Middle, Medium */
 .test-video-card.pos-2 {
-  left: clamp(15%, 22vw, 30%);
+  left: clamp(10%, 15vw, 20%);
   transform: translateY(-50%) scale(0.82);
-  filter: blur(2px) brightness(0.85);
-  /* Moderate Gaussian blur */
-  opacity: 0.99;
+  filter: blur(2px) brightness(0.8);
+  opacity: 0.95;
   z-index: 20;
-  /* Middle */
   pointer-events: auto;
 }
 
-/* Position 3: Main/Right, Largest, Sharp (Full Focus) */
+/* Position 3: Main/Right, Largest */
 .test-video-card.pos-3 {
-  left: clamp(50%, 65vw, 75%);
+  left: clamp(40%, 45vw, 55%);
   transform: translateY(-50%) scale(1);
   filter: blur(0) brightness(1);
   opacity: 1;
   z-index: 10;
-  /* Lowest among visible to pop from behind */
   border: 4px solid #D4AF37;
   pointer-events: auto;
-  animation: testPopUp 0.9s cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation: testPopFromBehind 0.9s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-@keyframes testPopUp {
+@keyframes testPopFromBehind {
   0% {
-    transform: translateY(-50%) scale(0.4);
-    /* Pop up from back to front (center) */
+    transform: translateY(-50%) scale(0.5);
     opacity: 0;
-    filter: blur(15px);
+    filter: blur(20px) brightness(0.3);
+    /* Hidden "in the shadows" behind the active card */
   }
 
   100% {
     transform: translateY(-50%) scale(1);
     opacity: 1;
-    filter: blur(0);
+    filter: blur(0) brightness(1);
   }
 }
 
