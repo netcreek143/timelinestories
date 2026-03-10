@@ -251,54 +251,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Our Strength Section (Orbital Slider) ---
+    // --- Our Strength Section (Orbital Slider with Snapping) ---
     const scrollTrack = document.querySelector('.our-strength-section');
     const wheel = document.getElementById('arcWheel');
     const indicators = document.querySelectorAll('.arc-indicator');
     const contents = document.querySelectorAll('.arc-center-content');
 
-    let ticking = false;
+    if (scrollTrack && wheel && typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.create({
+            trigger: scrollTrack,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: true,
+            snap: {
+                snapTo: 1 / 6, // 7 items (index 0 to 6)
+                duration: { min: 0.2, max: 0.8 },
+                delay: 0.1,
+                ease: "power2.inOut"
+            },
+            onUpdate: (self) => {
+                const progress = self.progress;
+                const sliceDeg = 360 / 7;
+                const MAX_ROTATION = -(sliceDeg * 6);
+                const rotation = progress * MAX_ROTATION;
+                const counterRotation = -rotation;
 
-    function updateRotation() {
-        if (!scrollTrack || !wheel) return;
-        const rect = scrollTrack.getBoundingClientRect();
+                wheel.style.transform = `rotate(${rotation}deg)`;
+                const activeIndex = Math.min(6, Math.max(0, Math.round(progress * 6)));
 
-        // Use native height (300vh) for the full scroll track length
-        const totalScrollable = Math.max(1, rect.height - window.innerHeight);
-        const currentScroll = Math.max(0, -rect.top);
-        let progress = currentScroll / totalScrollable;
-        progress = Math.max(0, Math.min(1, progress));
+                indicators.forEach((ind, i) => {
+                    ind.style.transform = `translate(-50%, -50%) rotate(${counterRotation}deg)`;
+                    ind.classList.toggle('active', i === activeIndex);
+                });
 
-        const sliceDeg = 360 / 7;
-        const MAX_ROTATION = -(sliceDeg * 6);
-        const rotation = progress * MAX_ROTATION;
-        const counterRotation = -rotation;
-
-        wheel.style.transform = `rotate(${rotation}deg)`;
-        const activeIndex = Math.min(6, Math.max(0, Math.round(progress * 6)));
-
-        indicators.forEach((ind, i) => {
-            ind.style.transform = `translate(-50%, -50%) rotate(${counterRotation}deg)`;
-            ind.classList.toggle('active', i === activeIndex);
+                contents.forEach((content, i) => {
+                    content.classList.toggle('active', i === activeIndex);
+                });
+            }
         });
-
-        contents.forEach((content, i) => {
-            content.classList.toggle('active', i === activeIndex);
-        });
-
-        ticking = false;
     }
-
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(updateRotation);
-            ticking = true;
-        }
-    });
-
-    // Ensure the first item is active by default and rotation is set
-    updateRotation();
-    setTimeout(updateRotation, 100);
 
     // --- Case Study Section (Curved Drag) ---
     const caseSection = document.querySelector('.case-study-section');
