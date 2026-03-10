@@ -1456,7 +1456,7 @@ html.lenis {
   align-items: center;
   gap: clamp(40px, 8vw, 100px);
   position: relative;
-  min-height: clamp(400px, 45vw, 500px);
+  min-height: clamp(450px, 35vw, 550px);
 }
 
 .test-cards-wrap {
@@ -1494,7 +1494,7 @@ html.lenis {
 
 /* Position 2: Middle, Medium */
 .test-video-card.pos-2 {
-  left: clamp(15%, 20vw, 25%);
+  left: 12%;
   transform: translateY(-50%) scale(0.82);
   filter: blur(2px) brightness(0.8);
   opacity: 0.95;
@@ -1504,7 +1504,7 @@ html.lenis {
 
 /* Position 3: Main/Right, Largest */
 .test-video-card.pos-3 {
-  left: clamp(50%, 55vw, 65%);
+  left: 48%;
   transform: translateY(-50%) scale(1);
   filter: blur(0) brightness(1);
   opacity: 1;
@@ -1569,7 +1569,7 @@ html.lenis {
 .test-content-wrap {
   flex: 1;
   position: relative;
-  padding-left: clamp(60px, 10vw, 150px);
+  padding-left: clamp(40px, 5vw, 100px);
 }
 
 .test-quote-start,
