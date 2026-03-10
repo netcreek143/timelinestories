@@ -774,5 +774,70 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
 
+    // --- Google Sheets Form Integration ---
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxH4ggCzOR0miE-WElTt76lUnNwzYwPVRII1GidwKY3l4ihUSFQZUhD_Gqk5J_kjuqXNA/exec';
+
+    function handleFormSubmit(formId, sourceName) {
+        const form = document.getElementById(formId);
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Find the submit button to show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+
+            // Basic validation
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            // Set loading state
+            submitBtn.innerHTML = 'Submitting...';
+            submitBtn.disabled = true;
+
+            // Collect Data
+            const formData = new FormData(form);
+            const dataObj = { source: sourceName };
+
+            for (let [key, value] of formData.entries()) {
+                dataObj[key] = value;
+            }
+
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    redirect: "follow",
+                    method: 'POST',
+                    body: JSON.stringify(dataObj),
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    // Redirect to thank you page
+                    window.location.href = 'thank-you.html';
+                } else {
+                    alert('There was an error submitting your request. Please try again.');
+                    console.error(result.message);
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('Connection error. Please check your internet and try again.');
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+
+    // Initialize handlers for both forms
+    handleFormSubmit('contactForm', 'Main Contact Form');
+    handleFormSubmit('modalContactForm', 'Popup Modal Form');
+});
