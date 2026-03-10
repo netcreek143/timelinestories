@@ -86,16 +86,34 @@ html.lenis {
   flex-direction: column;
 }
 
+.hero-bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
 .hero-bg {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('images/herosection1.png');
   background-size: 100% 100%;
   background-position: center;
-  z-index: 1;
+  opacity: 0;
+  transition: opacity 0s;
+  /* We'll use GSAP for smooth fade */
+}
+
+.hero-bg.active {
+  opacity: 1;
+}
+
+.hero-bg-1 {
+  background-image: url('images/herosection1.png');
 }
 
 .hero-overlay {
@@ -908,7 +926,7 @@ html.lenis {
 .arc-indicator.active .node-number-badge {
   background-color: #fff;
   border-color: #fff;
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
   color: #000;
 }
 

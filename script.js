@@ -143,22 +143,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    function goToHeroSlide(index) {
-        if (index === currentHeroIdx || !sliderData[index] || !heroBg) return;
+    const heroBgs = document.querySelectorAll('.hero-bg');
 
-        // Update index immediately so auto-slide timer always has the right value
+    function goToHeroSlide(index) {
+        if (index === currentHeroIdx || !sliderData[index]) return;
+
+        const nextSlide = sliderData[index];
+        const prevIndex = currentHeroIdx;
         currentHeroIdx = index;
-        const currentSlide = sliderData[currentHeroIdx];
 
         // Update dots immediately
         heroDots.forEach((dot, i) => dot.classList.toggle('active', i === currentHeroIdx));
 
-        // Kill any running GSAP tweens on these elements
+        // Kill any running GSAP tweens
         gsap.killTweensOf([heroHeadline, heroSubtitle, heroDesc]);
+        heroBgs.forEach(bg => gsap.killTweensOf(bg));
 
         const tl = gsap.timeline();
 
-        // 1. Fade out current content
+        // 1. Fade out current text content
         tl.to([heroHeadline, heroSubtitle, heroDesc], {
             opacity: 0,
             y: 20,
@@ -167,16 +170,36 @@ document.addEventListener('DOMContentLoaded', () => {
             ease: "power2.in"
         });
 
-        // 2. Swap content at the midpoint
+        // 2. Prepare next background on the currently inactive layer
         tl.add(() => {
-            heroBg.style.backgroundImage = `url('${currentSlide.image}')`;
-            heroHeadline.innerHTML = currentSlide.title;
-            heroSubtitle.innerHTML = currentSlide.subtitle;
-            heroDesc.innerHTML = currentSlide.desc;
-            updateNavbarColor(currentSlide.image);
-        });
+            const activeBg = document.querySelector('.hero-bg.active');
+            const inactiveBg = Array.from(heroBgs).find(bg => bg !== activeBg);
 
-        // 3. Fade in new content
+            if (inactiveBg && activeBg) {
+                // Set the next image on the inactive layer
+                inactiveBg.style.backgroundImage = `url('${nextSlide.image}')`;
+
+                // Cross-fade background layers
+                gsap.to(inactiveBg, { opacity: 1, duration: 1.2, ease: "linear" });
+                gsap.to(activeBg, {
+                    opacity: 0,
+                    duration: 1.2,
+                    ease: "linear",
+                    onComplete: () => {
+                        activeBg.classList.remove('active');
+                        inactiveBg.classList.add('active');
+                    }
+                });
+            }
+
+            // Sync other content
+            heroHeadline.innerHTML = nextSlide.title;
+            heroSubtitle.innerHTML = nextSlide.subtitle;
+            heroDesc.innerHTML = nextSlide.desc;
+            updateNavbarColor(nextSlide.image);
+        }, "-=0.2"); // Start transition slightly earlier
+
+        // 3. Fade in new text content
         tl.fromTo(
             [heroHeadline, heroSubtitle, heroDesc],
             { opacity: 0, y: -20 },
