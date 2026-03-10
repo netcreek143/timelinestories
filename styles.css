@@ -1515,7 +1515,8 @@ html.lenis {
 .test-slider-stage {
   display: flex;
   align-items: center;
-  gap: clamp(40px, 8vw, 100px);
+  gap: clamp(20px, 4vw, 60px);
+  /* Tightened for desktop center-feel */
   position: relative;
   min-height: clamp(450px, 35vw, 550px);
 }
@@ -1630,7 +1631,8 @@ html.lenis {
 .test-content-wrap {
   flex: 1;
   position: relative;
-  padding-left: clamp(40px, 5vw, 100px);
+  padding-left: clamp(20px, 3.5vw, 60px);
+  /* Reduced padding to move text closer to cards */
 }
 
 .test-quote-start,
@@ -1672,7 +1674,8 @@ html.lenis {
 .test-item-title {
   color: #D4AF37;
   font-family: 'Prata', serif;
-  font-size: var(--h2-fs);
+  font-size: clamp(2rem, 3.2vw, 3.8rem);
+  /* Slightly scaled down from var(--h2-fs) for desktop balance */
   margin-bottom: clamp(15px, 2vw, 25px);
   line-height: 1.1;
   font-weight: 400;
