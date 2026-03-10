@@ -851,24 +851,24 @@ html.lenis {
 
 /* The number badge floating above the arc */
 .node-number-badge {
-  width: 36px;
-  height: 36px;
+  width: 64px;
+  height: 64px;
   flex-shrink: 0;
   background-color: #000000;
   color: #ffffff;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 600;
-  /* Perfect inactive look */
-  transform: translateY(-32px);
+  font-size: 22px;
+  font-weight: 700;
+  /* Perfectly aligned to arc */
+  transform: translateY(-65px);
   opacity: 1;
   visibility: visible;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
@@ -901,17 +901,10 @@ html.lenis {
 }
 
 .arc-indicator.active .node-number-badge {
-  width: 64px;
-  height: 64px;
   background-color: #fff;
-  border: none;
+  border-color: #fff;
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
   color: #000;
-  opacity: 1;
-  font-size: 22px;
-  font-weight: 700;
-  transform: translateY(-65px);
-  visibility: visible;
 }
 
 .arc-indicator.active .node-dot {
