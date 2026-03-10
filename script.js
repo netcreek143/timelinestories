@@ -457,8 +457,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.style.opacity = opacity;
                 card.style.visibility = (absOffset > 2.2) ? 'hidden' : 'visible';
 
-                // --- Dynamic Connector Logic ---
-                const connector = card.querySelector('.card-connector');
+                // --- Dynamic Connector Logic (Structural and Stacking Fix) ---
+                const connector = document.querySelector(`.case-line[data-for="${i}"]`);
                 if (connector) {
                     const nextIdx = (i + 1) % n;
                     let nextOffset = nextIdx - position;
@@ -474,16 +474,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     const dy = nextY - translateY;
                     const dist = Math.sqrt(dx * dx + dy * dy);
 
+                    // Move connector relative to the cards wrapper center
+                    const centerX = caseWrapper.offsetWidth / 2;
+                    const centerY = caseWrapper.offsetHeight / 2;
+
                     // Only show if cards are reasonably close in the loop
                     if (Math.abs(nextIdx - i) === 1 || (Math.abs(nextIdx - i) === n - 1)) {
                         const cardWidth = isMobile ? 330 : (isTablet ? 380 : 440 * desktopFactor);
                         const connWidth = dist - (cardWidth * scale * 0.15); // Adjust width for scale
+
+                        // Position the element from the center
+                        connector.style.left = `${centerX + translateX}px`;
+                        connector.style.top = `${centerY + translateY}px`;
                         connector.style.width = `${connWidth}px`;
 
-                        // Calculate target angle relative to card rotation
+                        // Calculate target angle
                         const globalAngle = Math.atan2(dy, dx) * (180 / Math.PI);
-                        const relativeAngle = globalAngle - rotationZ;
-                        connector.style.transform = `rotate(${relativeAngle}deg)`;
+                        connector.style.transform = `rotate(${globalAngle}deg)`;
 
                         // Fade out connectors much sooner to keep background clean
                         connector.style.opacity = (absOffset > 1.2 || nextAbsOffset > 1.2) ? 0 : 1;
