@@ -185,12 +185,35 @@ html.lenis {
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-gold-pill::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  background: #ffffff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transform-origin: center center;
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: -1;
 }
 
 .btn-gold-pill:hover {
-  filter: brightness(1.2);
+  filter: none;
   transform: translateY(-1px);
-  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+  color: #000;
+}
+
+.btn-gold-pill:hover::before {
+  transform: translate(-50%, -50%) scale(30);
 }
 
 .mobile-toggle {
@@ -273,8 +296,32 @@ html.lenis {
   border-radius: 40px;
   border: 1px solid var(--primary-gold);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
   min-width: 160px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-ghost-arrow::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  width: 32px;
+  height: 32px;
+  background: #ffffff;
+  border-radius: 50%;
+  transform: translateY(-50%) scale(0);
+  transform-origin: center center;
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: -1;
+}
+
+.btn-text {
+  position: relative;
+  z-index: 2;
+  transition: color 0.4s ease;
 }
 
 .arrow-circle {
@@ -286,16 +333,34 @@ html.lenis {
   align-items: center;
   justify-content: center;
   color: #000;
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  position: relative;
+  z-index: 2;
+}
+
+.arrow-circle svg {
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .btn-ghost-arrow:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--primary-gold-hover);
+  color: #000;
+  border-color: #fff;
+}
+
+.btn-ghost-arrow:hover::before {
+  transform: translateY(-50%) scale(30);
+}
+
+.btn-ghost-arrow:hover .btn-text {
+  color: #000;
 }
 
 .btn-ghost-arrow:hover .arrow-circle {
-  transform: translate(2px, -2px);
+  transform: scale(1.05);
+}
+
+.btn-ghost-arrow:hover .arrow-circle svg {
+  transform: rotate(45deg);
 }
 
 .slider-controls {
@@ -2264,13 +2329,43 @@ html.lenis {
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 400;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
   margin-bottom: 0px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-outline-gold::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  background: #ffffff;
+  border-radius: 50%;
+  transform: translateY(-50%) scale(0);
+  transform-origin: center center;
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: -1;
 }
 
 .btn-outline-gold:hover {
-  background: #D4AF37;
   color: #000;
+  border-color: #fff;
+}
+
+.btn-outline-gold:hover::before {
+  transform: translateY(-50%) scale(30);
+}
+
+.btn-outline-gold:hover .btn-text {
+  color: #000;
+}
+
+.btn-outline-gold:hover .arrow-circle svg {
+  transform: rotate(45deg);
 }
 
 .arrow-circle {
