@@ -235,6 +235,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- Smooth Anchor Navigation ---
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+
+            // Find target element
+            const targetElement = document.querySelector(targetId);
+
+            if (targetId === '#hero') {
+                // If it's the home/hero link, scroll to absolute top
+                lenis.scrollTo(0, {
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+            } else if (targetElement) {
+                // Otherwise scroll to the specific element
+                lenis.scrollTo(targetElement, {
+                    duration: 1.2,
+                    offset: -80, // Offset for fixed navbar height
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+            }
+        });
+    });
+
     // Initial update
     if (sliderData.length > 0) {
         // Initial set without fade/delay
@@ -294,6 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             onUpdate: (self) => {
                 const progress = self.progress;
+                const isMobile = window.innerWidth <= 768;
                 const sliceDeg = 360 / 7;
                 const MAX_ROTATION = -(sliceDeg * 6);
                 const rotation = progress * MAX_ROTATION;
@@ -301,10 +328,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 wheel.style.transform = `rotate(${rotation}deg)`;
                 wheel.style.setProperty('--wheel-rotate', `${rotation}deg`);
 
-                const activeIndex = Math.min(6, Math.max(0, Math.round(progress * 6)));
+                const activeIndex = Math.round(progress * 6);
 
                 indicators.forEach((ind, i) => {
-                    ind.classList.toggle('active', i === activeIndex);
+                    const isActive = i === activeIndex;
+                    ind.classList.toggle('active', isActive);
+
+                    if (isMobile) {
+                        // Dynamic Fade Logic for Mobile
+                        const baseRotate = parseFloat(getComputedStyle(ind).getPropertyValue('--base-rotate'));
+                        const currentRotation = (baseRotate + rotation) % 360;
+                        
+                        let normalizedRot = currentRotation;
+                        if (normalizedRot > 180) normalizedRot -= 360;
+                        if (normalizedRot < -180) normalizedRot += 360;
+
+                        const fadeRange = 70;
+                        let opacity = 1 - (Math.abs(normalizedRot) / fadeRange);
+                        opacity = Math.max(0, Math.min(1, opacity));
+                        
+                        ind.style.opacity = opacity;
+                        ind.style.pointerEvents = opacity > 0.5 ? 'auto' : 'none';
+                    } else {
+                        ind.style.opacity = 1;
+                        ind.style.pointerEvents = 'auto';
+                    }
                 });
 
                 contents.forEach((content, i) => {
@@ -733,6 +781,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Creating Memories Mobile Carousel Logic ---
+    const memoryGrid = document.querySelector('.memories-slider-wrapper .cards-grid');
+    const memoryPrev = document.getElementById('prevMemory');
+    const memoryNext = document.getElementById('nextMemory');
+
+    if (memoryGrid && memoryPrev && memoryNext) {
+        memoryPrev.addEventListener('click', () => {
+            memoryGrid.scrollBy({
+                left: -memoryGrid.offsetWidth,
+                behavior: 'smooth'
+            });
+        });
+
+        memoryNext.addEventListener('click', () => {
+            memoryGrid.scrollBy({
+                left: memoryGrid.offsetWidth,
+                behavior: 'smooth'
+            });
+        });
+    }
+
     // --- Video Testimonial Modal Logic ---
     const videoModal = document.getElementById('videoTestimonialModal');
     const testimonialVideo = document.getElementById('testimonialVideo');
@@ -817,7 +886,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // --- TESTING ONLY: Send lead to Webhook ---
             try {
-                fetch('http://localhost:3001/api/webhooks/wk_mmkonzhi', {
+                fetch('https://dsignxt-crm.onrender.com/api/webhooks/wk_mmmzku8j', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -862,4 +931,237 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize handlers for both forms
     handleFormSubmit('contactForm', 'Main Contact Form');
     handleFormSubmit('modalContactForm', 'Popup Modal Form');
+
+    // --- VENUES DRAG CAROUSEL ---
+    const venuesSection = document.querySelector('.venues-section');
+    const venuesContainer = document.querySelector('.venues-fan-container');
+    const venueCards = document.querySelectorAll('.venue-card');
+    const customCursor = document.querySelector('.venues-custom-cursor');
+    const positions = ['pos-far-left', 'pos-left', 'pos-center', 'pos-right', 'pos-far-right'];
+    
+    let startX = 0;
+    let isDragging = false;
+    let hasMoved = false; 
+    let threshold = 50; 
+
+    // Custom Cursor tracking variables
+    let vMouseX = 0, vMouseY = 0;
+    let vCursorX = 0, vCursorY = 0;
+    let vIsInside = false;
+    let vInitialized = false;
+
+    if (venuesSection && venueCards.length > 0) {
+        // Custom Cursor Follower Logic
+        venuesSection.addEventListener('mousemove', (e) => {
+            vMouseX = e.clientX;
+            vMouseY = e.clientY;
+            
+            if (!vInitialized) {
+                // Instantly snap to position on first move
+                vCursorX = vMouseX;
+                vCursorY = vMouseY;
+                vInitialized = true;
+            }
+
+            if (!vIsInside) {
+                vIsInside = true;
+                customCursor?.classList.add('active');
+            }
+        });
+
+        venuesSection.addEventListener('mouseleave', () => {
+            vIsInside = false;
+            vInitialized = false;
+            customCursor?.classList.remove('active');
+        });
+
+        const animateVenueCursor = () => {
+            if (customCursor) {
+                // Lerp movement for that "weighty" feel
+                vCursorX += (vMouseX - vCursorX) * 0.14;
+                vCursorY += (vMouseY - vCursorY) * 0.14;
+                customCursor.style.left = `${vCursorX}px`;
+                customCursor.style.top = `${vCursorY}px`;
+            }
+            requestAnimationFrame(animateVenueCursor);
+        };
+        animateVenueCursor();
+
+        const updatePositions = (direction) => {
+            const currentClasses = Array.from(venueCards).map(card => {
+                return positions.find(p => card.classList.contains(p));
+            });
+
+            if (direction === 'next') {
+                venueCards.forEach((card, i) => {
+                    const currentPosIndex = positions.indexOf(currentClasses[i]);
+                    const nextPosIndex = (currentPosIndex - 1 + positions.length) % positions.length;
+                    card.classList.remove(...positions);
+                    card.classList.add(positions[nextPosIndex]);
+                });
+            } else {
+                venueCards.forEach((card, i) => {
+                    const currentPosIndex = positions.indexOf(currentClasses[i]);
+                    const nextPosIndex = (currentPosIndex + 1) % positions.length;
+                    card.classList.remove(...positions);
+                    card.classList.add(positions[nextPosIndex]);
+                });
+            }
+        };
+
+        const handleDragStart = (e) => {
+            isDragging = true;
+            hasMoved = false;
+            startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            venuesContainer.classList.add('grabbing');
+            customCursor?.classList.add('dragging');
+        };
+
+        const handleDragMove = (e) => {
+            const x = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            const y = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+            
+            // Sync custom cursor position during drag
+            vMouseX = x;
+            vMouseY = y;
+
+            if (!isDragging || hasMoved) return;
+            e.preventDefault();
+            
+            const diff = x - startX;
+
+            if (Math.abs(diff) > threshold) {
+                updatePositions(diff > 0 ? 'prev' : 'next');
+                hasMoved = true;
+            }
+        };
+
+        const handleDragEnd = () => {
+            isDragging = false;
+            venuesContainer.classList.remove('grabbing');
+            customCursor?.classList.remove('dragging');
+        };
+
+        venuesContainer.addEventListener('mousedown', handleDragStart);
+        window.addEventListener('mousemove', handleDragMove);
+        window.addEventListener('mouseup', handleDragEnd);
+
+        venuesContainer.addEventListener('touchstart', handleDragStart, { passive: false });
+        window.addEventListener('touchmove', handleDragMove, { passive: false });
+        window.addEventListener('touchend', handleDragEnd);
+        
+        // Also allow clicking side cards to center them
+        venueCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const pos = positions.find(p => card.classList.contains(p));
+                if (pos === 'pos-left' || pos === 'pos-far-left') {
+                    updatePositions('prev');
+                } else if (pos === 'pos-right' || pos === 'pos-far-right') {
+                    updatePositions('next');
+                }
+            });
+        });
+    }
+
+    // --- Moments Section Filter & Slider ---
+    const momentsDropdown = document.getElementById('momentsDropdown');
+    const dropdownSelected = momentsDropdown?.querySelector('.dropdown-selected');
+    const dropdownList = momentsDropdown?.querySelector('.dropdown-list');
+    const momentsSlider = document.getElementById('momentsSlider');
+    const momentItems = document.querySelectorAll('.moment-item');
+    const prevMomentBtn = document.getElementById('prevMoment');
+    const nextMomentBtn = document.getElementById('nextMoment');
+
+    if (momentsDropdown && dropdownSelected) {
+        // Toggle dropdown
+        dropdownSelected.addEventListener('click', (e) => {
+            e.stopPropagation();
+            momentsDropdown.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            momentsDropdown.classList.remove('active');
+        });
+
+        // Filter functionality
+        dropdownList?.querySelectorAll('li').forEach(item => {
+            item.addEventListener('click', function () {
+                const filter = this.getAttribute('data-filter');
+                const filterText = this.textContent;
+
+                // Update UI
+                dropdownSelected.querySelector('span').textContent = filterText;
+                dropdownList.querySelectorAll('li').forEach(li => li.classList.remove('active'));
+                this.classList.add('active');
+
+                // Filter items
+                momentItems.forEach(moment => {
+                    const category = moment.getAttribute('data-category');
+                    if (filter === 'all' || category === filter) {
+                        moment.style.display = 'block';
+                        gsap.fromTo(moment, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.4 });
+                    } else {
+                        moment.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+
+    // Moments Slider Navigation
+    if (momentsSlider && prevMomentBtn && nextMomentBtn) {
+        const scrollAmount = 480; // adjusted for gap
+
+        nextMomentBtn.addEventListener('click', () => {
+            momentsSlider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+
+        prevMomentBtn.addEventListener('click', () => {
+            momentsSlider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+    }
+
+    // --- Our Process Mobile Carousel: Active Card Detection ---
+    const processSliderWp = document.querySelector('.process-slider-wrapper');
+    const processCards = document.querySelectorAll('.process-card');
+
+    if (processSliderWp && processCards.length > 0 && window.innerWidth <= 768) {
+        const updateActiveProcessCard = () => {
+            const sliderRect = processSliderWp.getBoundingClientRect();
+            const sliderCenter = sliderRect.left + sliderRect.width / 2;
+            
+            let closestCard = null;
+            let minDistance = Infinity;
+
+            processCards.forEach(card => {
+                const cardRect = card.getBoundingClientRect();
+                const cardCenter = cardRect.left + cardRect.width / 2;
+                const distance = Math.abs(sliderCenter - cardCenter);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestCard = card;
+                }
+            });
+
+            processCards.forEach(card => card.classList.toggle('active', card === closestCard));
+        };
+
+        processSliderWp.addEventListener('scroll', updateActiveProcessCard);
+        window.addEventListener('resize', updateActiveProcessCard);
+        updateActiveProcessCard();
+    }
+
+    // --- Footer Quick Links Accordion (Mobile) ---
+    const toggleQuickLinks = document.getElementById('toggleQuickLinks');
+    const footerColLinks = document.querySelector('.footer-col.col-links');
+    
+    if (toggleQuickLinks && footerColLinks) {
+        toggleQuickLinks.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                footerColLinks.classList.toggle('active');
+            }
+        });
+    }
 });
