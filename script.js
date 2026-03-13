@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             gsap.to(wheel, {
                 rotation: targetRotation,
-                duration: 0.45, // Snappier feel
+                duration: 0.4, // Snappier
                 ease: "power2.out",
                 onUpdate: () => {
                     if (isMobile) {
@@ -357,8 +357,8 @@ document.addEventListener('DOMContentLoaded', () => {
             onUp: () => handleStep("up"),
             onDown: () => handleStep("down"),
             tolerance: 10,
-            preventDefault: true, // Only if active
-            active: false // Start disabled
+            preventDefault: true, // This blocks the scroll event from reaching Lenis
+            active: false
         });
 
         const strengthTrigger = ScrollTrigger.create({
@@ -370,25 +370,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 interactionLocked = true;
                 currentIndex = 0;
                 updateStrengthNode(0, true);
-                if (lenis) lenis.stop();
                 strengthObserver.enable();
             },
             onEnterBack: () => {
                 interactionLocked = true;
                 currentIndex = totalNodes - 1;
                 updateStrengthNode(currentIndex, true);
-                if (lenis) lenis.stop();
                 strengthObserver.enable();
             },
             onLeave: () => {
                 interactionLocked = false;
                 strengthObserver.disable();
-                if (lenis) lenis.start();
             },
             onLeaveBack: () => {
                 interactionLocked = false;
                 strengthObserver.disable();
-                if (lenis) lenis.start();
             }
         });
 
@@ -400,14 +396,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentIndex++;
                     updateStrengthNode(currentIndex);
                 } else {
+                    // Unlock and scroll away
                     interactionLocked = false;
                     strengthObserver.disable();
                     if (lenis) {
-                        lenis.start();
-                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 20, { 
-                            duration: 1,
-                            onComplete: () => ScrollTrigger.refresh()
-                        });
+                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 10, { duration: 0.8 });
                     }
                 }
             } else if (direction === "up") {
@@ -415,20 +408,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentIndex--;
                     updateStrengthNode(currentIndex);
                 } else {
+                    // Unlock and scroll away
                     interactionLocked = false;
                     strengthObserver.disable();
                     if (lenis) {
-                        lenis.start();
-                        lenis.scrollTo(scrollTrack.offsetTop - 20, { 
-                            duration: 1,
-                            onComplete: () => ScrollTrigger.refresh()
-                        });
+                        lenis.scrollTo(scrollTrack.offsetTop - 10, { duration: 0.8 });
                     }
                 }
             }
         };
 
-        // Initialize and refresh
         updateStrengthNode(0, true);
     }
 
