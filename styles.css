@@ -3712,9 +3712,13 @@ html.lenis {
     visibility: hidden !important;
   }
 
+  .testimonials-section {
+    padding: 60px 0 !important;
+  }
+
   .test-header {
-    margin-bottom: 40px !important; /* Reduced gap below Title */
-    padding-top: 40px !important;
+    margin-bottom: 25px !important; /* Reduced from 40px */
+    padding-top: 0 !important; /* Reduced from 40px */
     text-align: center !important;
     display: block !important;
   }
@@ -3813,8 +3817,8 @@ html.lenis {
 
   .test-client-info {
     position: relative !important;
-    padding-top: 25px !important;
-    margin-top: 25px !important;
+    padding-top: 15px !important;
+    margin-top: 15px !important;
     font-size: 24px !important;
     font-weight: 600 !important;
     display: block !important;
@@ -3827,8 +3831,12 @@ html.lenis {
   }
 
   /* --- EVENT VENUES MOBILE REINFORCEMENT --- */
+  .venues-section {
+    padding: 60px 0 !important;
+  }
+
   .venues-header {
-    margin-bottom: 40px !important;
+    margin-bottom: 20px !important;
     padding: 0 20px !important;
   }
 
