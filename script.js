@@ -1216,35 +1216,72 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Our Process Mobile Carousel: Active Card Detection ---
+    // --- Our Process Mobile Carousel: Infinite Loop & Swipe ---
     const processSliderWp = document.querySelector('.process-slider-wrapper');
-    const processCards = document.querySelectorAll('.process-card');
+    const processCards = Array.from(document.querySelectorAll('.process-card'));
 
     if (processSliderWp && processCards.length > 0 && window.innerWidth <= 768) {
-        const updateActiveProcessCard = () => {
-            const sliderRect = processSliderWp.getBoundingClientRect();
-            const sliderCenter = sliderRect.left + sliderRect.width / 2;
-            
-            let closestCard = null;
-            let minDistance = Infinity;
+        let currentIndex = 0;
+        let startX = 0;
+        let isDragging = false;
+        let diffX = 0;
 
-            processCards.forEach(card => {
-                const cardRect = card.getBoundingClientRect();
-                const cardCenter = cardRect.left + cardRect.width / 2;
-                const distance = Math.abs(sliderCenter - cardCenter);
+        const updateProcessClasses = () => {
+            processCards.forEach((card, index) => {
+                card.classList.remove('pos-active', 'pos-left', 'pos-right', 'pos-hidden');
+                
+                // Infinite logic
+                const total = processCards.length;
+                const prev = (currentIndex - 1 + total) % total;
+                const next = (currentIndex + 1) % total;
 
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    closestCard = card;
+                if (index === currentIndex) {
+                    card.classList.add('pos-active');
+                } else if (index === prev) {
+                    card.classList.add('pos-left');
+                } else if (index === next) {
+                    card.classList.add('pos-right');
+                } else {
+                    card.classList.add('pos-hidden');
                 }
             });
-
-            processCards.forEach(card => card.classList.toggle('active', card === closestCard));
         };
 
-        processSliderWp.addEventListener('scroll', updateActiveProcessCard);
-        window.addEventListener('resize', updateActiveProcessCard);
-        updateActiveProcessCard();
+        const goToPrev = () => {
+            currentIndex = (currentIndex - 1 + processCards.length) % processCards.length;
+            updateProcessClasses();
+        };
+
+        const goToNext = () => {
+            currentIndex = (currentIndex + 1) % processCards.length;
+            updateProcessClasses();
+        };
+
+        // Swipe Handlers
+        processSliderWp.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            diffX = 0;
+        }, { passive: true });
+
+        processSliderWp.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            const currentX = e.touches[0].clientX;
+            diffX = startX - currentX;
+        }, { passive: true });
+
+        processSliderWp.addEventListener('touchend', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            if (Math.abs(diffX) > 50) {
+                if (diffX > 0) goToNext();
+                else goToPrev();
+            }
+        });
+
+        // Initialize
+        updateProcessClasses();
     }
 
     // --- Footer Quick Links Accordion (Mobile) ---
