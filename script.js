@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
             scrub: true,
             snap: {
                 snapTo: 1 / 6, 
-                duration: { min: 0.1, max: 0.4 },
+                duration: 0.1, // Near instant
                 delay: 0,
                 ease: "none"
             },

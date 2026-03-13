@@ -1612,7 +1612,7 @@ html.lenis {
     left: 50%; /* Explicitly centered */
     width: 85%;
     max-width: 320px;
-    transform: translate(-50%, -10%); /* Refined for 200% oversized circle */
+    transform: translate(-50%, -35%); /* Pushed up significantly from -10% */
   }
 
   .arc-center-content h3 {
