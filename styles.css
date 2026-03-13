@@ -3208,8 +3208,12 @@ html.lenis {
 }
 
 @media (max-width: 768px) {
+  .contact-form-section {
+    padding-top: 40px !important; /* Reduced from default */
+  }
+
   .contact-header {
-    margin-bottom: 30px !important; /* Reduced from 80px */
+    margin-bottom: 20px !important; /* Further reduced from 30px */
   }
 
   .contact-main-title {
@@ -3897,6 +3901,10 @@ html.lenis {
     margin-bottom: 15px !important;
   }
 
+  .moments-title {
+    font-weight: 400 !important; /* Reduced from default bold */
+  }
+
   .moments-gallery-wrapper {
     margin-top: 0 !important;
     padding-top: 0 !important;
@@ -3982,7 +3990,7 @@ html.lenis {
 
   /* --- WHY TIMELINE STORIES MOBILE REINFORCEMENT (1:1 MATCH) --- */
   .why-section {
-    padding: 60px 0 !important;
+    padding: 20px 0 60px !important; /* Heavily reduced top padding */
     background: #fff !important;
   }
 
@@ -4090,11 +4098,14 @@ html.lenis {
   }
 
   .footer-container {
-    padding: 60px 24px !important;
+    padding-top: 20px !important; /* Reduced from 60px */
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    padding-bottom: 40px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 40px !important;
+    gap: 30px !important; /* Reduced from 40px */
   }
 
   .footer-col {
@@ -4105,7 +4116,7 @@ html.lenis {
 
   .footer-logo {
     justify-content: flex-start !important;
-    margin-bottom: 30px !important;
+    margin-bottom: 15px !important; /* Reduced from 30px */
   }
 
   .footer-company-desc {
