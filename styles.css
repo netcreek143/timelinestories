@@ -929,7 +929,7 @@ html.lenis {
     padding-left: 0;
     padding-right: 0;
     margin-top: -80px;
-    padding-top: 200px !important; /* Increased from 80px (original was 140px) to provide space above title */
+    padding-top: 150px !important; /* Increased from 80px (original was 140px) to provide space above title */
     background-color: #f8f8f8 !important;
     /* Light grey background */
     background-image: none !important;
