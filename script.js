@@ -313,10 +313,10 @@ document.addEventListener('DOMContentLoaded', () => {
             end: "bottom bottom",
             scrub: true,
             snap: {
-                snapTo: 1 / 6, // 7 items (index 0 to 6)
-                duration: { min: 0.2, max: 0.8 },
-                delay: 0.1,
-                ease: "power2.inOut"
+                snapTo: 1 / 6, 
+                duration: { min: 0.1, max: 0.4 },
+                delay: 0,
+                ease: "none"
             },
             onUpdate: (self) => {
                 const progress = self.progress;
@@ -1205,14 +1205,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Moments Slider Navigation
     if (momentsSlider && prevMomentBtn && nextMomentBtn) {
-        const scrollAmount = 480; // adjusted for gap
+        const getScrollAmount = () => {
+            const firstItem = momentsSlider.querySelector('.moment-item');
+            if (firstItem) {
+                const style = window.getComputedStyle(momentsSlider);
+                const gap = parseInt(style.gap) || 15;
+                return firstItem.offsetWidth + gap;
+            }
+            return 480;
+        };
 
         nextMomentBtn.addEventListener('click', () => {
-            momentsSlider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            momentsSlider.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
         });
 
         prevMomentBtn.addEventListener('click', () => {
-            momentsSlider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            momentsSlider.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
         });
     }
 
