@@ -1972,7 +1972,7 @@ html.lenis {
 
 @media (max-width: 768px) {
   .case-study-section {
-    padding: 80px 0 120px;
+    padding: 60px 0 40px !important; /* Reduced from 80px 0 120px */
   }
 
   .case-study-title {
@@ -3131,16 +3131,28 @@ html.lenis {
     width: 90%;
     max-height: 90vh;
     overflow-y: auto;
-    padding: 30px 20px;
+    padding: 20px 15px !important; /* Reduced from 30px 20px */
   }
 
   .modal-form-grid {
     grid-template-columns: 1fr;
-    gap: 15px;
+    gap: 10px !important; /* Reduced from 15px */
   }
 
   .modal-title {
-    font-size: 2.25rem;
+    font-size: 1.8rem !important; /* Reduced from 2.25rem */
+    margin-bottom: 5px !important;
+  }
+
+  .modal-header p {
+    font-size: 14px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .modal-container .form-group input,
+  .modal-container .form-group select,
+  .modal-container .form-group textarea {
+    padding: 10px 15px !important; /* Reduced from 12px 18px */
   }
 }
 
@@ -3193,6 +3205,31 @@ html.lenis {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 40px;
+}
+
+@media (max-width: 768px) {
+  .contact-header {
+    margin-bottom: 30px !important; /* Reduced from 80px */
+  }
+
+  .contact-main-title {
+    font-size: 2.5rem !important; /* Reduced from clamp */
+    margin-bottom: 15px !important;
+  }
+
+  .form-container {
+    padding: 0 24px !important;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 15px 20px !important; /* Reduced from 22px 30px */
+  }
+
+  .submit-btn-gold {
+    padding: 18px !important; /* Reduced from 24px */
+  }
 }
 
 .form-grid {
@@ -3761,7 +3798,7 @@ html.lenis {
   /* Left Peeking Card (pos-1 / pos-2) */
   .test-video-card.pos-1,
   .test-video-card.pos-2 {
-    left: -15% !important;
+    left: 5% !important; /* Moved closer from -15% */
     transform: translate(-50%, -50%) scale(0.85) !important;
     opacity: 0.6 !important;
     filter: none !important;
@@ -3771,7 +3808,7 @@ html.lenis {
 
   /* Right Peeking Card */
   .test-video-card.pos-right {
-    left: 115% !important;
+    left: 95% !important; /* Moved closer from 115% */
     transform: translate(-50%, -50%) scale(0.85) !important;
     opacity: 0.6 !important;
     filter: none !important;
