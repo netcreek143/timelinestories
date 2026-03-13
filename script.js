@@ -303,25 +303,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Our Strength Section (Orbital Slider with Snapping) ---
+    // --- Our Strength Section (Robust Stepped Interaction) ---
     const scrollTrack = document.querySelector('.our-strength-section');
     const stickyContainer = document.querySelector('.strength-sticky-container');
     const wheel = document.getElementById('arcWheel');
     const indicators = document.querySelectorAll('.arc-indicator');
     const contents = document.querySelectorAll('.arc-center-content');
 
-    if (scrollTrack && stickyContainer && wheel && typeof ScrollTrigger !== 'undefined') {
+    if (scrollTrack && stickyContainer && wheel && typeof ScrollTrigger !== 'undefined' && typeof Observer !== 'undefined') {
         let currentIndex = 0;
         const totalNodes = 7;
+        let isTransitioning = false;
+        let interactionLocked = false;
 
-        const updateStrengthNode = (index) => {
+        const updateStrengthDisplay = (index) => {
             const isMobile = window.innerWidth <= 768;
             const sliceDeg = 360 / 7;
             const targetRotation = -(sliceDeg * index);
 
             gsap.to(wheel, {
                 rotation: targetRotation,
-                duration: 0.6,
+                duration: 0.45,
                 ease: "power2.out",
                 onUpdate: () => {
                     if (isMobile) {
@@ -339,6 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 onComplete: () => {
                     wheel.style.setProperty('--wheel-rotate', `${targetRotation}deg`);
+                    isTransitioning = false;
                 }
             });
 
@@ -346,33 +349,86 @@ document.addEventListener('DOMContentLoaded', () => {
             contents.forEach((content, i) => content.classList.toggle('active', i === index));
         };
 
-        // Pin the inner container and use snapping
-        ScrollTrigger.create({
+        const goToNode = (index, dir) => {
+            if (isTransitioning) return;
+            isTransitioning = true;
+            currentIndex = index;
+            updateStrengthDisplay(currentIndex);
+
+            // Calculate the scroll position for this node based on the ScrollTrigger range
+            const start = strengthTrigger.start;
+            const end = strengthTrigger.end;
+            const total = end - start;
+            const targetPos = start + (index / (totalNodes - 1)) * total;
+
+            if (lenis) {
+                lenis.scrollTo(targetPos, {
+                    duration: 0.8,
+                    onComplete: () => {
+                        // After syncing scroll, check if we've reached the boundary
+                        if ((currentIndex === 0 && dir === "up") || (currentIndex === totalNodes - 1 && dir === "down")) {
+                            interactionLocked = false;
+                            strengthObserver.disable();
+                        }
+                    }
+                });
+            }
+        };
+
+        const strengthObserver = Observer.create({
+            target: window,
+            type: "wheel,touch,pointer",
+            onUp: () => {
+                if (!interactionLocked) return;
+                if (currentIndex > 0) {
+                    goToNode(currentIndex - 1, "up");
+                } else {
+                    interactionLocked = false;
+                    strengthObserver.disable();
+                }
+            },
+            onDown: () => {
+                if (!interactionLocked) return;
+                if (currentIndex < totalNodes - 1) {
+                    goToNode(currentIndex + 1, "down");
+                } else {
+                    interactionLocked = false;
+                    strengthObserver.disable();
+                }
+            },
+            tolerance: 15,
+            preventDefault: true,
+            active: false
+        });
+
+        const strengthTrigger = ScrollTrigger.create({
             trigger: scrollTrack,
             start: "top top",
             end: "bottom bottom",
             pin: ".strength-sticky-container",
-            scrub: 0.5,
-            snap: {
-                snapTo: 1 / (totalNodes - 1),
-                duration: { min: 0.2, max: 0.5 },
-                delay: 0,
-                ease: "power1.inOut"
+            onEnter: () => {
+                interactionLocked = true;
+                currentIndex = 0;
+                updateStrengthDisplay(0);
+                strengthObserver.enable();
             },
-            onUpdate: (self) => {
-                const index = Math.round(self.progress * (totalNodes - 1));
-                if (index !== currentIndex) {
-                    currentIndex = index;
-                    updateStrengthNode(currentIndex);
-                }
+            onEnterBack: () => {
+                interactionLocked = true;
+                currentIndex = totalNodes - 1;
+                updateStrengthDisplay(currentIndex);
+                strengthObserver.enable();
             },
-            // Ensure no blank space after node 7
             onLeave: () => {
-                updateStrengthNode(totalNodes - 1);
+                interactionLocked = false;
+                strengthObserver.disable();
+            },
+            onLeaveBack: () => {
+                interactionLocked = false;
+                strengthObserver.disable();
             }
         });
 
-        updateStrengthNode(0);
+        updateStrengthDisplay(0);
     }
 
     // --- Case Study Section (Curved Drag) ---
