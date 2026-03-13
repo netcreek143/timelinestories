@@ -1022,21 +1022,21 @@ html.lenis {
   }
 
   .process-card.pos-left {
-    opacity: 0.6 !important;
+    opacity: 0.9 !important;
     transform: translate(-140%, -50%) scale(0.85) !important;
     z-index: 5 !important;
     pointer-events: auto !important;
   }
 
   .process-card.pos-right {
-    opacity: 0.6 !important;
+    opacity: 0.9 !important;
     transform: translate(40%, -50%) scale(0.85) !important;
     z-index: 5 !important;
     pointer-events: auto !important;
   }
 
   .process-card h4 {
-    font-size: 32px !important;
+    font-size: 28px !important;
     font-weight: 700 !important;
     margin-bottom: 20px !important;
     text-align: center !important;
