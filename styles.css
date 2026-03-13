@@ -867,15 +867,12 @@ html.lenis {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     width: 100%;
-    -ms-overflow-style: none;
-    /* Hide scrollbar IE/Edge */
-    scrollbar-width: none;
-    /* Hide scrollbar Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+    scrollbar-width: none; /* Hide scrollbar Firefox */
   }
 
   .cards-grid::-webkit-scrollbar {
-    display: none;
-    /* Hide scrollbar Chrome/Safari */
+    display: none; /* Hide scrollbar Chrome/Safari */
   }
 
   .card {
@@ -887,8 +884,7 @@ html.lenis {
     scroll-snap-align: center;
     background: #000;
     position: relative;
-    overflow: hidden;
-    /* Fix corner rendering */
+    overflow: hidden; /* Fix corner rendering */
     background-clip: padding-box;
   }
 
@@ -935,8 +931,7 @@ html.lenis {
     padding-left: 0;
     padding-right: 0;
     margin-top: -80px;
-    padding-top: 150px !important;
-    /* Increased from 80px (original was 140px) to provide space above title */
+    padding-top: 150px !important; /* Increased from 80px (original was 140px) to provide space above title */
     background-color: #f8f8f8 !important;
     /* Light grey background */
     background-image: none !important;
@@ -944,8 +939,7 @@ html.lenis {
   }
 
   .process-header {
-    margin-bottom: 30px !important;
-    /* Reduced from 50px */
+    margin-bottom: 30px !important; /* Reduced from 50px */
     text-align: center !important;
     padding: 0 40px;
     position: relative;
@@ -987,10 +981,8 @@ html.lenis {
     width: 100%;
     overflow: hidden !important;
     position: relative !important;
-    padding: 10px 0 30px !important;
-    /* Reduced from 30px 0 60px */
-    height: 100vw !important;
-    /* Reduced from 110vw */
+    padding: 10px 0 30px !important; /* Reduced from 30px 0 60px */
+    height: 100vw !important; /* Reduced from 110vw */
   }
 
   .process-cards-grid {
@@ -1048,8 +1040,7 @@ html.lenis {
   .process-card h4 {
     font-size: 28px !important;
     font-weight: 700 !important;
-    margin-bottom: 5px !important;
-    /* Reduced from 20px */
+    margin-bottom: 5px !important; /* Reduced from 20px */
     text-align: center !important;
     line-height: 1.1 !important;
   }
@@ -1076,8 +1067,7 @@ html.lenis {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 12px !important;
-    /* Reduced from 35px */
+    margin-bottom: 12px !important; /* Reduced from 35px */
     transition: all 0.4s ease;
   }
 
@@ -1262,12 +1252,15 @@ html.lenis {
   background-color: var(--bg-black);
   color: var(--text-light);
   /* Make the section tall so we can scroll through it */
-  height: 500vh;
+  height: 300vh;
   position: relative;
 }
 
 /* Sticky Container */
 .strength-sticky-container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
   height: 100vh;
   width: 100%;
   display: flex;
@@ -1541,7 +1534,6 @@ html.lenis {
 }
 
 @media (max-width: 1024px) {
-
   /* Conflicting rule removed for mobile consistency */
   .strength-header h2 {
     font-size: 52px;
@@ -1570,8 +1562,7 @@ html.lenis {
 
   /* OUR STRENGTH CIRCULAR CAROUSEL - MOBILE */
   .our-strength-section {
-    height: 400vh;
-    /* More scroll space for smoother rotation */
+    height: 400vh; /* More scroll space for smoother rotation */
   }
 
   .strength-sticky-container {
@@ -1580,16 +1571,14 @@ html.lenis {
   }
 
   .arc-container {
-    width: 150vw;
-    /* Massive 225% size for cinema effect */
+    width: 150vw; /* Massive 225% size for cinema effect */
     left: 50% !important;
     transform: translateX(-50%) !important;
     aspect-ratio: 1 / 1;
     height: auto;
     max-width: none;
     overflow: visible;
-    margin-top: 40px;
-    /* Adjusted for massive radius */
+    margin-top: 40px; /* Adjusted for massive radius */
   }
 
   .arc-wheel {
@@ -1616,33 +1605,30 @@ html.lenis {
   }
 
   .arc-indicator.active .node-line {
-    height: 140px;
-    /* Slightly longer for larger radius */
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
+    height: 140px; /* Slightly longer for larger radius */
+    background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent);
   }
 
   .arc-content-wrapper {
-    top: 22% !important;
-    left: 50%;
+    top: 35% !important; /* Pushed up even more from 40% */
+    left: 50%; 
     width: 85%;
     max-width: 320px;
-    transform: translate(-50%, -50%) !important;
+    transform: translate(-50%, -50%) !important; 
   }
 
   .arc-center-content h3 {
-    font-size: 24px !important;
-    /* Increased from 24px */
+    font-size: 22px !important; /* Reduced for better mobile fit */
     line-height: 1.3;
     color: var(--primary-gold);
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     font-weight: 500;
   }
 
   .arc-center-content p {
-    font-size: 15px !important;
-    /* Increased from 15px */
+    font-size: 15px !important; /* Reduced for better mobile fit */
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255,255,255,0.8);
   }
 
   .strength-header h2 {
@@ -1988,8 +1974,7 @@ html.lenis {
 
 @media (max-width: 768px) {
   .case-study-section {
-    padding: 60px 0 40px !important;
-    /* Reduced from 80px 0 120px */
+    padding: 60px 0 40px !important; /* Reduced from 80px 0 120px */
   }
 
   .case-study-title {
@@ -2655,8 +2640,7 @@ html.lenis {
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-bottom: 20px;
-  scroll-snap-type: x mandatory;
-  /* Added for perfect alignment */
+  scroll-snap-type: x mandatory; /* Added for perfect alignment */
 }
 
 .moments-slider::-webkit-scrollbar {
@@ -2667,8 +2651,7 @@ html.lenis {
   flex: 0 0 calc((100vw - (2 * 15px)) / 3.2);
   aspect-ratio: 1 / 1.1;
   border-radius: 0;
-  scroll-snap-align: start;
-  /* Added for snap */
+  scroll-snap-align: start; /* Added for snap */
   overflow: hidden;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -3135,19 +3118,16 @@ html.lenis {
     width: 90%;
     max-height: 90vh;
     overflow-y: auto;
-    padding: 20px 15px !important;
-    /* Reduced from 30px 20px */
+    padding: 20px 15px !important; /* Reduced from 30px 20px */
   }
 
   .modal-form-grid {
     grid-template-columns: 1fr;
-    gap: 10px !important;
-    /* Reduced from 15px */
+    gap: 10px !important; /* Reduced from 15px */
   }
 
   .modal-title {
-    font-size: 1.8rem !important;
-    /* Reduced from 2.25rem */
+    font-size: 1.8rem !important; /* Reduced from 2.25rem */
     margin-bottom: 5px !important;
   }
 
@@ -3159,8 +3139,7 @@ html.lenis {
   .modal-container .form-group input,
   .modal-container .form-group select,
   .modal-container .form-group textarea {
-    padding: 10px 15px !important;
-    /* Reduced from 12px 18px */
+    padding: 10px 15px !important; /* Reduced from 12px 18px */
   }
 }
 
@@ -3217,9 +3196,8 @@ html.lenis {
 
 @media (max-width: 768px) {
   .contact-form-section {
-    padding-top: 40px !important;
-    padding-bottom: 20px !important;
-    /* Heavily reduced from 140px */
+    padding-top: 40px !important; 
+    padding-bottom: 20px !important; /* Heavily reduced from 140px */
   }
 
   .contact-header {
@@ -3227,8 +3205,7 @@ html.lenis {
   }
 
   .contact-main-title {
-    font-size: 2.5rem !important;
-    /* Reduced from clamp */
+    font-size: 2.5rem !important; /* Reduced from clamp */
     margin-bottom: 15px !important;
   }
 
@@ -3239,13 +3216,11 @@ html.lenis {
   .form-group input,
   .form-group select,
   .form-group textarea {
-    padding: 15px 20px !important;
-    /* Reduced from 22px 30px */
+    padding: 15px 20px !important; /* Reduced from 22px 30px */
   }
 
   .submit-btn-gold {
-    padding: 18px !important;
-    /* Reduced from 24px */
+    padding: 18px !important; /* Reduced from 24px */
   }
 }
 
@@ -3726,14 +3701,12 @@ html.lenis {
     font-size: 24px;
   }
 }
-
 /* --- BRUTE FORCE MOBILE OVERRIDES (1:1 STRUCTURE REINFORCEMENT) --- */
 @media (max-width: 1024px) {
   .test-slider-stage {
     display: block !important;
     min-height: auto !important;
   }
-
   .test-cards-wrap {
     margin-bottom: 60px !important;
   }
@@ -3759,9 +3732,9 @@ html.lenis {
   }
 
   /* HIDE CONFLICTS */
-  .test-desc,
-  .test-divider,
-  .test-quote-start,
+  .test-desc, 
+  .test-divider, 
+  .test-quote-start, 
   .test-quote-end {
     display: none !important;
     opacity: 0 !important;
@@ -3773,10 +3746,8 @@ html.lenis {
   }
 
   .test-header {
-    margin-bottom: 10px !important;
-    /* Reduced from 40px */
-    padding-top: 0 !important;
-    /* Reduced from 40px */
+    margin-bottom: 10px !important; /* Reduced from 40px */
+    padding-top: 0 !important; /* Reduced from 40px */
     text-align: center !important;
     display: block !important;
   }
@@ -3792,10 +3763,8 @@ html.lenis {
     height: 360px !important;
     width: 100% !important;
     position: relative !important;
-    margin-top: 10px !important;
-    /* Reduced from 20px */
-    margin-bottom: 20px !important;
-    /* Reduced gap below Cards */
+    margin-top: 10px !important; /* Reduced from 20px */
+    margin-bottom: 20px !important; /* Reduced gap below Cards */
     display: block !important;
     z-index: 100 !important;
   }
@@ -3803,8 +3772,7 @@ html.lenis {
   .test-video-card {
     width: 200px !important;
     height: 300px !important;
-    border-radius: 30px !important;
-    /* Slightly smaller radius for smaller card */
+    border-radius: 30px !important; /* Slightly smaller radius for smaller card */
     top: 50% !important;
     transform: translateY(-50%) !important;
     position: absolute !important;
@@ -3822,8 +3790,7 @@ html.lenis {
   /* Left Peeking Card (pos-1 / pos-2) */
   .test-video-card.pos-1,
   .test-video-card.pos-2 {
-    left: 5% !important;
-    /* Moved closer from -15% */
+    left: 5% !important; /* Moved closer from -15% */
     transform: translate(-50%, -50%) scale(0.85) !important;
     opacity: 0.6 !important;
     filter: none !important;
@@ -3833,8 +3800,7 @@ html.lenis {
 
   /* Right Peeking Card */
   .test-video-card.pos-right {
-    left: 95% !important;
-    /* Moved closer from 115% */
+    left: 95% !important; /* Moved closer from 115% */
     transform: translate(-50%, -50%) scale(0.85) !important;
     opacity: 0.6 !important;
     filter: none !important;
@@ -3849,14 +3815,12 @@ html.lenis {
 
   /* ORDER 3: DESCRIPTION TEXT CONTENT */
   .test-content-wrap {
-    padding: 10px 24px !important;
-    /* Reduced from 20px 24px */
+    padding: 10px 24px !important; /* Reduced from 20px 24px */
     text-align: left !important;
     width: 100% !important;
     display: block !important;
     position: relative !important;
-    margin-top: -10px !important;
-    /* Lifted up significantly */
+    margin-top: -10px !important; /* Lifted up significantly */
     z-index: 10 !important;
     box-sizing: border-box !important;
     clear: both !important;
@@ -3874,8 +3838,7 @@ html.lenis {
     font-size: 17px !important;
     line-height: 1.8 !important;
     color: #fff !important;
-    margin-bottom: 15px !important;
-    /* Reduced from 30px */
+    margin-bottom: 15px !important; /* Reduced from 30px */
     display: block !important;
     opacity: 1 !important;
     max-width: none !important;
@@ -3902,8 +3865,7 @@ html.lenis {
   }
 
   .venues-header {
-    margin-bottom: 10px !important;
-    /* Reduced from 20px */
+    margin-bottom: 10px !important; /* Reduced from 20px */
     padding: 0 20px !important;
   }
 
@@ -3920,8 +3882,7 @@ html.lenis {
 
   /* --- MOMENTS SECTION MOBILE REINFORCEMENT --- */
   .moments-section {
-    padding: 40px 0 !important;
-    /* Reduced from default */
+    padding: 40px 0 !important; /* Reduced from default */
   }
 
   .moments-header {
@@ -3929,8 +3890,7 @@ html.lenis {
   }
 
   .moments-title {
-    font-weight: 400 !important;
-    /* Reduced from default bold */
+    font-weight: 400 !important; /* Reduced from default bold */
   }
 
   .moments-gallery-wrapper {
@@ -3939,8 +3899,7 @@ html.lenis {
   }
 
   .venue-fan-wrapper {
-    display: flex !important;
-    /* Enable on mobile */
+    display: flex !important; /* Enable on mobile */
     height: 500px !important;
     perspective: 1000px !important;
   }
@@ -3951,15 +3910,13 @@ html.lenis {
     border-radius: 20px !important;
     position: absolute !important;
     transition: all 0.5s ease-out !important;
-    background-color: var(--primary-gold) !important;
-    /* Gold frame background */
+    background-color: var(--primary-gold) !important; /* Gold frame background */
     border: 4px solid var(--primary-gold) !important;
   }
 
   .venue-card img {
     width: 100% !important;
-    height: calc(100% - 60px) !important;
-    /* Leave room for info bar */
+    height: calc(100% - 60px) !important; /* Leave room for info bar */
     object-fit: cover !important;
     border-radius: 12px 12px 0 0 !important;
   }
@@ -3969,7 +3926,7 @@ html.lenis {
     transform: translateX(-50%) scale(1) !important;
     z-index: 100 !important;
     opacity: 1 !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
   }
 
   .venue-card.pos-left {
@@ -4021,8 +3978,7 @@ html.lenis {
 
   /* --- WHY TIMELINE STORIES MOBILE REINFORCEMENT (1:1 MATCH) --- */
   .why-section {
-    padding: 20px 0 60px !important;
-    /* Heavily reduced top padding */
+    padding: 20px 0 60px !important; /* Heavily reduced top padding */
     background: #fff !important;
   }
 
@@ -4035,8 +3991,7 @@ html.lenis {
     margin: 0 !important;
   }
 
-  .why-left,
-  .why-right {
+  .why-left, .why-right {
     display: contents !important;
   }
 
@@ -4045,8 +4000,7 @@ html.lenis {
     order: 1 !important;
     font-size: 11vw !important;
     color: #000 !important;
-    margin-bottom: 10px !important;
-    /* Reduced from 20px */
+    margin-bottom: 10px !important; /* Reduced from 20px */
     white-space: normal !important;
     line-height: 1.2 !important;
     letter-spacing: -1px !important;
@@ -4061,22 +4015,19 @@ html.lenis {
     color: #b0b0b0 !important;
     font-size: 16px !important;
     line-height: 1.7 !important;
-    margin-bottom: 15px !important;
-    /* Reduced from 40px */
+    margin-bottom: 15px !important; /* Reduced from 40px */
     padding-top: 0 !important;
     text-align: left !important;
     width: 100% !important;
     border-bottom: 1px solid #eee !important;
-    padding-bottom: 15px !important;
-    /* Reduced from 30px */
+    padding-bottom: 15px !important; /* Reduced from 30px */
   }
 
   /* ORDER 3: ACCORDION */
   .accordion {
     order: 3 !important;
     width: 100% !important;
-    margin-bottom: 20px !important;
-    /* Reduced from 40px */
+    margin-bottom: 20px !important; /* Reduced from 40px */
   }
 
   .accordion-item {
@@ -4084,21 +4035,18 @@ html.lenis {
   }
 
   .accordion-header {
-    padding: 15px 0 !important;
-    /* Reduced from 24px */
+    padding: 15px 0 !important; /* Reduced from 24px */
   }
 
   .accordion-header h3 {
     font-size: 18px !important;
     font-weight: 600 !important;
-    color: #b0b0b0 !important;
-    /* Inactive grey */
+    color: #b0b0b0 !important; /* Inactive grey */
     transition: color 0.3s ease !important;
   }
 
   .accordion-item.active .accordion-header h3 {
-    color: #000 !important;
-    /* Active black */
+    color: #000 !important; /* Active black */
     text-shadow: none !important;
   }
 
@@ -4134,22 +4082,19 @@ html.lenis {
   /* --- FOOTER MOBILE REINFORCEMENT (1:1 MATCH) --- */
   .footer-dark {
     text-align: left !important;
-    padding-top: 0 !important;
-    /* Eliminated top padding */
+    padding-top: 0 !important; /* Eliminated top padding */
     padding-bottom: 0 !important;
   }
 
   .footer-container {
-    padding-top: 10px !important;
-    /* Further reduced from 20px */
+    padding-top: 10px !important; /* Further reduced from 20px */
     padding-left: 24px !important;
     padding-right: 24px !important;
     padding-bottom: 40px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 30px !important;
-    /* Reduced from 40px */
+    gap: 30px !important; /* Reduced from 40px */
   }
 
   .footer-col {
@@ -4160,8 +4105,7 @@ html.lenis {
 
   .footer-logo {
     justify-content: flex-start !important;
-    margin-bottom: 15px !important;
-    /* Reduced from 30px */
+    margin-bottom: 15px !important; /* Reduced from 30px */
   }
 
   .footer-company-desc {
@@ -4227,8 +4171,7 @@ html.lenis {
   }
 
   .footer-link-list {
-    display: none !important;
-    /* Mobile Accordion */
+    display: none !important; /* Mobile Accordion */
     width: 100% !important;
     padding-bottom: 20px !important;
   }
@@ -4261,7 +4204,7 @@ html.lenis {
     margin-bottom: 8px !important;
   }
 
-  .contact-item a,
+  .contact-item a, 
   .contact-item p {
     font-size: 18px !important;
     font-weight: 600 !important;
@@ -4296,7 +4239,7 @@ html.lenis {
 
   /* FOOTER BOTTOM */
   .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-top: 1px solid rgba(255,255,255,0.1) !important;
     padding: 30px 0 !important;
   }
 

@@ -18,9 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     requestAnimationFrame(raf);
 
-    // Register GSAP Plugins
-    gsap.registerPlugin(ScrollTrigger, MotionPathPlugin, Observer);
-
     // Sync ScrollTrigger with Lenis
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => {
@@ -303,142 +300,66 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Our Strength Section (Robust Stepped Interaction) ---
+    // --- Our Strength Section (Orbital Slider with Snapping) ---
     const scrollTrack = document.querySelector('.our-strength-section');
-    const stickyContainer = document.querySelector('.strength-sticky-container');
     const wheel = document.getElementById('arcWheel');
     const indicators = document.querySelectorAll('.arc-indicator');
     const contents = document.querySelectorAll('.arc-center-content');
 
-    if (scrollTrack && stickyContainer && wheel && typeof ScrollTrigger !== 'undefined' && typeof Observer !== 'undefined') {
-        let currentIndex = 0;
-        const totalNodes = 7;
-        let isTransitioning = false;
-        let interactionLocked = false;
-
-        const updateStrengthDisplay = (index) => {
-            const isMobile = window.innerWidth <= 768;
-            const sliceDeg = 360 / 7;
-            const targetRotation = -(sliceDeg * index);
-
-            gsap.to(wheel, {
-                rotation: targetRotation,
-                duration: 0.5,
-                ease: "power2.out",
-                onUpdate: () => {
-                    if (isMobile) {
-                        const currentRot = gsap.getProperty(wheel, "rotation");
-                        indicators.forEach((ind) => {
-                            const baseRotate = parseFloat(getComputedStyle(ind).getPropertyValue('--base-rotate'));
-                            let currentRotation = (baseRotate + currentRot) % 360;
-                            if (currentRotation > 180) currentRotation -= 360;
-                            if (currentRotation < -180) currentRotation += 360;
-                            const fadeRange = 70;
-                            let opacity = 1 - (Math.abs(currentRotation) / fadeRange);
-                            ind.style.opacity = Math.max(0, Math.min(1, opacity));
-                        });
-                    }
-                },
-                onComplete: () => {
-                    wheel.style.setProperty('--wheel-rotate', `${targetRotation}deg`);
-                    isTransitioning = false;
-                }
-            });
-
-            indicators.forEach((ind, i) => ind.classList.toggle('active', i === index));
-            contents.forEach((content, i) => content.classList.toggle('active', i === index));
-        };
-
-        const syncScrollPos = (index) => {
-            const start = strengthTrigger.start;
-            const total = strengthTrigger.end - start;
-            const targetPos = start + (index / (totalNodes - 1)) * total;
-            if (lenis) {
-                lenis.scrollTo(targetPos, { duration: 0.6, immediate: false });
-            }
-        };
-
-        const releaseScroll = (direction) => {
-            interactionLocked = false;
-            isTransitioning = false;
-            strengthObserver.disable();
-            if (lenis) {
-                lenis.start();
-                if (direction === "down") {
-                    lenis.scrollTo(strengthTrigger.end + 60, { duration: 0.8 });
-                } else {
-                    lenis.scrollTo(strengthTrigger.start - 60, { duration: 0.8 });
-                }
-            }
-        };
-
-        const strengthObserver = Observer.create({
-            target: window, // Back to window for universal capture
-            type: "wheel,touch,pointer",
-            onUp: () => {
-                if (!interactionLocked || isTransitioning) return;
-                if (currentIndex > 0) {
-                    isTransitioning = true;
-                    currentIndex--;
-                    updateStrengthDisplay(currentIndex);
-                    syncScrollPos(currentIndex);
-                } else {
-                    releaseScroll("up");
-                }
-            },
-            onDown: () => {
-                if (!interactionLocked || isTransitioning) return;
-                if (currentIndex < totalNodes - 1) {
-                    isTransitioning = true;
-                    currentIndex++;
-                    updateStrengthDisplay(currentIndex);
-                    syncScrollPos(currentIndex);
-                } else {
-                    releaseScroll("down");
-                }
-            },
-            tolerance: 15,
-            preventDefault: true,
-            active: false
-        });
-
-        const strengthTrigger = ScrollTrigger.create({
+    if (scrollTrack && wheel && typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.create({
             trigger: scrollTrack,
             start: "top top",
             end: "bottom bottom",
-            pin: ".strength-sticky-container",
-            pinSpacing: true,
-            onEnter: () => {
-                if (lenis) lenis.stop();
-                interactionLocked = true;
-                isTransitioning = false;
-                currentIndex = 0;
-                updateStrengthDisplay(0);
-                strengthObserver.enable();
+            scrub: true,
+            snap: {
+                snapTo: 1 / 6, 
+                duration: 0.05, // Instant
+                delay: 0,
+                ease: "none"
             },
-            onEnterBack: () => {
-                if (lenis) lenis.stop();
-                interactionLocked = true;
-                isTransitioning = false;
-                currentIndex = totalNodes - 1;
-                updateStrengthDisplay(currentIndex);
-                strengthObserver.enable();
-            },
-            onLeave: () => {
-                if (lenis) lenis.start();
-                interactionLocked = false;
-                isTransitioning = false;
-                strengthObserver.disable();
-            },
-            onLeaveBack: () => {
-                if (lenis) lenis.start();
-                interactionLocked = false;
-                isTransitioning = false;
-                strengthObserver.disable();
+            onUpdate: (self) => {
+                const progress = self.progress;
+                const isMobile = window.innerWidth <= 768;
+                const sliceDeg = 360 / 7;
+                const MAX_ROTATION = -(sliceDeg * 6);
+                const rotation = progress * MAX_ROTATION;
+
+                wheel.style.transform = `rotate(${rotation}deg)`;
+                wheel.style.setProperty('--wheel-rotate', `${rotation}deg`);
+
+                const activeIndex = Math.round(progress * 6);
+
+                indicators.forEach((ind, i) => {
+                    const isActive = i === activeIndex;
+                    ind.classList.toggle('active', isActive);
+
+                    if (isMobile) {
+                        // Dynamic Fade Logic for Mobile
+                        const baseRotate = parseFloat(getComputedStyle(ind).getPropertyValue('--base-rotate'));
+                        const currentRotation = (baseRotate + rotation) % 360;
+                        
+                        let normalizedRot = currentRotation;
+                        if (normalizedRot > 180) normalizedRot -= 360;
+                        if (normalizedRot < -180) normalizedRot += 360;
+
+                        const fadeRange = 70;
+                        let opacity = 1 - (Math.abs(normalizedRot) / fadeRange);
+                        opacity = Math.max(0, Math.min(1, opacity));
+                        
+                        ind.style.opacity = opacity;
+                        ind.style.pointerEvents = opacity > 0.5 ? 'auto' : 'none';
+                    } else {
+                        ind.style.opacity = 1;
+                        ind.style.pointerEvents = 'auto';
+                    }
+                });
+
+                contents.forEach((content, i) => {
+                    content.classList.toggle('active', i === activeIndex);
+                });
             }
         });
-
-        updateStrengthDisplay(0);
     }
 
     // --- Case Study Section (Curved Drag) ---
@@ -765,7 +686,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let testStartY = 0;
             let testIsDown = false;
             let testSwiped = false;
-
+            
             testSection.addEventListener('touchstart', (e) => {
                 testStartX = e.touches[0].clientX;
                 testStartY = e.touches[0].clientY;
@@ -1084,11 +1005,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const venueCards = document.querySelectorAll('.venue-card');
     const customCursor = document.querySelector('.venues-custom-cursor');
     const positions = ['pos-far-left', 'pos-left', 'pos-center', 'pos-right', 'pos-far-right'];
-
+    
     let startX = 0;
     let isDragging = false;
-    let hasMoved = false;
-    let threshold = 50;
+    let hasMoved = false; 
+    let threshold = 50; 
 
     // Custom Cursor tracking variables
     let vMouseX = 0, vMouseY = 0;
@@ -1101,7 +1022,7 @@ document.addEventListener('DOMContentLoaded', () => {
         venuesSection.addEventListener('mousemove', (e) => {
             vMouseX = e.clientX;
             vMouseY = e.clientY;
-
+            
             if (!vInitialized) {
                 // Instantly snap to position on first move
                 vCursorX = vMouseX;
@@ -1173,7 +1094,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const handleDragMove = (e) => {
             const x = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
             const y = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-
+            
             // Sync custom cursor position during drag
             vMouseX = x;
             vMouseY = y;
@@ -1198,7 +1119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             e.preventDefault();
-
+            
             const diff = x - startX;
 
             if (Math.abs(diff) > threshold) {
@@ -1222,7 +1143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         venuesContainer.addEventListener('touchstart', handleDragStart, { passive: true });
         window.addEventListener('touchmove', handleDragMove, { passive: false });
         window.addEventListener('touchend', handleDragEnd);
-
+        
         // Also allow clicking side cards to center them
         venueCards.forEach(card => {
             card.addEventListener('click', () => {
@@ -1316,7 +1237,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const updateProcessClasses = () => {
             processCards.forEach((card, index) => {
                 card.classList.remove('pos-active', 'pos-left', 'pos-right', 'pos-hidden');
-
+                
                 // Infinite logic
                 const total = processCards.length;
                 const prev = (currentIndex - 1 + total) % total;
@@ -1360,7 +1281,7 @@ document.addEventListener('DOMContentLoaded', () => {
         processSliderWp.addEventListener('touchend', () => {
             if (!isDragging) return;
             isDragging = false;
-
+            
             if (Math.abs(diffX) > 50) {
                 if (diffX > 0) goToNext();
                 else goToPrev();
@@ -1374,7 +1295,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Footer Quick Links Accordion (Mobile) ---
     const toggleQuickLinks = document.getElementById('toggleQuickLinks');
     const footerColLinks = document.querySelector('.footer-col.col-links');
-
+    
     if (toggleQuickLinks && footerColLinks) {
         toggleQuickLinks.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
