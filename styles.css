@@ -3727,7 +3727,7 @@ html.lenis {
 
   /* ORDER 2: CARDS */
   .test-cards-wrap {
-    height: 480px !important;
+    height: 360px !important;
     width: 100% !important;
     position: relative !important;
     margin-top: 20px !important;
@@ -3737,9 +3737,9 @@ html.lenis {
   }
 
   .test-video-card {
-    width: 270px !important;
-    height: 400px !important;
-    border-radius: 40px !important;
+    width: 200px !important;
+    height: 300px !important;
+    border-radius: 30px !important; /* Slightly smaller radius for smaller card */
     top: 50% !important;
     transform: translateY(-50%) !important;
     position: absolute !important;
