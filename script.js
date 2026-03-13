@@ -313,6 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
         const totalNodes = 7;
         let isAnimating = false;
+        let interactionLocked = false;
 
         const updateStrengthNode = (index, force = false) => {
             if (isAnimating && !force) return;
@@ -324,8 +325,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             gsap.to(wheel, {
                 rotation: targetRotation,
-                duration: 0.6,
-                ease: "power2.inOut",
+                duration: 0.45, // Snappier feel
+                ease: "power2.out",
                 onUpdate: () => {
                     if (isMobile) {
                         const currentRot = gsap.getProperty(wheel, "rotation");
@@ -350,41 +351,63 @@ document.addEventListener('DOMContentLoaded', () => {
             contents.forEach((content, i) => content.classList.toggle('active', i === index));
         };
 
+        const strengthObserver = Observer.create({
+            target: window,
+            type: "wheel,touch,pointer",
+            onUp: () => handleStep("up"),
+            onDown: () => handleStep("down"),
+            tolerance: 10,
+            preventDefault: true, // Only if active
+            active: false // Start disabled
+        });
+
         const strengthTrigger = ScrollTrigger.create({
             trigger: scrollTrack,
             start: "top top",
             end: "bottom bottom",
             pin: true,
             onEnter: () => {
+                interactionLocked = true;
                 currentIndex = 0;
                 updateStrengthNode(0, true);
                 if (lenis) lenis.stop();
+                strengthObserver.enable();
             },
             onEnterBack: () => {
+                interactionLocked = true;
                 currentIndex = totalNodes - 1;
                 updateStrengthNode(currentIndex, true);
                 if (lenis) lenis.stop();
+                strengthObserver.enable();
             },
             onLeave: () => {
+                interactionLocked = false;
+                strengthObserver.disable();
                 if (lenis) lenis.start();
             },
             onLeaveBack: () => {
+                interactionLocked = false;
+                strengthObserver.disable();
                 if (lenis) lenis.start();
-            },
-            refreshPriority: 1
+            }
         });
 
         const handleStep = (direction) => {
-            if (isAnimating || !strengthTrigger.isActive) return;
+            if (isAnimating || !interactionLocked) return;
 
             if (direction === "down") {
                 if (currentIndex < totalNodes - 1) {
                     currentIndex++;
                     updateStrengthNode(currentIndex);
                 } else {
+                    interactionLocked = false;
+                    strengthObserver.disable();
                     if (lenis) {
                         lenis.start();
-                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 50, { duration: 1 });
+                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 20, { 
+                            duration: 1,
+                            onComplete: () => ScrollTrigger.refresh()
+                        });
                     }
                 }
             } else if (direction === "up") {
@@ -392,26 +415,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentIndex--;
                     updateStrengthNode(currentIndex);
                 } else {
+                    interactionLocked = false;
+                    strengthObserver.disable();
                     if (lenis) {
                         lenis.start();
-                        lenis.scrollTo(scrollTrack.offsetTop - 50, { duration: 1 });
+                        lenis.scrollTo(scrollTrack.offsetTop - 20, { 
+                            duration: 1,
+                            onComplete: () => ScrollTrigger.refresh()
+                        });
                     }
                 }
             }
         };
 
-        Observer.create({
-            target: window,
-            type: "wheel,touch,pointer",
-            onUp: () => handleStep("up"),
-            onDown: () => handleStep("down"),
-            tolerance: 10, // Lower tolerance for more immediate feel
-            preventDefault: false
-        });
-
         // Initialize and refresh
         updateStrengthNode(0, true);
-        ScrollTrigger.refresh();
     }
 
     // --- Case Study Section (Curved Drag) ---
