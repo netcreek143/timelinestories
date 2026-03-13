@@ -1023,14 +1023,14 @@ html.lenis {
 
   .process-card.pos-left {
     opacity: 0.6 !important;
-    transform: translate(-105%, -50%) scale(0.85) !important;
+    transform: translate(-140%, -50%) scale(0.85) !important;
     z-index: 5 !important;
     pointer-events: auto !important;
   }
 
   .process-card.pos-right {
     opacity: 0.6 !important;
-    transform: translate(5%, -50%) scale(0.85) !important;
+    transform: translate(40%, -50%) scale(0.85) !important;
     z-index: 5 !important;
     pointer-events: auto !important;
   }
