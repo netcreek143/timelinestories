@@ -354,25 +354,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const total = strengthTrigger.end - start;
             const targetPos = start + (index / (totalNodes - 1)) * total;
             if (lenis) {
-                lenis.scrollTo(targetPos, { duration: 0.8, immediate: false });
+                lenis.scrollTo(targetPos, { duration: 0.6, immediate: false });
             }
         };
 
         const releaseScroll = (direction) => {
             interactionLocked = false;
+            isTransitioning = false;
             strengthObserver.disable();
             if (lenis) {
                 lenis.start();
                 if (direction === "down") {
-                    lenis.scrollTo(strengthTrigger.end + 100, { duration: 1 });
+                    lenis.scrollTo(strengthTrigger.end + 60, { duration: 0.8 });
                 } else {
-                    lenis.scrollTo(strengthTrigger.start - 100, { duration: 1 });
+                    lenis.scrollTo(strengthTrigger.start - 60, { duration: 0.8 });
                 }
             }
         };
 
         const strengthObserver = Observer.create({
-            target: stickyContainer, // Localized
+            target: window, // Back to window for universal capture
             type: "wheel,touch,pointer",
             onUp: () => {
                 if (!interactionLocked || isTransitioning) return;
@@ -396,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     releaseScroll("down");
                 }
             },
-            tolerance: 30, // Less sensitive to prevent double moves
+            tolerance: 15,
             preventDefault: true,
             active: false
         });
@@ -410,6 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
             onEnter: () => {
                 if (lenis) lenis.stop();
                 interactionLocked = true;
+                isTransitioning = false;
                 currentIndex = 0;
                 updateStrengthDisplay(0);
                 strengthObserver.enable();
@@ -417,6 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
             onEnterBack: () => {
                 if (lenis) lenis.stop();
                 interactionLocked = true;
+                isTransitioning = false;
                 currentIndex = totalNodes - 1;
                 updateStrengthDisplay(currentIndex);
                 strengthObserver.enable();
@@ -424,16 +427,17 @@ document.addEventListener('DOMContentLoaded', () => {
             onLeave: () => {
                 if (lenis) lenis.start();
                 interactionLocked = false;
+                isTransitioning = false;
                 strengthObserver.disable();
             },
             onLeaveBack: () => {
                 if (lenis) lenis.start();
                 interactionLocked = false;
+                isTransitioning = false;
                 strengthObserver.disable();
             }
         });
 
-        // Initialize display
         updateStrengthDisplay(0);
     }
 
