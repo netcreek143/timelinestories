@@ -323,7 +323,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const sliceDeg = 360 / 7;
             const targetRotation = -(sliceDeg * index);
 
-            // Animate wheel
             gsap.to(wheel, {
                 rotation: targetRotation,
                 duration: 0.6,
@@ -352,7 +351,6 @@ document.addEventListener('DOMContentLoaded', () => {
             contents.forEach((content, i) => content.classList.toggle('active', i === index));
         };
 
-        // Pin the section using ScrollTrigger
         const strengthTrigger = ScrollTrigger.create({
             trigger: scrollTrack,
             start: "top top",
@@ -360,55 +358,58 @@ document.addEventListener('DOMContentLoaded', () => {
             pin: true,
             onEnter: () => {
                 isPinned = true;
-                lenis.stop(); // Stop global scroll
+                if (lenis) lenis.stop();
             },
             onEnterBack: () => {
                 isPinned = true;
-                lenis.stop();
+                if (lenis) lenis.stop();
             },
             onLeave: () => {
                 isPinned = false;
-                lenis.start();
+                if (lenis) lenis.start();
             },
             onLeaveBack: () => {
                 isPinned = false;
-                lenis.start();
-            }
+                if (lenis) lenis.start();
+            },
+            refreshPriority: 1
         });
 
-        // Use Observer for strict stepped interaction
+        const handleStep = (direction) => {
+            if (isAnimating || !isPinned) return;
+
+            if (direction === "down") {
+                if (currentIndex < totalNodes - 1) {
+                    currentIndex++;
+                    updateStrengthNode(currentIndex);
+                } else {
+                    isPinned = false;
+                    if (lenis) {
+                        lenis.start();
+                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 10, { duration: 1 });
+                    }
+                }
+            } else if (direction === "up") {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateStrengthNode(currentIndex);
+                } else {
+                    isPinned = false;
+                    if (lenis) {
+                        lenis.start();
+                        lenis.scrollTo(scrollTrack.offsetTop - 10, { duration: 1 });
+                    }
+                }
+            }
+        };
+
         Observer.create({
             target: window,
             type: "wheel,touch,pointer",
-            onUp: () => {
-                if (!isAnimating && isPinned) {
-                    if (currentIndex > 0) {
-                        currentIndex--;
-                        updateStrengthNode(currentIndex);
-                    } else {
-                        // At the first node, scrolling up should lead us out
-                        isPinned = false;
-                        lenis.start();
-                        lenis.scrollTo(scrollTrack, { offset: -10, immediate: false });
-                    }
-                }
-            },
-            onDown: () => {
-                if (!isAnimating && isPinned) {
-                    if (currentIndex < totalNodes - 1) {
-                        currentIndex++;
-                        updateStrengthNode(currentIndex);
-                    } else {
-                        // At the last node, scrolling down should lead us out
-                        isPinned = false;
-                        lenis.start();
-                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 10, { immediate: false });
-                    }
-                }
-            },
-            tolerance: 50,
-            preventDefault: true,
-            active: true
+            onUp: () => handleStep("up"),
+            onDown: () => handleStep("down"),
+            tolerance: 30,
+            preventDefault: false // Critical: allow scroll to work when not stepping
         });
 
         updateStrengthNode(0, true);
