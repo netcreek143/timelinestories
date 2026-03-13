@@ -313,7 +313,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
         const totalNodes = 7;
         let isAnimating = false;
-        let isPinned = false;
 
         const updateStrengthNode = (index, force = false) => {
             if (isAnimating && !force) return;
@@ -357,36 +356,35 @@ document.addEventListener('DOMContentLoaded', () => {
             end: "bottom bottom",
             pin: true,
             onEnter: () => {
-                isPinned = true;
+                currentIndex = 0;
+                updateStrengthNode(0, true);
                 if (lenis) lenis.stop();
             },
             onEnterBack: () => {
-                isPinned = true;
+                currentIndex = totalNodes - 1;
+                updateStrengthNode(currentIndex, true);
                 if (lenis) lenis.stop();
             },
             onLeave: () => {
-                isPinned = false;
                 if (lenis) lenis.start();
             },
             onLeaveBack: () => {
-                isPinned = false;
                 if (lenis) lenis.start();
             },
             refreshPriority: 1
         });
 
         const handleStep = (direction) => {
-            if (isAnimating || !isPinned) return;
+            if (isAnimating || !strengthTrigger.isActive) return;
 
             if (direction === "down") {
                 if (currentIndex < totalNodes - 1) {
                     currentIndex++;
                     updateStrengthNode(currentIndex);
                 } else {
-                    isPinned = false;
                     if (lenis) {
                         lenis.start();
-                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 10, { duration: 1 });
+                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 50, { duration: 1 });
                     }
                 }
             } else if (direction === "up") {
@@ -394,10 +392,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentIndex--;
                     updateStrengthNode(currentIndex);
                 } else {
-                    isPinned = false;
                     if (lenis) {
                         lenis.start();
-                        lenis.scrollTo(scrollTrack.offsetTop - 10, { duration: 1 });
+                        lenis.scrollTo(scrollTrack.offsetTop - 50, { duration: 1 });
                     }
                 }
             }
@@ -408,11 +405,13 @@ document.addEventListener('DOMContentLoaded', () => {
             type: "wheel,touch,pointer",
             onUp: () => handleStep("up"),
             onDown: () => handleStep("down"),
-            tolerance: 30,
-            preventDefault: false // Critical: allow scroll to work when not stepping
+            tolerance: 10, // Lower tolerance for more immediate feel
+            preventDefault: false
         });
 
+        // Initialize and refresh
         updateStrengthNode(0, true);
+        ScrollTrigger.refresh();
     }
 
     // --- Case Study Section (Curved Drag) ---
