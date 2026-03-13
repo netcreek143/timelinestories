@@ -313,9 +313,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
         const totalNodes = 7;
         let isAnimating = false;
+        let isPinned = false;
 
-        const updateStrengthNode = (index) => {
-            if (isAnimating) return;
+        const updateStrengthNode = (index, force = false) => {
+            if (isAnimating && !force) return;
             isAnimating = true;
 
             const isMobile = window.innerWidth <= 768;
@@ -325,10 +326,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Animate wheel
             gsap.to(wheel, {
                 rotation: targetRotation,
-                duration: 0.6, // Smooth but deliberate
+                duration: 0.6,
                 ease: "power2.inOut",
                 onUpdate: () => {
-                    // Update mobile node opacity on the fly while rotating
                     if (isMobile) {
                         const currentRot = gsap.getProperty(wheel, "rotation");
                         indicators.forEach((ind) => {
@@ -348,54 +348,70 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Update Indicators (Active states)
-            indicators.forEach((ind, i) => {
-                ind.classList.toggle('active', i === index);
-            });
-
-            // Update Content (Active states)
-            contents.forEach((content, i) => {
-                content.classList.toggle('active', i === index);
-            });
+            indicators.forEach((ind, i) => ind.classList.toggle('active', i === index));
+            contents.forEach((content, i) => content.classList.toggle('active', i === index));
         };
 
-        // Pin the section
+        // Pin the section using ScrollTrigger
         const strengthTrigger = ScrollTrigger.create({
             trigger: scrollTrack,
             start: "top top",
             end: "bottom bottom",
             pin: true,
-            scrub: false,
-            id: "strength-pin"
+            onEnter: () => {
+                isPinned = true;
+                lenis.stop(); // Stop global scroll
+            },
+            onEnterBack: () => {
+                isPinned = true;
+                lenis.stop();
+            },
+            onLeave: () => {
+                isPinned = false;
+                lenis.start();
+            },
+            onLeaveBack: () => {
+                isPinned = false;
+                lenis.start();
+            }
         });
 
-        // Use Observer to handle the "steps"
+        // Use Observer for strict stepped interaction
         Observer.create({
             target: window,
             type: "wheel,touch,pointer",
-            wheelSpeed: -1,
             onUp: () => {
-                if (!isAnimating && strengthTrigger.isActive) {
+                if (!isAnimating && isPinned) {
                     if (currentIndex > 0) {
                         currentIndex--;
                         updateStrengthNode(currentIndex);
+                    } else {
+                        // At the first node, scrolling up should lead us out
+                        isPinned = false;
+                        lenis.start();
+                        lenis.scrollTo(scrollTrack, { offset: -10, immediate: false });
                     }
                 }
             },
             onDown: () => {
-                if (!isAnimating && strengthTrigger.isActive) {
+                if (!isAnimating && isPinned) {
                     if (currentIndex < totalNodes - 1) {
                         currentIndex++;
                         updateStrengthNode(currentIndex);
+                    } else {
+                        // At the last node, scrolling down should lead us out
+                        isPinned = false;
+                        lenis.start();
+                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 10, { immediate: false });
                     }
                 }
             },
-            tolerance: 50, // Higher tolerance to prevent accidental triggers
-            preventDefault: false
+            tolerance: 50,
+            preventDefault: true,
+            active: true
         });
 
-        // Initial setup
-        updateStrengthNode(0);
+        updateStrengthNode(0, true);
     }
 
     // --- Case Study Section (Curved Drag) ---
