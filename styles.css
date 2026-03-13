@@ -3979,7 +3979,7 @@ html.lenis {
 
   /* --- FOOTER MOBILE REINFORCEMENT (1:1 MATCH) --- */
   .footer-dark {
-    text-align: center !important;
+    text-align: left !important;
     padding-bottom: 0 !important;
   }
 
@@ -3987,18 +3987,18 @@ html.lenis {
     padding: 60px 24px !important;
     display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
+    align-items: flex-start !important;
     gap: 40px !important;
   }
 
   .footer-col {
     width: 100% !important;
     margin: 0 !important;
-    text-align: center !important;
+    text-align: left !important;
   }
 
   .footer-logo {
-    justify-content: center !important;
+    justify-content: flex-start !important;
     margin-bottom: 30px !important;
   }
 
@@ -4007,7 +4007,7 @@ html.lenis {
     line-height: 1.6 !important;
     color: #fff !important;
     max-width: 320px !important;
-    margin: 0 auto 30px !important;
+    margin: 0 0 30px 0 !important;
   }
 
   /* ACTION BUTTON - PILL SHAPE */
@@ -4021,7 +4021,7 @@ html.lenis {
     background: transparent !important;
     width: 100% !important;
     max-width: 280px !important;
-    margin: 0 auto 30px !important;
+    margin: 0 0 30px 0 !important;
   }
 
   .btn-outline-gold .btn-text {
@@ -4048,7 +4048,7 @@ html.lenis {
   .footer-col-title {
     display: inline-flex !important;
     align-items: center !important;
-    justify-content: center !important;
+    justify-content: flex-start !important;
     gap: 10px !important;
     font-size: 20px !important;
     margin-bottom: 20px !important;
@@ -4104,13 +4104,13 @@ html.lenis {
     font-weight: 600 !important;
     color: #fff !important;
     width: 100% !important;
-    text-align: center !important;
+    text-align: left !important;
   }
 
   /* SOCIAL ICONS - WHITE SQUARES */
   .footer-socials {
     display: flex !important;
-    justify-content: center !important;
+    justify-content: flex-start !important;
     gap: 15px !important;
     margin-top: 20px !important;
   }
