@@ -862,10 +862,15 @@ html.lenis {
     display: flex;
     flex-direction: row;
     gap: 0;
-    overflow-x: hidden;
-    /* JS will handle the scroll */
+    overflow-x: auto;
     scroll-snap-type: x mandatory;
     width: 100%;
+    -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+  }
+
+  .cards-grid::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Chrome/Safari */
   }
 
   .card {
@@ -877,6 +882,7 @@ html.lenis {
     scroll-snap-align: center;
     background: #000;
     position: relative;
+    overflow: hidden; /* Fix corner rendering */
   }
 
   .card-img {
