@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             gsap.to(wheel, {
                 rotation: targetRotation,
-                duration: 0.4, // Snappier
+                duration: 0.45,
                 ease: "power2.out",
                 onUpdate: () => {
                     if (isMobile) {
@@ -352,12 +352,11 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const strengthObserver = Observer.create({
-            target: window,
+            target: scrollTrack, // Target the section, not the whole window
             type: "wheel,touch,pointer",
             onUp: () => handleStep("up"),
             onDown: () => handleStep("down"),
-            tolerance: 10,
-            preventDefault: true, // This blocks the scroll event from reaching Lenis
+            tolerance: 15,
             active: false
         });
 
@@ -370,21 +369,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 interactionLocked = true;
                 currentIndex = 0;
                 updateStrengthNode(0, true);
+                if (lenis) lenis.stop();
                 strengthObserver.enable();
             },
             onEnterBack: () => {
                 interactionLocked = true;
                 currentIndex = totalNodes - 1;
                 updateStrengthNode(currentIndex, true);
+                if (lenis) lenis.stop();
                 strengthObserver.enable();
             },
             onLeave: () => {
                 interactionLocked = false;
                 strengthObserver.disable();
+                if (lenis) lenis.start();
             },
             onLeaveBack: () => {
                 interactionLocked = false;
                 strengthObserver.disable();
+                if (lenis) lenis.start();
             }
         });
 
@@ -396,11 +399,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentIndex++;
                     updateStrengthNode(currentIndex);
                 } else {
-                    // Unlock and scroll away
+                    // Release lock
                     interactionLocked = false;
                     strengthObserver.disable();
                     if (lenis) {
-                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 10, { duration: 0.8 });
+                        lenis.start();
+                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 10, { duration: 1.2 });
                     }
                 }
             } else if (direction === "up") {
@@ -408,11 +412,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentIndex--;
                     updateStrengthNode(currentIndex);
                 } else {
-                    // Unlock and scroll away
+                    // Release lock
                     interactionLocked = false;
                     strengthObserver.disable();
                     if (lenis) {
-                        lenis.scrollTo(scrollTrack.offsetTop - 10, { duration: 0.8 });
+                        lenis.start();
+                        lenis.scrollTo(scrollTrack.offsetTop - 10, { duration: 1.2 });
                     }
                 }
             }
