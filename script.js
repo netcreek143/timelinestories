@@ -349,13 +349,13 @@ document.addEventListener('DOMContentLoaded', () => {
             contents.forEach((content, i) => content.classList.toggle('active', i === index));
         };
 
-        const goToNode = (index, dir) => {
+        const goToNode = (index) => {
             if (isTransitioning) return;
             isTransitioning = true;
             currentIndex = index;
             updateStrengthDisplay(currentIndex);
 
-            // Calculate the scroll position for this node based on the ScrollTrigger range
+            // Sync scroll progress
             const start = strengthTrigger.start;
             const end = strengthTrigger.end;
             const total = end - start;
@@ -364,13 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (lenis) {
                 lenis.scrollTo(targetPos, {
                     duration: 0.8,
-                    onComplete: () => {
-                        // After syncing scroll, check if we've reached the boundary
-                        if ((currentIndex === 0 && dir === "up") || (currentIndex === totalNodes - 1 && dir === "down")) {
-                            interactionLocked = false;
-                            strengthObserver.disable();
-                        }
-                    }
+                    onComplete: () => { isTransitioning = false; }
                 });
             }
         };
@@ -379,24 +373,34 @@ document.addEventListener('DOMContentLoaded', () => {
             target: window,
             type: "wheel,touch,pointer",
             onUp: () => {
-                if (!interactionLocked) return;
+                if (!interactionLocked || isTransitioning) return;
                 if (currentIndex > 0) {
-                    goToNode(currentIndex - 1, "up");
+                    goToNode(currentIndex - 1);
                 } else {
+                    // Release and move up
                     interactionLocked = false;
                     strengthObserver.disable();
+                    if (lenis) {
+                        lenis.start();
+                        lenis.scrollTo(strengthTrigger.start - 80, { duration: 0.8 });
+                    }
                 }
             },
             onDown: () => {
-                if (!interactionLocked) return;
+                if (!interactionLocked || isTransitioning) return;
                 if (currentIndex < totalNodes - 1) {
-                    goToNode(currentIndex + 1, "down");
+                    goToNode(currentIndex + 1);
                 } else {
+                    // Release and move down
                     interactionLocked = false;
                     strengthObserver.disable();
+                    if (lenis) {
+                        lenis.start();
+                        lenis.scrollTo(strengthTrigger.end + 80, { duration: 0.8 });
+                    }
                 }
             },
-            tolerance: 15,
+            tolerance: 20,
             preventDefault: true,
             active: false
         });
@@ -407,22 +411,26 @@ document.addEventListener('DOMContentLoaded', () => {
             end: "bottom bottom",
             pin: ".strength-sticky-container",
             onEnter: () => {
+                if (lenis) lenis.stop();
                 interactionLocked = true;
                 currentIndex = 0;
                 updateStrengthDisplay(0);
                 strengthObserver.enable();
             },
             onEnterBack: () => {
+                if (lenis) lenis.stop();
                 interactionLocked = true;
                 currentIndex = totalNodes - 1;
                 updateStrengthDisplay(currentIndex);
                 strengthObserver.enable();
             },
             onLeave: () => {
+                if (lenis) lenis.start();
                 interactionLocked = false;
                 strengthObserver.disable();
             },
             onLeaveBack: () => {
+                if (lenis) lenis.start();
                 interactionLocked = false;
                 strengthObserver.disable();
             }
