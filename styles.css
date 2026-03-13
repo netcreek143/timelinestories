@@ -1610,11 +1610,11 @@ html.lenis {
   }
 
   .arc-content-wrapper {
-    top: 40% !important; /* Pushed up even more */
+    top: 35% !important; /* Pushed up significantly higher as requested */
     left: 50%; 
     width: 85%;
-    max-width: 320px;
-    transform: translate(-50%, -50%) !important; /* Centered on the higher top */
+    max-width: 330px;
+    transform: translate(-50%, -50%) !important; 
   }
 
   .arc-center-content h3 {
