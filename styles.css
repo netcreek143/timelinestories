@@ -3209,11 +3209,12 @@ html.lenis {
 
 @media (max-width: 768px) {
   .contact-form-section {
-    padding-top: 40px !important; /* Reduced from default */
+    padding-top: 40px !important; 
+    padding-bottom: 20px !important; /* Heavily reduced from 140px */
   }
 
   .contact-header {
-    margin-bottom: 20px !important; /* Further reduced from 30px */
+    margin-bottom: 20px !important;
   }
 
   .contact-main-title {
@@ -4094,11 +4095,12 @@ html.lenis {
   /* --- FOOTER MOBILE REINFORCEMENT (1:1 MATCH) --- */
   .footer-dark {
     text-align: left !important;
+    padding-top: 0 !important; /* Eliminated top padding */
     padding-bottom: 0 !important;
   }
 
   .footer-container {
-    padding-top: 20px !important; /* Reduced from 60px */
+    padding-top: 10px !important; /* Further reduced from 20px */
     padding-left: 24px !important;
     padding-right: 24px !important;
     padding-bottom: 40px !important;
