@@ -305,11 +305,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Our Strength Section (Orbital Slider with Snapping) ---
     const scrollTrack = document.querySelector('.our-strength-section');
+    const stickyContainer = document.querySelector('.strength-sticky-container');
     const wheel = document.getElementById('arcWheel');
     const indicators = document.querySelectorAll('.arc-indicator');
     const contents = document.querySelectorAll('.arc-center-content');
 
-    if (scrollTrack && wheel && typeof ScrollTrigger !== 'undefined') {
+    if (scrollTrack && stickyContainer && wheel && typeof ScrollTrigger !== 'undefined') {
         let currentIndex = 0;
         const totalNodes = 7;
 
@@ -318,7 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const sliceDeg = 360 / 7;
             const targetRotation = -(sliceDeg * index);
 
-            // Smoothly rotate to the node
             gsap.to(wheel, {
                 rotation: targetRotation,
                 duration: 0.6,
@@ -346,30 +346,32 @@ document.addEventListener('DOMContentLoaded', () => {
             contents.forEach((content, i) => content.classList.toggle('active', i === index));
         };
 
-        // Create the snapping ScrollTrigger
+        // Pin the inner container and use snapping
         ScrollTrigger.create({
             trigger: scrollTrack,
             start: "top top",
             end: "bottom bottom",
-            pin: true,
-            scrub: true,
+            pin: ".strength-sticky-container",
+            scrub: 0.5,
             snap: {
-                snapTo: 1 / (totalNodes - 1), // Snap to 0, 1/6, 2/6... 1
-                duration: { min: 0.2, max: 0.6 },
+                snapTo: 1 / (totalNodes - 1),
+                duration: { min: 0.2, max: 0.5 },
                 delay: 0,
                 ease: "power1.inOut"
             },
             onUpdate: (self) => {
-                const progress = self.progress;
-                const index = Math.round(progress * (totalNodes - 1));
+                const index = Math.round(self.progress * (totalNodes - 1));
                 if (index !== currentIndex) {
                     currentIndex = index;
                     updateStrengthNode(currentIndex);
                 }
+            },
+            // Ensure no blank space after node 7
+            onLeave: () => {
+                updateStrengthNode(totalNodes - 1);
             }
         });
 
-        // Initial set
         updateStrengthNode(0);
     }
 
