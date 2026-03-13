@@ -993,36 +993,45 @@ html.lenis {
     grid-template-columns: none !important;
     gap: 0;
     width: max-content;
-    padding-left: 7.5%; /* Start offset to center first card */
-    padding-right: 0;
+    padding-left: 10vw; /* Center offset */
+    padding-right: 10vw;
   }
 
   .process-cards-grid::after {
-    content: "";
-    display: block;
-    min-width: 10vw; /* Reliable space at the end to allow centering */
-    height: 1px;
-    flex-shrink: 0;
+    display: none;
   }
 
   .process-card {
-    min-width: 85vw;
-    /* Each card takes 85% of viewport */
-    width: 85vw;
+    min-width: 80vw;
+    /* Card takes 80% to allow 10% peek on each side */
+    width: 80vw;
     aspect-ratio: 1/1;
     scroll-snap-align: center;
     background: #000 !important;
     border-radius: 40px !important;
-    /* Rounded corners as per image */
-    padding: 40px;
-    margin: 0 10px;
-    /* Gap between cards */
+    padding: 30px;
+    margin: 0 15px; /* Spacing between cards */
     display: flex !important;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .process-card h4 {
+    font-size: 32px !important;
+    font-weight: 700 !important;
+    margin-bottom: 20px !important;
+    text-align: center !important;
+    line-height: 1.1 !important;
+  }
+
+  .process-card p {
+    font-size: 18px !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+    opacity: 0.8;
   }
 
   .process-card h4,
@@ -1034,37 +1043,42 @@ html.lenis {
   .process-icon-badge {
     background: #fff;
     color: #000;
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     transition: all 0.4s ease;
   }
 
   .process-icon-badge svg {
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
+    stroke-width: 1.5px;
   }
 
   /* Active Card Styling - Mimicking Hover Effect */
   .process-card.active {
-    background: linear-gradient(135deg, #D49C35 0%, #E6C178 100%) !important;
-    transform: scale(1.03); /* Subtle scale up for hover feel */
-    box-shadow: 0 20px 50px rgba(212, 156, 53, 0.4);
+    background: linear-gradient(180deg, #D49C35 0%, #E6C178 100%) !important;
+    transform: scale(1.05);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
     z-index: 10;
   }
 
   .process-card.active h4,
   .process-card.active p {
-    color: #000;
+    color: #222 !important;
   }
 
   .process-card.active .process-icon-badge {
-    background: #000;
-    color: var(--primary-gold);
+    background: #000 !important;
+    color: #fff !important;
+  }
+
+  .process-card.active .process-icon-badge svg {
+    stroke: #E6C178;
   }
 }
 
