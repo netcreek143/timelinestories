@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             gsap.to(wheel, {
                 rotation: targetRotation,
-                duration: 0.45,
+                duration: 0.5,
                 ease: "power2.out",
                 onUpdate: () => {
                     if (isMobile) {
@@ -349,58 +349,54 @@ document.addEventListener('DOMContentLoaded', () => {
             contents.forEach((content, i) => content.classList.toggle('active', i === index));
         };
 
-        const goToNode = (index) => {
-            if (isTransitioning) return;
-            isTransitioning = true;
-            currentIndex = index;
-            updateStrengthDisplay(currentIndex);
-
-            // Sync scroll progress
+        const syncScrollPos = (index) => {
             const start = strengthTrigger.start;
-            const end = strengthTrigger.end;
-            const total = end - start;
+            const total = strengthTrigger.end - start;
             const targetPos = start + (index / (totalNodes - 1)) * total;
-
             if (lenis) {
-                lenis.scrollTo(targetPos, {
-                    duration: 0.8,
-                    onComplete: () => { isTransitioning = false; }
-                });
+                lenis.scrollTo(targetPos, { duration: 0.8, immediate: false });
+            }
+        };
+
+        const releaseScroll = (direction) => {
+            interactionLocked = false;
+            strengthObserver.disable();
+            if (lenis) {
+                lenis.start();
+                if (direction === "down") {
+                    lenis.scrollTo(strengthTrigger.end + 100, { duration: 1 });
+                } else {
+                    lenis.scrollTo(strengthTrigger.start - 100, { duration: 1 });
+                }
             }
         };
 
         const strengthObserver = Observer.create({
-            target: window,
+            target: stickyContainer, // Localized
             type: "wheel,touch,pointer",
             onUp: () => {
                 if (!interactionLocked || isTransitioning) return;
                 if (currentIndex > 0) {
-                    goToNode(currentIndex - 1);
+                    isTransitioning = true;
+                    currentIndex--;
+                    updateStrengthDisplay(currentIndex);
+                    syncScrollPos(currentIndex);
                 } else {
-                    // Release and move up
-                    interactionLocked = false;
-                    strengthObserver.disable();
-                    if (lenis) {
-                        lenis.start();
-                        lenis.scrollTo(strengthTrigger.start - 80, { duration: 0.8 });
-                    }
+                    releaseScroll("up");
                 }
             },
             onDown: () => {
                 if (!interactionLocked || isTransitioning) return;
                 if (currentIndex < totalNodes - 1) {
-                    goToNode(currentIndex + 1);
+                    isTransitioning = true;
+                    currentIndex++;
+                    updateStrengthDisplay(currentIndex);
+                    syncScrollPos(currentIndex);
                 } else {
-                    // Release and move down
-                    interactionLocked = false;
-                    strengthObserver.disable();
-                    if (lenis) {
-                        lenis.start();
-                        lenis.scrollTo(strengthTrigger.end + 80, { duration: 0.8 });
-                    }
+                    releaseScroll("down");
                 }
             },
-            tolerance: 20,
+            tolerance: 30, // Less sensitive to prevent double moves
             preventDefault: true,
             active: false
         });
@@ -410,6 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
             start: "top top",
             end: "bottom bottom",
             pin: ".strength-sticky-container",
+            pinSpacing: true,
             onEnter: () => {
                 if (lenis) lenis.stop();
                 interactionLocked = true;
@@ -436,6 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Initialize display
         updateStrengthDisplay(0);
     }
 

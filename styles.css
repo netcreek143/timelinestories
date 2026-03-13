@@ -1262,7 +1262,7 @@ html.lenis {
   background-color: var(--bg-black);
   color: var(--text-light);
   /* Make the section tall so we can scroll through it */
-  height: 300vh;
+  height: 500vh;
   position: relative;
 }
 
