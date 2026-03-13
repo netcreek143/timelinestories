@@ -560,10 +560,12 @@ html.lenis {
 }
 
 /* Gaussian Focus Blur - Card Siblings Only */
-.cards-grid:hover .card:not(:hover) {
-  filter: blur(2px) brightness(0.9);
-  opacity: 0.9;
-  transform: scale(0.97);
+@media (min-width: 769px) {
+  .cards-grid:hover .card:not(:hover) {
+    filter: blur(2px) brightness(0.9);
+    opacity: 0.9;
+    transform: scale(0.97);
+  }
 }
 
 /* Responsive */
@@ -1608,11 +1610,11 @@ html.lenis {
   }
 
   .arc-content-wrapper {
-    top: 50%;
-    left: 50%; /* Explicitly centered */
+    top: 40% !important; /* Pushed up even more */
+    left: 50%; 
     width: 85%;
     max-width: 320px;
-    transform: translate(-50%, -35%); /* Pushed up significantly from -10% */
+    transform: translate(-50%, -50%) !important; /* Centered on the higher top */
   }
 
   .arc-center-content h3 {
@@ -1630,7 +1632,7 @@ html.lenis {
   }
 
   .strength-header h2 {
-    font-size: 36px;
+    font-size: 32px;
     margin-bottom: 10px;
   }
 }
@@ -2890,24 +2892,7 @@ html.lenis {
 
   /* Conflicting mobile rule removed */
 
-  .node-number-badge {
-    width: 54px;
-    height: 54px;
-    font-size: 19px;
-  }
-
-  .arc-content-wrapper {
-    top: 42%;
-  }
-
-  .arc-center-content h3 {
-    font-size: clamp(20px, 2.2vw, 30px);
-    margin-bottom: 12px;
-  }
-
-  .arc-center-content p {
-    font-size: clamp(13px, 1.2vw, 16px);
-  }
+  /* Conflicting mobile rules removed for consistency */
 }
 
 @media (max-width: 1024px) {
