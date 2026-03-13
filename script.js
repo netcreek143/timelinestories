@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     requestAnimationFrame(raf);
 
+    // Register GSAP Plugins
+    gsap.registerPlugin(ScrollTrigger, MotionPathPlugin, Observer);
+
     // Sync ScrollTrigger with Lenis
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => {
@@ -306,60 +309,93 @@ document.addEventListener('DOMContentLoaded', () => {
     const indicators = document.querySelectorAll('.arc-indicator');
     const contents = document.querySelectorAll('.arc-center-content');
 
-    if (scrollTrack && wheel && typeof ScrollTrigger !== 'undefined') {
-        ScrollTrigger.create({
+    if (scrollTrack && wheel && typeof ScrollTrigger !== 'undefined' && typeof Observer !== 'undefined') {
+        let currentIndex = 0;
+        const totalNodes = 7;
+        let isAnimating = false;
+
+        const updateStrengthNode = (index) => {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            const isMobile = window.innerWidth <= 768;
+            const sliceDeg = 360 / 7;
+            const targetRotation = -(sliceDeg * index);
+
+            // Animate wheel
+            gsap.to(wheel, {
+                rotation: targetRotation,
+                duration: 0.6, // Smooth but deliberate
+                ease: "power2.inOut",
+                onUpdate: () => {
+                    // Update mobile node opacity on the fly while rotating
+                    if (isMobile) {
+                        const currentRot = gsap.getProperty(wheel, "rotation");
+                        indicators.forEach((ind) => {
+                            const baseRotate = parseFloat(getComputedStyle(ind).getPropertyValue('--base-rotate'));
+                            let currentRotation = (baseRotate + currentRot) % 360;
+                            if (currentRotation > 180) currentRotation -= 360;
+                            if (currentRotation < -180) currentRotation += 360;
+                            const fadeRange = 70;
+                            let opacity = 1 - (Math.abs(currentRotation) / fadeRange);
+                            ind.style.opacity = Math.max(0, Math.min(1, opacity));
+                        });
+                    }
+                },
+                onComplete: () => {
+                    isAnimating = false;
+                    wheel.style.setProperty('--wheel-rotate', `${targetRotation}deg`);
+                }
+            });
+
+            // Update Indicators (Active states)
+            indicators.forEach((ind, i) => {
+                ind.classList.toggle('active', i === index);
+            });
+
+            // Update Content (Active states)
+            contents.forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
+        };
+
+        // Pin the section
+        const strengthTrigger = ScrollTrigger.create({
             trigger: scrollTrack,
             start: "top top",
             end: "bottom bottom",
-            scrub: true,
-            snap: {
-                snapTo: 1 / 6, 
-                duration: 0.05, // Instant
-                delay: 0,
-                ease: "none"
-            },
-            onUpdate: (self) => {
-                const progress = self.progress;
-                const isMobile = window.innerWidth <= 768;
-                const sliceDeg = 360 / 7;
-                const MAX_ROTATION = -(sliceDeg * 6);
-                const rotation = progress * MAX_ROTATION;
-
-                wheel.style.transform = `rotate(${rotation}deg)`;
-                wheel.style.setProperty('--wheel-rotate', `${rotation}deg`);
-
-                const activeIndex = Math.round(progress * 6);
-
-                indicators.forEach((ind, i) => {
-                    const isActive = i === activeIndex;
-                    ind.classList.toggle('active', isActive);
-
-                    if (isMobile) {
-                        // Dynamic Fade Logic for Mobile
-                        const baseRotate = parseFloat(getComputedStyle(ind).getPropertyValue('--base-rotate'));
-                        const currentRotation = (baseRotate + rotation) % 360;
-                        
-                        let normalizedRot = currentRotation;
-                        if (normalizedRot > 180) normalizedRot -= 360;
-                        if (normalizedRot < -180) normalizedRot += 360;
-
-                        const fadeRange = 70;
-                        let opacity = 1 - (Math.abs(normalizedRot) / fadeRange);
-                        opacity = Math.max(0, Math.min(1, opacity));
-                        
-                        ind.style.opacity = opacity;
-                        ind.style.pointerEvents = opacity > 0.5 ? 'auto' : 'none';
-                    } else {
-                        ind.style.opacity = 1;
-                        ind.style.pointerEvents = 'auto';
-                    }
-                });
-
-                contents.forEach((content, i) => {
-                    content.classList.toggle('active', i === activeIndex);
-                });
-            }
+            pin: true,
+            scrub: false,
+            id: "strength-pin"
         });
+
+        // Use Observer to handle the "steps"
+        Observer.create({
+            target: window,
+            type: "wheel,touch,pointer",
+            wheelSpeed: -1,
+            onUp: () => {
+                if (!isAnimating && strengthTrigger.isActive) {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateStrengthNode(currentIndex);
+                    }
+                }
+            },
+            onDown: () => {
+                if (!isAnimating && strengthTrigger.isActive) {
+                    if (currentIndex < totalNodes - 1) {
+                        currentIndex++;
+                        updateStrengthNode(currentIndex);
+                    }
+                }
+            },
+            tolerance: 50, // Higher tolerance to prevent accidental triggers
+            preventDefault: false
+        });
+
+        // Initial setup
+        updateStrengthNode(0);
     }
 
     // --- Case Study Section (Curved Drag) ---
