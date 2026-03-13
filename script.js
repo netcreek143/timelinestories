@@ -309,24 +309,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const indicators = document.querySelectorAll('.arc-indicator');
     const contents = document.querySelectorAll('.arc-center-content');
 
-    if (scrollTrack && wheel && typeof ScrollTrigger !== 'undefined' && typeof Observer !== 'undefined') {
+    if (scrollTrack && wheel && typeof ScrollTrigger !== 'undefined') {
         let currentIndex = 0;
         const totalNodes = 7;
-        let isAnimating = false;
-        let isPinned = false;
 
-        const updateStrengthNode = (index, force = false) => {
-            if (isAnimating && !force) return;
-            isAnimating = true;
-
+        const updateStrengthNode = (index) => {
             const isMobile = window.innerWidth <= 768;
             const sliceDeg = 360 / 7;
             const targetRotation = -(sliceDeg * index);
 
+            // Smoothly rotate to the node
             gsap.to(wheel, {
                 rotation: targetRotation,
                 duration: 0.6,
-                ease: "power2.inOut",
+                ease: "power2.out",
                 onUpdate: () => {
                     if (isMobile) {
                         const currentRot = gsap.getProperty(wheel, "rotation");
@@ -342,7 +338,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 },
                 onComplete: () => {
-                    isAnimating = false;
                     wheel.style.setProperty('--wheel-rotate', `${targetRotation}deg`);
                 }
             });
@@ -351,68 +346,31 @@ document.addEventListener('DOMContentLoaded', () => {
             contents.forEach((content, i) => content.classList.toggle('active', i === index));
         };
 
-        const strengthTrigger = ScrollTrigger.create({
+        // Create the snapping ScrollTrigger
+        ScrollTrigger.create({
             trigger: scrollTrack,
             start: "top top",
             end: "bottom bottom",
             pin: true,
-            onEnter: () => {
-                isPinned = true;
-                if (lenis) lenis.stop();
+            scrub: true,
+            snap: {
+                snapTo: 1 / (totalNodes - 1), // Snap to 0, 1/6, 2/6... 1
+                duration: { min: 0.2, max: 0.6 },
+                delay: 0,
+                ease: "power1.inOut"
             },
-            onEnterBack: () => {
-                isPinned = true;
-                if (lenis) lenis.stop();
-            },
-            onLeave: () => {
-                isPinned = false;
-                if (lenis) lenis.start();
-            },
-            onLeaveBack: () => {
-                isPinned = false;
-                if (lenis) lenis.start();
-            },
-            refreshPriority: 1
-        });
-
-        const handleStep = (direction) => {
-            if (isAnimating || !isPinned) return;
-
-            if (direction === "down") {
-                if (currentIndex < totalNodes - 1) {
-                    currentIndex++;
+            onUpdate: (self) => {
+                const progress = self.progress;
+                const index = Math.round(progress * (totalNodes - 1));
+                if (index !== currentIndex) {
+                    currentIndex = index;
                     updateStrengthNode(currentIndex);
-                } else {
-                    isPinned = false;
-                    if (lenis) {
-                        lenis.start();
-                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 10, { duration: 1 });
-                    }
-                }
-            } else if (direction === "up") {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    updateStrengthNode(currentIndex);
-                } else {
-                    isPinned = false;
-                    if (lenis) {
-                        lenis.start();
-                        lenis.scrollTo(scrollTrack.offsetTop - 10, { duration: 1 });
-                    }
                 }
             }
-        };
-
-        Observer.create({
-            target: window,
-            type: "wheel,touch,pointer",
-            onUp: () => handleStep("up"),
-            onDown: () => handleStep("down"),
-            tolerance: 30,
-            preventDefault: false // Critical: allow scroll to work when not stepping
         });
 
-        updateStrengthNode(0, true);
+        // Initial set
+        updateStrengthNode(0);
     }
 
     // --- Case Study Section (Curved Drag) ---
