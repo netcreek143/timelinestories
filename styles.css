@@ -929,7 +929,7 @@ html.lenis {
     padding-left: 0;
     padding-right: 0;
     margin-top: -80px;
-    padding-top: 140px;
+    padding-top: 80px !important; /* Reduced from 140px */
     background-color: #f8f8f8 !important;
     /* Light grey background */
     background-image: none !important;
@@ -937,7 +937,7 @@ html.lenis {
   }
 
   .process-header {
-    margin-bottom: 50px;
+    margin-bottom: 30px !important; /* Reduced from 50px */
     text-align: center !important;
     padding: 0 40px;
     position: relative;
@@ -979,8 +979,8 @@ html.lenis {
     width: 100%;
     overflow: hidden !important;
     position: relative !important;
-    padding: 30px 0 60px;
-    height: 110vw; /* Accommodate card + spacing */
+    padding: 10px 0 30px !important; /* Reduced from 30px 0 60px */
+    height: 100vw !important; /* Reduced from 110vw */
   }
 
   .process-cards-grid {
@@ -1038,7 +1038,7 @@ html.lenis {
   .process-card h4 {
     font-size: 28px !important;
     font-weight: 700 !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 5px !important; /* Reduced from 20px */
     text-align: center !important;
     line-height: 1.1 !important;
   }
@@ -1065,7 +1065,7 @@ html.lenis {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 35px;
+    margin-bottom: 12px !important; /* Reduced from 35px */
     transition: all 0.4s ease;
   }
 
@@ -3717,7 +3717,7 @@ html.lenis {
   }
 
   .test-header {
-    margin-bottom: 25px !important; /* Reduced from 40px */
+    margin-bottom: 10px !important; /* Reduced from 40px */
     padding-top: 0 !important; /* Reduced from 40px */
     text-align: center !important;
     display: block !important;
@@ -3734,8 +3734,8 @@ html.lenis {
     height: 360px !important;
     width: 100% !important;
     position: relative !important;
-    margin-top: 20px !important;
-    margin-bottom: 60px !important; /* Reduced gap below Cards */
+    margin-top: 10px !important; /* Reduced from 20px */
+    margin-bottom: 20px !important; /* Reduced gap below Cards */
     display: block !important;
     z-index: 100 !important;
   }
@@ -3786,12 +3786,12 @@ html.lenis {
 
   /* ORDER 3: DESCRIPTION TEXT CONTENT */
   .test-content-wrap {
-    padding: 20px 24px !important; /* Reduced internal padding */
+    padding: 10px 24px !important; /* Reduced from 20px 24px */
     text-align: left !important;
     width: 100% !important;
     display: block !important;
     position: relative !important;
-    margin-top: 20px !important; /* Reduced top margin */
+    margin-top: -10px !important; /* Lifted up significantly */
     z-index: 10 !important;
     box-sizing: border-box !important;
     clear: both !important;
@@ -3809,7 +3809,7 @@ html.lenis {
     font-size: 17px !important;
     line-height: 1.8 !important;
     color: #fff !important;
-    margin-bottom: 30px !important;
+    margin-bottom: 15px !important; /* Reduced from 30px */
     display: block !important;
     opacity: 1 !important;
     max-width: none !important;
@@ -3817,8 +3817,8 @@ html.lenis {
 
   .test-client-info {
     position: relative !important;
-    padding-top: 15px !important;
-    margin-top: 15px !important;
+    padding-top: 10px !important;
+    margin-top: 10px !important;
     font-size: 24px !important;
     font-weight: 600 !important;
     display: block !important;
@@ -3836,7 +3836,7 @@ html.lenis {
   }
 
   .venues-header {
-    margin-bottom: 20px !important;
+    margin-bottom: 10px !important; /* Reduced from 20px */
     padding: 0 20px !important;
   }
 
@@ -3849,6 +3849,20 @@ html.lenis {
     font-size: 16px !important;
     line-height: 1.6 !important;
     padding: 0 10px !important;
+  }
+
+  /* --- MOMENTS SECTION MOBILE REINFORCEMENT --- */
+  .moments-section {
+    padding: 40px 0 !important; /* Reduced from default */
+  }
+
+  .moments-header {
+    margin-bottom: 15px !important;
+  }
+
+  .moments-gallery-wrapper {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 
   .venue-fan-wrapper {
@@ -3968,19 +3982,19 @@ html.lenis {
     color: #b0b0b0 !important;
     font-size: 16px !important;
     line-height: 1.7 !important;
-    margin-bottom: 40px !important;
+    margin-bottom: 15px !important; /* Reduced from 40px */
     padding-top: 0 !important;
     text-align: left !important;
     width: 100% !important;
     border-bottom: 1px solid #eee !important;
-    padding-bottom: 30px !important;
+    padding-bottom: 15px !important; /* Reduced from 30px */
   }
 
   /* ORDER 3: ACCORDION */
   .accordion {
     order: 3 !important;
     width: 100% !important;
-    margin-bottom: 40px !important;
+    margin-bottom: 20px !important; /* Reduced from 40px */
   }
 
   .accordion-item {
@@ -3988,7 +4002,7 @@ html.lenis {
   }
 
   .accordion-header {
-    padding: 24px 0 !important;
+    padding: 15px 0 !important; /* Reduced from 24px */
   }
 
   .accordion-header h3 {
