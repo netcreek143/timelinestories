@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
         const totalNodes = 7;
         let isAnimating = false;
-        let interactionLocked = false;
+        let isPinned = false;
 
         const updateStrengthNode = (index, force = false) => {
             if (isAnimating && !force) return;
@@ -325,8 +325,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             gsap.to(wheel, {
                 rotation: targetRotation,
-                duration: 0.45,
-                ease: "power2.out",
+                duration: 0.6,
+                ease: "power2.inOut",
                 onUpdate: () => {
                     if (isMobile) {
                         const currentRot = gsap.getProperty(wheel, "rotation");
@@ -351,60 +351,42 @@ document.addEventListener('DOMContentLoaded', () => {
             contents.forEach((content, i) => content.classList.toggle('active', i === index));
         };
 
-        const strengthObserver = Observer.create({
-            target: scrollTrack, // Target the section, not the whole window
-            type: "wheel,touch,pointer",
-            onUp: () => handleStep("up"),
-            onDown: () => handleStep("down"),
-            tolerance: 15,
-            active: false
-        });
-
         const strengthTrigger = ScrollTrigger.create({
             trigger: scrollTrack,
             start: "top top",
             end: "bottom bottom",
             pin: true,
             onEnter: () => {
-                interactionLocked = true;
-                currentIndex = 0;
-                updateStrengthNode(0, true);
+                isPinned = true;
                 if (lenis) lenis.stop();
-                strengthObserver.enable();
             },
             onEnterBack: () => {
-                interactionLocked = true;
-                currentIndex = totalNodes - 1;
-                updateStrengthNode(currentIndex, true);
+                isPinned = true;
                 if (lenis) lenis.stop();
-                strengthObserver.enable();
             },
             onLeave: () => {
-                interactionLocked = false;
-                strengthObserver.disable();
+                isPinned = false;
                 if (lenis) lenis.start();
             },
             onLeaveBack: () => {
-                interactionLocked = false;
-                strengthObserver.disable();
+                isPinned = false;
                 if (lenis) lenis.start();
-            }
+            },
+            refreshPriority: 1
         });
 
         const handleStep = (direction) => {
-            if (isAnimating || !interactionLocked) return;
+            if (isAnimating || !isPinned) return;
 
             if (direction === "down") {
                 if (currentIndex < totalNodes - 1) {
                     currentIndex++;
                     updateStrengthNode(currentIndex);
                 } else {
-                    // Release lock
-                    interactionLocked = false;
-                    strengthObserver.disable();
+                    isPinned = false;
                     if (lenis) {
                         lenis.start();
-                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 10, { duration: 1.2 });
+                        lenis.scrollTo(scrollTrack.offsetTop + scrollTrack.offsetHeight + 10, { duration: 1 });
                     }
                 }
             } else if (direction === "up") {
@@ -412,16 +394,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentIndex--;
                     updateStrengthNode(currentIndex);
                 } else {
-                    // Release lock
-                    interactionLocked = false;
-                    strengthObserver.disable();
+                    isPinned = false;
                     if (lenis) {
                         lenis.start();
-                        lenis.scrollTo(scrollTrack.offsetTop - 10, { duration: 1.2 });
+                        lenis.scrollTo(scrollTrack.offsetTop - 10, { duration: 1 });
                     }
                 }
             }
         };
+
+        Observer.create({
+            target: window,
+            type: "wheel,touch,pointer",
+            onUp: () => handleStep("up"),
+            onDown: () => handleStep("down"),
+            tolerance: 30,
+            preventDefault: false // Critical: allow scroll to work when not stepping
+        });
 
         updateStrengthNode(0, true);
     }
@@ -750,7 +739,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let testStartY = 0;
             let testIsDown = false;
             let testSwiped = false;
-            
+
             testSection.addEventListener('touchstart', (e) => {
                 testStartX = e.touches[0].clientX;
                 testStartY = e.touches[0].clientY;
@@ -1069,11 +1058,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const venueCards = document.querySelectorAll('.venue-card');
     const customCursor = document.querySelector('.venues-custom-cursor');
     const positions = ['pos-far-left', 'pos-left', 'pos-center', 'pos-right', 'pos-far-right'];
-    
+
     let startX = 0;
     let isDragging = false;
-    let hasMoved = false; 
-    let threshold = 50; 
+    let hasMoved = false;
+    let threshold = 50;
 
     // Custom Cursor tracking variables
     let vMouseX = 0, vMouseY = 0;
@@ -1086,7 +1075,7 @@ document.addEventListener('DOMContentLoaded', () => {
         venuesSection.addEventListener('mousemove', (e) => {
             vMouseX = e.clientX;
             vMouseY = e.clientY;
-            
+
             if (!vInitialized) {
                 // Instantly snap to position on first move
                 vCursorX = vMouseX;
@@ -1158,7 +1147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const handleDragMove = (e) => {
             const x = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
             const y = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-            
+
             // Sync custom cursor position during drag
             vMouseX = x;
             vMouseY = y;
@@ -1183,7 +1172,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             e.preventDefault();
-            
+
             const diff = x - startX;
 
             if (Math.abs(diff) > threshold) {
@@ -1207,7 +1196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         venuesContainer.addEventListener('touchstart', handleDragStart, { passive: true });
         window.addEventListener('touchmove', handleDragMove, { passive: false });
         window.addEventListener('touchend', handleDragEnd);
-        
+
         // Also allow clicking side cards to center them
         venueCards.forEach(card => {
             card.addEventListener('click', () => {
@@ -1301,7 +1290,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const updateProcessClasses = () => {
             processCards.forEach((card, index) => {
                 card.classList.remove('pos-active', 'pos-left', 'pos-right', 'pos-hidden');
-                
+
                 // Infinite logic
                 const total = processCards.length;
                 const prev = (currentIndex - 1 + total) % total;
@@ -1345,7 +1334,7 @@ document.addEventListener('DOMContentLoaded', () => {
         processSliderWp.addEventListener('touchend', () => {
             if (!isDragging) return;
             isDragging = false;
-            
+
             if (Math.abs(diffX) > 50) {
                 if (diffX > 0) goToNext();
                 else goToPrev();
@@ -1359,7 +1348,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Footer Quick Links Accordion (Mobile) ---
     const toggleQuickLinks = document.getElementById('toggleQuickLinks');
     const footerColLinks = document.querySelector('.footer-col.col-links');
-    
+
     if (toggleQuickLinks && footerColLinks) {
         toggleQuickLinks.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
