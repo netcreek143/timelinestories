@@ -401,9 +401,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const EDGE_RESISTANCE = 0.1;
         const CURSOR_LERP = 0.14;
 
+        let startY_drag = 0;
+        let directionLocked = false;
+        let isHorizontalDrag = false;
+
         const onPointerDown = (e) => {
             isDragging = true;
+            directionLocked = false;
+            isHorizontalDrag = false;
             startX_drag = e.clientX || (e.touches && e.touches[0].clientX);
+            startY_drag = e.clientY || (e.touches && e.touches[0].clientY);
             lastX_drag = startX_drag;
             velocity = 0;
             dragCursor.classList.add('dragging');
@@ -411,24 +418,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const onPointerMove = (e) => {
             const x = e.clientX || (e.touches && e.touches[0].clientX);
+            const y = e.clientY || (e.touches && e.touches[0].clientY);
             if (isInside) {
                 mouseX = x;
-                mouseY = e.clientY || (e.touches && e.touches[0].clientY);
+                mouseY = y;
             }
             if (!isDragging) return;
+
+            // On mobile, detect direction before locking
+            if (!directionLocked && e.touches) {
+                const dx = Math.abs(x - startX_drag);
+                const dy = Math.abs(y - startY_drag);
+                if (dx + dy > 10) { // threshold to detect direction
+                    directionLocked = true;
+                    isHorizontalDrag = dx > dy;
+                }
+                if (!directionLocked) return; // wait for direction
+                if (!isHorizontalDrag) {
+                    // Vertical scroll — cancel drag and let browser handle
+                    isDragging = false;
+                    dragCursor.classList.remove('dragging');
+                    return;
+                }
+            }
+
             const deltaX = x - lastX_drag;
             position -= deltaX * SENSITIVITY;
             lastX_drag = x;
         };
 
         const onPointerUp = () => {
-            if (isDragging) {
+            if (isDragging && isHorizontalDrag) {
                 const deltaX = lastX_drag - startX_drag;
                 velocity = deltaX * VELOCITY_FACTOR;
                 // Limit velocity to move roughly one by one
                 velocity = Math.max(-0.15, Math.min(0.15, velocity));
             }
             isDragging = false;
+            directionLocked = false;
+            isHorizontalDrag = false;
             dragCursor.classList.remove('dragging');
         };
 
@@ -652,6 +680,45 @@ document.addEventListener('DOMContentLoaded', () => {
                     e.preventDefault();
                 }
             }, { passive: false });
+
+            // --- Touch Swipe Support ---
+            let testStartX = 0;
+            let testStartY = 0;
+            let testIsDown = false;
+            let testSwiped = false;
+            
+            testSection.addEventListener('touchstart', (e) => {
+                testStartX = e.touches[0].clientX;
+                testStartY = e.touches[0].clientY;
+                testIsDown = true;
+                testSwiped = false;
+            }, { passive: true });
+
+            testSection.addEventListener('touchmove', (e) => {
+                if (!testIsDown || testSwiped) return;
+                const x = e.touches[0].clientX;
+                const y = e.touches[0].clientY;
+                const dx = x - testStartX;
+                const dy = y - testStartY;
+
+                // Detect horizontal swipe
+                if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+                    if (dx > 0) {
+                        // Swipe Right -> Prev
+                        testIdx = (testIdx > 0) ? testIdx - 1 : testCards.length - 1;
+                        updateTestSlider('prev');
+                    } else {
+                        // Swipe Left -> Next
+                        testIdx = (testIdx + 1) % testCards.length;
+                        updateTestSlider('next');
+                    }
+                    testSwiped = true;
+                }
+            }, { passive: true });
+
+            testSection.addEventListener('touchend', () => {
+                testIsDown = false;
+            });
         }
     }
 
@@ -1009,10 +1076,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
+        let venueStartY = 0;
+        let venueDirLocked = false;
+        let venueIsHorizontal = false;
+
         const handleDragStart = (e) => {
             isDragging = true;
             hasMoved = false;
+            venueDirLocked = false;
+            venueIsHorizontal = false;
             startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            venueStartY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
             venuesContainer.classList.add('grabbing');
             customCursor?.classList.add('dragging');
         };
@@ -1026,6 +1100,24 @@ document.addEventListener('DOMContentLoaded', () => {
             vMouseY = y;
 
             if (!isDragging || hasMoved) return;
+
+            // On touch, detect direction before intercepting
+            if (e.touches && !venueDirLocked) {
+                const dx = Math.abs(x - startX);
+                const dy = Math.abs(y - venueStartY);
+                if (dx + dy > 10) {
+                    venueDirLocked = true;
+                    venueIsHorizontal = dx > dy;
+                }
+                if (!venueDirLocked) return;
+                if (!venueIsHorizontal) {
+                    // Let vertical scroll through
+                    isDragging = false;
+                    venuesContainer.classList.remove('grabbing');
+                    return;
+                }
+            }
+
             e.preventDefault();
             
             const diff = x - startX;
@@ -1038,6 +1130,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const handleDragEnd = () => {
             isDragging = false;
+            venueDirLocked = false;
+            venueIsHorizontal = false;
             venuesContainer.classList.remove('grabbing');
             customCursor?.classList.remove('dragging');
         };
@@ -1046,7 +1140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('mousemove', handleDragMove);
         window.addEventListener('mouseup', handleDragEnd);
 
-        venuesContainer.addEventListener('touchstart', handleDragStart, { passive: false });
+        venuesContainer.addEventListener('touchstart', handleDragStart, { passive: true });
         window.addEventListener('touchmove', handleDragMove, { passive: false });
         window.addEventListener('touchend', handleDragEnd);
         
