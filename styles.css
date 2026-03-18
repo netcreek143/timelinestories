@@ -2491,7 +2491,7 @@ html.lenis {
 /* MOMENTS WE CREATED SECTION */
 .moments-section {
   background-color: #ffffff;
-  padding: var(--section-padding-y) 0;
+  padding: var(--section-padding-y) 0 40px;
   text-align: center;
 }
 
@@ -2739,7 +2739,7 @@ html.lenis {
 
 .why-section {
   background: #fff;
-  padding: clamp(60px, 8vw, 120px) 0;
+  padding: 40px 0 clamp(60px, 8vw, 120px);
   font-family: 'Inter', sans-serif;
 }
 
