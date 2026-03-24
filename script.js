@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hero Slider Data
     const sliderData = [
         {
-            image: 'images/herosection1.png',
+            image: 'images/herosection1.jpg',
             title: 'Transform  Your Event<br>',
             subtitle: 'into a Luxury Experience.',
             desc: 'Luxury events designed to captivate, with a focus on creating immersive experiences, stunning decor, and impeccable execution.'
