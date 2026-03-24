@@ -1004,15 +1004,15 @@ html.lenis {
   }
 
   .process-card {
-    width: 80vw !important;
+    width: 75vw !important; /* Reduced from 80vw for more side space */
     aspect-ratio: 1/1 !important;
     position: absolute !important;
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) scale(0.85) !important;
     background: #000 !important;
-    border-radius: 40px !important;
-    padding: 30px !important;
+    border-radius: 35px !important; /* Slightly smaller radius */
+    padding: 24px !important; /* Reduced from 30px */
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -1024,7 +1024,7 @@ html.lenis {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
 
-  /* Position Classes for infinite loop */
+  /* Position Classes for infinite loop - INCREASED SEPARATION */
   .process-card.pos-active {
     opacity: 1 !important;
     transform: translate(-50%, -50%) scale(1.05) !important;
@@ -1035,14 +1035,14 @@ html.lenis {
 
   .process-card.pos-left {
     opacity: 0.9 !important;
-    transform: translate(-140%, -50%) scale(0.85) !important;
+    transform: translate(-155%, -50%) scale(0.85) !important; /* Increased from -140% */
     z-index: 5 !important;
     pointer-events: auto !important;
   }
 
   .process-card.pos-right {
     opacity: 0.9 !important;
-    transform: translate(40%, -50%) scale(0.85) !important;
+    transform: translate(55%, -50%) scale(0.85) !important; /* Increased from 40% */
     z-index: 5 !important;
     pointer-events: auto !important;
   }
@@ -1560,17 +1560,19 @@ html.lenis {
 }
 
 @media (max-width: 768px) {
-  .process-watermark {
-    font-size: 100px;
-    top: 25%;
+  .process-watermark,
+  .process-header::before {
+    display: none !important;
   }
 
   .process-title {
-    font-size: 32px;
+    font-size: 24px !important; /* Reduced from 32px */
+    letter-spacing: -0.5px !important;
   }
 
   .process-title-large {
-    font-size: 40px;
+    font-size: 32px !important; /* Reduced from 40px */
+    margin-top: 5px !important;
   }
 
   .process-cards-grid {
