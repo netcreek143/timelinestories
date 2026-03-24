@@ -1853,6 +1853,11 @@ html.lenis {
   color: #000;
 }
 
+.case-card.theme-pink {
+  background-color: #FFF0F5;
+  color: #000;
+}
+
 /* Card Content Typography */
 .card-project-tag {
   color: #D4AF37;
@@ -1884,7 +1889,8 @@ html.lenis {
 }
 
 .case-card.theme-gold .card-title,
-.case-card.theme-light .card-title {
+.case-card.theme-light .card-title,
+.case-card.theme-pink .card-title {
   color: #000;
 }
 
@@ -1896,7 +1902,8 @@ html.lenis {
 }
 
 .theme-gold .card-subtitle,
-.theme-light .card-subtitle {
+.theme-light .card-subtitle,
+.theme-pink .card-subtitle {
   color: rgba(0, 0, 0, 0.5);
 }
 
@@ -1910,11 +1917,12 @@ html.lenis {
 
 .grid-item {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: flex-start;
+  gap: 16px;
   font-size: 14px;
   font-family: var(--font-sans);
   font-weight: 500;
+  line-height: 1.4;
 }
 
 .grid-icon {
@@ -1926,13 +1934,22 @@ html.lenis {
   align-items: center;
   justify-content: center;
   color: #D4AF37;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
-.case-card.theme-gold .grid-icon {
+.case-card.theme-gold .grid-icon,
+.case-card.theme-light .grid-icon,
+.case-card.theme-pink .grid-icon {
   background-color: #000;
   color: #D4AF37;
+}
+
+.case-card.theme-dark .grid-icon {
+  background-color: #fff;
+  color: #000;
 }
 
 .card-image-wrap {
