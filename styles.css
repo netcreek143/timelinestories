@@ -2913,7 +2913,7 @@ html.lenis {
 }
 
 .accordion-item.active .acc-icon::before {
-  background-color: #fff;
+  background-color: #000000;
 }
 
 .accordion-item.active .acc-icon::after {
@@ -2945,23 +2945,24 @@ html.lenis {
     padding-top: 10px;
   }
 
-  .accordion-header {
-    padding: 18px 0;
-  }
-
-  .accordion-header h3 {
-    font-size: 1.2rem;
-  }
-
-  .accordion-content p {
-    font-size: 0.9rem;
-    padding-bottom: 20px;
-  }
-
   .container-why {
     width: calc(100% - 100px);
     gap: 40px;
     row-gap: 30px;
+    align-items: stretch; /* Match accordion height to image */
+  }
+
+  .accordion-header {
+    padding: 14px 0; /* Tightened from 18px */
+  }
+
+  .accordion-header h3 {
+    font-size: 1.15rem; /* Slightly reduced */
+  }
+
+  .accordion-content p {
+    font-size: 0.9rem;
+    padding-bottom: 15px; /* Reduced from 20px */
   }
 }
 
