@@ -1234,7 +1234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const processSliderWp = document.querySelector('.process-slider-wrapper');
     const processCards = Array.from(document.querySelectorAll('.process-card'));
 
-    if (processSliderWp && processCards.length > 0 && window.innerWidth <= 768) {
+    if (processSliderWp && processCards.length > 0) {
         let currentIndex = 0;
         let startX = 0;
         let isDragging = false;
