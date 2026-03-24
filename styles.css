@@ -1048,11 +1048,11 @@ html.lenis {
   }
 
   .process-card h4 {
-    font-size: 28px !important;
+    font-size: 24px !important; /* Reduced from 28px for better fit */
     font-weight: 700 !important;
-    margin-bottom: 5px !important; /* Reduced from 20px */
+    margin-bottom: 8px !important; 
     text-align: center !important;
-    line-height: 1.1 !important;
+    line-height: 1.2 !important;
   }
 
   .process-card p {
@@ -1071,14 +1071,19 @@ html.lenis {
   .process-icon-badge {
     background: #fff;
     color: #000;
-    width: 90px;
-    height: 90px;
+    width: 80px; /* Reduced from 90px */
+    height: 80px; /* Reduced from 90px */
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 12px !important; /* Reduced from 35px */
+    margin-bottom: 20px !important; /* Increased for better separation from title */
     transition: all 0.4s ease;
+  }
+
+  .process-icon-badge img {
+    width: 50% !important; /* Reduced from 60% for better padding */
+    height: auto !important;
   }
 
   .process-icon-badge svg {
