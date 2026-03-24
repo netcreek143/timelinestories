@@ -1100,6 +1100,21 @@ html.lenis {
   .process-card.pos-active .process-icon-badge svg {
     stroke: #E6C178;
   }
+
+  /* Icon Visibility Mobile */
+  .process-icon-badge .icon-inactive {
+    display: block !important;
+  }
+  .process-icon-badge .icon-active {
+    display: none !important;
+  }
+
+  .process-card.pos-active .process-icon-badge .icon-inactive {
+    display: none !important;
+  }
+  .process-card.pos-active .process-icon-badge .icon-active {
+    display: block !important;
+  }
 }
 
 /* Hide navigation buttons on desktop */
