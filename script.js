@@ -34,27 +34,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const sliderData = [
         {
             image: 'images/herosection1.png',
-            title: 'Your Dream<br>Wedding',
-            subtitle: 'Perfectly Brought to Life.',
-            desc: 'From concept to celebration, we craft weddings that reflect your story, style, and vision. Every detail planned. Every moment unforgettable.'
+            title: 'Transform  Your Event<br>',
+            subtitle: 'into a Luxury Experience.',
+            desc: 'Luxury events designed to captivate, with a focus on creating immersive experiences, stunning decor, and impeccable execution.'
         },
         {
             image: 'images/herosection2.png',
-            title: 'Royal Palace<br>Weddings',
-            subtitle: 'Majesty in Rajasthan.',
-            desc: "Experience a wedding of royal proportions in the heart of India's heritage palaces, where history meets luxury in a grand celebration."
+            title: 'End to End',
+            subtitle: 'Event Excellence.',
+            desc: "From initial planning to final execution, our team ensures seamless coordination and flawless delivery. Trust us to turn your vision into reality."
         },
         {
             image: 'images/herosection3.png',
-            title: 'Beachfront<br>Destination',
-            subtitle: 'Elegance by the Ocean.',
-            desc: 'Exchange your vows against the timeless backdrop of the Indian Ocean, blending tradition with the tranquil beauty of the coast.'
+            title: 'Crafting',
+            subtitle: 'Unforgettable Memories.',
+            desc: 'We specialize in transforming your dream events into unforgettable moments. With Timeline Stories, every detail is expertly curated to reflect your unique style and vision.'
         },
         {
             image: 'images/herosection4.png',
-            title: 'Heritage Fort<br>Magic',
-            subtitle: 'Timeless Fort Celebrations.',
-            desc: 'Celebrate your story amidst the glowing walls of a historic Indian fort, illuminated by thousands of lights and marigold blooms.'
+            title: 'Your Dream <br> Wedding',
+            subtitle: 'Perfectly Brought to Life.',
+            desc: 'From concept to celebration, we craft weddings that reflect your story, style, and vision. Every detail planned. Every moment unforgettable.'
         }
     ];
 
@@ -727,9 +727,16 @@ document.addEventListener('DOMContentLoaded', () => {
     accItems.forEach(item => {
         const header = item.querySelector('.accordion-header');
         if (header) {
-            header.addEventListener('mouseenter', () => {
+            header.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all other items
                 accItems.forEach(i => i.classList.remove('active'));
-                item.classList.add('active');
+                
+                // Toggle current item
+                if (!isActive) {
+                    item.classList.add('active');
+                }
             });
         }
     });

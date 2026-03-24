@@ -435,7 +435,7 @@ html.lenis {
   border-radius: clamp(40px, 8vw, 100px);
   max-width: calc(100% - clamp(40px, 10vw, 160px));
   width: 100%;
-  margin: 0 auto clamp(80px, 12vw, 160px) auto;
+  margin: 0 auto clamp(20px, 5vw, 80px) auto;
   padding: clamp(60px, 8vw, 120px) var(--fluid-gutter);
   position: relative;
   z-index: 20;
@@ -562,7 +562,7 @@ html.lenis {
 /* Gaussian Focus Blur - Card Siblings Only */
 @media (min-width: 769px) {
   .cards-grid:hover .card:not(:hover) {
-    filter: blur(2px) brightness(0.9);
+    filter: brightness(0.9);
     opacity: 0.9;
     transform: scale(0.97);
   }
@@ -2412,13 +2412,13 @@ html.lenis {
 /* Fan positioning */
 .venue-card.pos-far-left {
   transform: translateX(-110%) rotate(-15deg) scale(0.65);
-  opacity: 0.4;
+  filter: brightness(0.3);
   z-index: 1;
 }
 
 .venue-card.pos-left {
   transform: translateX(-65%) rotate(-8deg) scale(0.8);
-  opacity: 0.7;
+  filter: brightness(0.6);
   z-index: 5;
 }
 
@@ -2426,7 +2426,6 @@ html.lenis {
   z-index: 10;
   transform: translateX(0) scale(1.15);
   border: 5px solid var(--primary-gold);
-  opacity: 1;
 }
 
 .venue-card.pos-center img {
@@ -2435,13 +2434,13 @@ html.lenis {
 
 .venue-card.pos-right {
   transform: translateX(65%) rotate(8deg) scale(0.8);
-  opacity: 0.7;
+  filter: brightness(0.6);
   z-index: 5;
 }
 
 .venue-card.pos-far-right {
   transform: translateX(110%) rotate(15deg) scale(0.65);
-  opacity: 0.4;
+  filter: brightness(0.3);
   z-index: 1;
 }
 
@@ -2450,11 +2449,10 @@ html.lenis {
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #d4af37e6;
-  /* semi-transparent gold */
+  background-color: var(--primary-gold);
+  /* fully opaque gold from variable */
   padding: 20px 30px;
   text-align: left;
-  backdrop-filter: blur(5px);
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.5s ease;
@@ -2792,7 +2790,6 @@ html.lenis {
 
 .accordion-item {
   border-bottom: 1px solid #e5e5e5;
-  will-change: transform;
 }
 
 .accordion-item:first-child .accordion-header {
@@ -2821,13 +2818,51 @@ html.lenis {
 }
 
 .acc-icon {
-  display: none;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.acc-icon::before,
+.acc-icon::after {
+  content: '';
+  position: absolute;
+  background-color: #a5a5a5;
+  transition: all 0.3s ease;
+}
+
+/* Horizontal line */
+.acc-icon::before {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+/* Vertical line */
+.acc-icon::after {
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+.accordion-item.active .acc-icon::before {
+  background-color: #000;
+}
+
+.accordion-item.active .acc-icon::after {
+  transform: translateX(-50%) rotate(90deg);
+  opacity: 0;
 }
 
 .accordion-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: max-height 0.4s ease-in-out;
 }
 
 .accordion-content p {
@@ -3932,14 +3967,14 @@ html.lenis {
   .venue-card.pos-left {
     left: -15% !important;
     transform: translateX(-50%) rotate(-5deg) scale(0.8) !important;
-    opacity: 0.6 !important;
+    filter: brightness(0.6) !important;
     z-index: 50 !important;
   }
 
   .venue-card.pos-right {
     left: 115% !important;
     transform: translateX(-50%) rotate(5deg) scale(0.8) !important;
-    opacity: 0.6 !important;
+    filter: brightness(0.6) !important;
     z-index: 50 !important;
   }
 
