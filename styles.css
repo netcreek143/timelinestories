@@ -2770,10 +2770,9 @@ html.lenis {
   font-size: clamp(3rem, 4.5vw, 4.5rem);
   color: var(--primary-gold);
   font-weight: 400;
-  margin-bottom: 40px;
+  margin-bottom: 0; /* Removed bottom margin as Row 2 handles spacing */
   line-height: 1.1;
   letter-spacing: -2px;
-  white-space: nowrap;
 }
 
 .why-top-desc {
@@ -2781,15 +2780,16 @@ html.lenis {
   line-height: 1.6;
   font-size: 1rem;
   font-weight: 400;
-  margin-bottom: 60px;
-  padding-top: 15px;
+  margin-bottom: 0;
+  padding-top: 15px; /* Added slight top padding to align with title first line */
 }
 
 .container-why {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.1fr; /* Slightly wider right side for accordion */
   gap: clamp(40px, 6vw, 70px);
-  align-items: center;
+  row-gap: 50px;
+  align-items: flex-start;
   width: calc(100% - 160px);
   margin: 0 auto;
 }
@@ -2902,7 +2902,7 @@ html.lenis {
 @media (max-width: 1440px) {
   .why-top-desc {
     font-size: 0.9rem;
-    margin-bottom: 30px;
+    padding-top: 10px;
   }
 
   .accordion-header {
@@ -2921,6 +2921,7 @@ html.lenis {
   .container-why {
     width: calc(100% - 100px);
     gap: 40px;
+    row-gap: 30px;
   }
 }
 
@@ -4072,10 +4073,6 @@ html.lenis {
     padding: 0 24px !important;
     gap: 0 !important;
     margin: 0 !important;
-  }
-
-  .why-left, .why-right {
-    display: contents !important;
   }
 
   /* ORDER 1: TITLE */
