@@ -141,7 +141,7 @@ html.lenis {
   padding: 24px var(--fluid-gutter);
   background: #000;
   backdrop-filter: blur(10px);
-  z-index: 1000;
+  z-index: 2000;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2577,7 +2577,7 @@ html.lenis {
   position: relative;
   width: 180px;
   text-align: left;
-  z-index: 1000;
+  z-index: 500;
 }
 
 .dropdown-selected {
