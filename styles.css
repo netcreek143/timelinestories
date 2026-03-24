@@ -2835,7 +2835,7 @@ html.lenis {
 }
 
 .accordion-item.active .accordion-header h3 {
-  color: #fff;
+  color: #000000;
   text-shadow: 0.5px 0 0 currentColor;
 }
 
@@ -2896,6 +2896,32 @@ html.lenis {
 
 .accordion-item.active .accordion-content {
   max-height: 300px;
+}
+
+/* Responsive Fix for Smaller Desktop (Why Section) */
+@media (max-width: 1440px) {
+  .why-top-desc {
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+  }
+
+  .accordion-header {
+    padding: 18px 0;
+  }
+
+  .accordion-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .accordion-content p {
+    font-size: 0.9rem;
+    padding-bottom: 20px;
+  }
+
+  .container-why {
+    width: calc(100% - 100px);
+    gap: 40px;
+  }
 }
 
 /* RESPONSIVE REFINEMENTS */
