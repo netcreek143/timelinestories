@@ -7,7 +7,7 @@ body {
 :root {
   --primary-gold: #D4AF37;
   --primary-gold-hover: #D4AF37;
-  --bg-black: #000;
+  --bg-black: #000000;
   --text-light: #f5f5f5;
   --text-dark: #111111;
 
@@ -2285,7 +2285,7 @@ html.lenis {
 }
 
 .venues-header {
-  margin-bottom: 30px;
+  margin-bottom: 0px;
 }
 
 .venues-title {
@@ -2295,6 +2295,7 @@ html.lenis {
   margin-bottom: 20px;
   line-height: 1.1;
   letter-spacing: -1px;
+  font-weight: 400;
 }
 
 .venues-desc {
@@ -2308,7 +2309,7 @@ html.lenis {
 .venues-fan-container {
   max-width: 1400px;
   margin: 0 auto;
-  height: clamp(500px, 55vw, 750px);
+  height: clamp(400px, 45vw, 600px);
   position: relative;
   display: flex;
   align-items: center;
@@ -2504,6 +2505,7 @@ html.lenis {
   margin-bottom: 15px;
   line-height: 1.1;
   letter-spacing: -2px;
+  font-weight: 400;
 }
 
 .moments-desc {

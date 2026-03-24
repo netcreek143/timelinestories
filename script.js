@@ -39,19 +39,19 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: 'Luxury events designed to captivate, with a focus on creating immersive experiences, stunning decor, and impeccable execution.'
         },
         {
-            image: 'images/herosection2.png',
+            image: 'images/herosection2.jpg',
             title: 'End to End',
             subtitle: 'Event Excellence.',
             desc: "From initial planning to final execution, our team ensures seamless coordination and flawless delivery. Trust us to turn your vision into reality."
         },
         {
-            image: 'images/herosection3.png',
+            image: 'images/herosection3.jpg',
             title: 'Crafting',
             subtitle: 'Unforgettable Memories.',
             desc: 'We specialize in transforming your dream events into unforgettable moments. With Timeline Stories, every detail is expertly curated to reflect your unique style and vision.'
         },
         {
-            image: 'images/herosection4.png',
+            image: 'images/herosection4.jpg',
             title: 'Your Dream <br> Wedding',
             subtitle: 'Perfectly Brought to Life.',
             desc: 'From concept to celebration, we craft weddings that reflect your story, style, and vision. Every detail planned. Every moment unforgettable.'
