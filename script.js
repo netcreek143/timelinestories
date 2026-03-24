@@ -468,10 +468,9 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('touchend', onPointerUp);
 
         const animateCase = () => {
-            const rect = caseSection.getBoundingClientRect();
-            const halfCursor = 47;
-            const targetX = Math.max(rect.left + halfCursor, Math.min(rect.right - halfCursor, mouseX));
-            const targetY = Math.max(rect.top + halfCursor, Math.min(rect.bottom - halfCursor, mouseY));
+            // Smoothly follow viewport mouse coordinates without aggressive clamping to section boundaries
+            const targetX = mouseX;
+            const targetY = mouseY;
 
             cursorX += (targetX - cursorX) * CURSOR_LERP;
             cursorY += (targetY - cursorY) * CURSOR_LERP;
