@@ -1197,20 +1197,27 @@ html.lenis {
     transition: background-color 0.35s ease;
   }
 
-  .process-card .process-icon-badge svg {
-    color: #000;
-    stroke: #000;
-    transition: color 0.35s ease, stroke 0.35s ease;
+  .process-icon-badge img {
+    width: 60%;
+    height: auto;
+    transition: all 0.35s ease;
   }
 
-  /* On hover, all cards flip icon to black circle + gold icon */
+  .process-icon-badge .icon-active {
+    display: none;
+  }
+
+  /* On hover, all cards flip icon to black circle + icon swap */
   .process-card:hover .process-icon-badge {
     background-color: #000;
   }
 
-  .process-card:hover .process-icon-badge svg {
-    color: #D4AF37;
-    stroke: #D4AF37;
+  .process-card:hover .process-icon-badge .icon-inactive {
+    display: none;
+  }
+
+  .process-card:hover .process-icon-badge .icon-active {
+    display: block;
   }
 
   /* Card Titles — all gold by default */
