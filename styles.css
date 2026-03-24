@@ -10,6 +10,7 @@ body {
   --bg-black: #000000;
   --text-light: #f5f5f5;
   --text-dark: #111111;
+  --text-gray: #a5a5a5; /* Added */
 
   --font-sans: 'Inter', sans-serif;
   --font-serif: 'Prata', serif;
@@ -18,6 +19,7 @@ body {
   --container-max-width: 1440px;
   /* Fluid gutter: 5% on mobile, scaling up to max 80px on desktop */
   --fluid-gutter: clamp(5%, 6vw, 8%);
+  --container-padding: clamp(20px, 5vw, 100px); /* Added */
 
   /* Standardized Vertical Spacing */
   --section-padding-y: clamp(6rem, 10vh, 10rem);
@@ -27,6 +29,14 @@ body {
   --h2-fs: clamp(2.5rem, 5vw, 4.5rem);
   --h3-fs: clamp(1.8rem, 3vw, 2.5rem);
   --body-fs: clamp(1rem, 1.1vw, 1.15rem);
+}
+
+.section-divider {
+  width: 80%;
+  max-width: 1200px;
+  height: 1px;
+  background: rgba(212, 175, 55, 0.15);
+  margin: 0 auto;
 }
 
 * {
@@ -1261,6 +1271,8 @@ html.lenis {
   /* Make the section tall so we can scroll through it */
   height: 300vh;
   position: relative;
+  padding-top: var(--section-padding-y); /* Added */
+  padding-bottom: var(--section-padding-y); /* Added */
 }
 
 /* Sticky Container */
@@ -1650,7 +1662,7 @@ html.lenis {
 .case-study-section {
   position: relative;
   background-color: #ffffff;
-  padding: clamp(80px, 10vh, 140px) 0 clamp(100px, 12vw, 180px);
+  padding: var(--section-padding-y) 0; /* Adjusted */
   overflow: hidden;
   text-align: center;
   z-index: 10;
@@ -2009,7 +2021,7 @@ html.lenis {
 .testimonials-section {
   background: #000;
   color: #fff;
-  padding: 100px 0;
+  padding: 100px 0 30px;
   font-family: 'Inter', sans-serif;
   overflow: hidden;
 }
@@ -2227,7 +2239,7 @@ html.lenis {
   align-items: center;
   justify-content: center;
   gap: 30px;
-  margin-top: 80px;
+  margin-top: 20px; /* Adjusted */
 }
 
 .test-arrow {
@@ -2284,7 +2296,7 @@ html.lenis {
 /* OUR EVENT VENUES SECTION */
 .venues-section {
   background-color: var(--bg-black);
-  padding: var(--section-padding-y) 0;
+  padding: 30px 0 var(--section-padding-y);
   text-align: center;
   overflow: hidden;
   position: relative;
@@ -2497,7 +2509,7 @@ html.lenis {
 /* MOMENTS WE CREATED SECTION */
 .moments-section {
   background-color: #ffffff;
-  padding: var(--section-padding-y) 0 40px;
+  padding: 30px 0 40px;
   text-align: center;
 }
 
@@ -2746,7 +2758,8 @@ html.lenis {
 
 .why-section {
   background: #fff;
-  padding: 40px 0 clamp(60px, 8vw, 120px);
+  padding: 40px 0 var(--section-padding-y);
+  color: #fff;
   font-family: 'Inter', sans-serif;
 }
 
@@ -2755,7 +2768,7 @@ html.lenis {
 .why-title {
   font-family: 'Prata', serif;
   font-size: clamp(3rem, 4.5vw, 4.5rem);
-  color: #000;
+  color: var(--primary-gold);
   font-weight: 400;
   margin-bottom: 40px;
   line-height: 1.1;
@@ -2798,7 +2811,7 @@ html.lenis {
 }
 
 .accordion-item {
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .accordion-item:first-child .accordion-header {
@@ -2822,7 +2835,7 @@ html.lenis {
 }
 
 .accordion-item.active .accordion-header h3 {
-  color: #000;
+  color: #fff;
   text-shadow: 0.5px 0 0 currentColor;
 }
 
@@ -2860,7 +2873,7 @@ html.lenis {
 }
 
 .accordion-item.active .acc-icon::before {
-  background-color: #000;
+  background-color: #fff;
 }
 
 .accordion-item.active .acc-icon::after {
