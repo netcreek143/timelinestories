@@ -1347,11 +1347,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const triggerText = trigger.querySelector('span');
         let activeIndex = -1;
 
-        const updateActiveOption = (index) => {
+        const updateActiveOption = (index, shouldScroll = false) => {
             options.forEach(opt => opt.classList.remove('keyboard-hover'));
             if (index >= 0 && index < options.length) {
                 options[index].classList.add('keyboard-hover');
-                options[index].scrollIntoView({ block: 'nearest' });
+                if (shouldScroll) {
+                    options[index].scrollIntoView({ block: 'nearest' });
+                }
             }
             activeIndex = index;
         };
@@ -1398,11 +1400,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'ArrowDown') {
                 e.preventDefault();
                 if (!isOpen) toggleDropdown(true);
-                updateActiveOption(Math.min(activeIndex + 1, options.length - 1));
+                updateActiveOption(Math.min(activeIndex + 1, options.length - 1), true);
             } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
                 if (!isOpen) toggleDropdown(true);
-                updateActiveOption(Math.max(activeIndex - 1, 0));
+                updateActiveOption(Math.max(activeIndex - 1, 0), true);
             } else if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
                 if (!isOpen) {
@@ -1423,7 +1425,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectOption(option);
             });
             option.addEventListener('mouseenter', () => {
-                updateActiveOption(index);
+                updateActiveOption(index, false);
             });
         });
     }
