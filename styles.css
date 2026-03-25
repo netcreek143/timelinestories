@@ -1981,24 +1981,24 @@ html.lenis {
   opacity: 0;
   visibility: hidden;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-  /* Reset left/top to 0, movement handled by translate3d in JS */
+  /* Movement handled by transform: translate3d in JS */
   left: 0;
   top: 0;
-  transform: translate3d(0, 0, 0) translate(-50%, -50%) scale(0.4);
-  will-change: transform, opacity;
-  /* Transform handled by JS for lerp, transition for scale/opacity */
-  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.3s;
+  /* alignment and scale handled separately to avoid movement lag */
+  translate: -50% -50%;
+  scale: 0.4;
+  will-change: transform, scale, opacity;
+  transition: opacity 0.3s ease, scale 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.3s;
 }
 
 .drag-cursor.active {
   opacity: 1;
   visibility: visible;
-  /* translate3d will be prepended by JS */
-  transform: translate3d(var(--cursor-x, 0), var(--cursor-y, 0), 0) translate(-50%, -50%) scale(1);
+  scale: 1;
 }
 
 .drag-cursor.dragging {
-  transform: translate3d(var(--cursor-x, 0), var(--cursor-y, 0), 0) translate(-50%, -50%) scale(0.93);
+  scale: 0.93;
 }
 
 .drag-cursor span {
@@ -2382,8 +2382,6 @@ html.lenis {
 /* Custom Cursor Follower - Matched to Case Study Drag Ball */
 .venues-custom-cursor {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 94px;
   height: 94px;
   background-color: #000;
@@ -2398,25 +2396,23 @@ html.lenis {
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-  /* Reset left/top to 0, movement handled by translate3d in JS */
+  /* movement separate from alignment/scale to avoid lag */
   left: 0;
   top: 0;
-  transform: translate3d(0, 0, 0) translate(-50%, -50%) scale(0.4);
-  will-change: transform, opacity;
-  /* Movement handled by script.js Lerp, scale handles by CSS transition */
-  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.3s;
+  translate: -50% -50%;
+  scale: 0.4;
+  will-change: transform, scale, opacity;
+  transition: opacity 0.3s ease, scale 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.3s;
 }
 
 .venues-custom-cursor.active {
   opacity: 1;
   visibility: visible;
-  /* translate3d will be prepended by JS */
-  transform: translate3d(var(--v-cursor-x, 0), var(--v-cursor-y, 0), 0) translate(-50%, -50%) scale(1);
+  scale: 1;
 }
 
 .venues-custom-cursor.dragging {
-  transform: translate3d(var(--v-cursor-x, 0), var(--v-cursor-y, 0), 0) translate(-50%, -50%) scale(0.93);
+  scale: 0.93;
 }
 
 .venues-custom-cursor span {

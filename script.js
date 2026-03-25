@@ -422,7 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const FRICTION = 0.92;
         const VELOCITY_FACTOR = 0.0006;
         const EDGE_RESISTANCE = 0.1;
-        const CURSOR_LERP = 0.2;
+        const CURSOR_LERP = 0.35;
 
         let startY_drag = 0;
         let directionLocked = false;
@@ -498,9 +498,8 @@ document.addEventListener('DOMContentLoaded', () => {
             cursorX += (targetX - cursorX) * CURSOR_LERP;
             cursorY += (targetY - cursorY) * CURSOR_LERP;
             
-            // Set CSS variables for translate3d in styles.css
-            dragCursor.style.setProperty('--cursor-x', `${cursorX}px`);
-            dragCursor.style.setProperty('--cursor-y', `${cursorY}px`);
+            // Pure movement via translate3d (avoids collision with CSS translate/scale properties)
+            dragCursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
 
             const n = caseCards.length;
             if (!isCaseDragging) {
@@ -1075,13 +1074,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const animateVenueCursor = () => {
             if (customCursor) {
-                // Lerp movement for that "weighty" feel (increased from 0.14)
-                vCursorX += (vMouseX - vCursorX) * 0.2;
-                vCursorY += (vMouseY - vCursorY) * 0.2;
+                // High-speed Lerp for "instant-feel" responsiveness
+                vCursorX += (vMouseX - vCursorX) * 0.35;
+                vCursorY += (vMouseY - vCursorY) * 0.35;
                 
-                // Set CSS variables for translate3d in styles.css
-                customCursor.style.setProperty('--v-cursor-x', `${vCursorX}px`);
-                customCursor.style.setProperty('--v-cursor-y', `${vCursorY}px`);
+                // Pure movement via translate3d (avoids collision with CSS translate/scale properties)
+                customCursor.style.transform = `translate3d(${vCursorX}px, ${vCursorY}px, 0)`;
             }
             requestAnimationFrame(animateVenueCursor);
         };
