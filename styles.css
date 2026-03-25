@@ -4395,3 +4395,14 @@ html.lenis {
     color: #888 !important;
   }
 }
+
+/* --- PERFORMANCE OPTIMIZATION --- */
+/* content-visibility: auto tells the browser to skip rendering off-screen sections until needed. */
+.case-study-section,
+.venues-section,
+.moments-section,
+.contact-form-section,
+.footer-dark {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
+}

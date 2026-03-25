@@ -100,6 +100,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function preloadNextHeroImages() {
+        const nextIdx = (currentHeroIdx + 1) % sliderData.length;
+        const nextNextIdx = (currentHeroIdx + 2) % sliderData.length;
+        
+        [sliderData[nextIdx], sliderData[nextNextIdx]].forEach(data => {
+            if (data && data.image) {
+                const img = new Image();
+                img.src = data.image;
+            }
+        });
+    }
+
     function updateNavbarColor(imgUrl) {
         if (!navbar) return;
 
@@ -197,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
             heroSubtitle.innerHTML = nextSlide.subtitle;
             heroDesc.innerHTML = nextSlide.desc;
             updateNavbarColor(nextSlide.image);
+            preloadNextHeroImages(); // Preload upcoming slides
         }, "-=0.2"); // Start transition slightly earlier
 
         // 3. Fade in new text content
@@ -273,6 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Start auto-sliding
         startAutoSlide();
+        preloadNextHeroImages(); // Initial preload
     }
 
 
@@ -678,7 +692,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     lastScrollTime = now;
                     e.preventDefault();
                 }
-            }, { passive: false });
+            }, { passive: true });
 
             // --- Touch Swipe Support ---
             let testStartX = 0;

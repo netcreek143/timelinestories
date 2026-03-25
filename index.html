@@ -8,24 +8,29 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
+    <!-- Preload Critical Hero Image -->
+    <link rel="preload" as="image" href="images/herosection1.jpg">
+    
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Prata&family=Playfair+Display:wght@400;500;600&family=Great+Vibes&display=swap"
         rel="stylesheet">
-    <!-- Lenis for Smooth Scrolling -->
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
-    <!-- GSAP Core & Plugins -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
-    <!-- Color Thief Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
-    <!-- Flatpickr -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
+    <!-- Lenis for Smooth Scrolling - Deferred -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js" defer></script>
+    
+    <!-- Color Thief Library - Deferred -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js" defer></script>
+    
+    <!-- Flatpickr - Deferred -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css" media="print" onload="this.media='all'">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
 
-    <!-- TESTING ONLY: Tracking Script -->
-    <script src="https://dsignxt-crm.onrender.com/api/webhooks/wk_mmmzku8j" data-key="wk_mmmzku8j"></script>
+    <!-- TESTING ONLY: Tracking Script - Deferred -->
+    <script src="https://dsignxt-crm.onrender.com/api/webhooks/wk_mmmzku8j" data-key="wk_mmmzku8j" defer></script>
     <!-- END TESTING ONLY -->
 </head>
 
@@ -132,22 +137,20 @@
                 <div class="cards-grid">
                     <!-- Row 1 -->
                     <div class="card span-5">
-                        <img src="./images/card1.png" alt="Event setup" class="card-img" />
+                        <img src="./images/card1.png" alt="Event setup" class="card-img" loading="lazy" decoding="async" width="500" height="400" />
                         <div class="card-overlay"></div>
                         <div class="card-content">
-                            <div class="card-icon">
-                                <img src="./images/ce1.png" alt="Icon" width="28">
-                            </div>
+                                <img src="./images/ce1.png" alt="Icon" width="28" height="28" loading="lazy">
                             <h4 class="card-title">Premium Event<br>Management Company</h4>
                         </div>
                     </div>
 
                     <div class="card span-7">
-                        <img src="./images/card2.png" alt="Specialized weddings" class="card-img" />
+                        <img src="./images/card2.png" alt="Specialized weddings" class="card-img" loading="lazy" decoding="async" width="700" height="400" />
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon">
-                                <img src="./images/ce2.png" alt="Icon" width="28">
+                                <img src="./images/ce2.png" alt="Icon" width="28" height="28" loading="lazy">
                             </div>
                             <h4 class="card-title">Specialized in Weddings, Receptions,<br>Destination & Corporate
                                 Events
@@ -157,22 +160,22 @@
 
                     <!-- Row 2 -->
                     <div class="card span-7">
-                        <img src="./images/card3.png" alt="Team meeting" class="card-img" />
+                        <img src="./images/card3.png" alt="Team meeting" class="card-img" loading="lazy" decoding="async" width="700" height="400" />
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon">
-                                <img src="./images/ce3.png" alt="Icon" width="28">
+                                <img src="./images/ce3.png" alt="Icon" width="28" height="28" loading="lazy">
                             </div>
                             <h4 class="card-title">Highly Experienced Creative &<br>Execution Team</h4>
                         </div>
                     </div>
 
                     <div class="card span-5">
-                        <img src="images/card4.png" alt="Execution" class="card-img" />
+                        <img src="images/card4.png" alt="Execution" class="card-img" loading="lazy" decoding="async" width="500" height="400" />
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon">
-                                <img src="./images/ce4.png" alt="Icon" width="28">
+                                <img src="./images/ce4.png" alt="Icon" width="28" height="28" loading="lazy">
                             </div>
                             <h4 class="card-title">End-to-End<br>Event Execution</h4>
                         </div>
@@ -180,22 +183,22 @@
 
                     <!-- Row 3 -->
                     <div class="card span-5">
-                        <img src="images/card5.png" alt="Material & Decor" class="card-img" />
+                        <img src="images/card5.png" alt="Material & Decor" class="card-img" loading="lazy" decoding="async" width="500" height="400" />
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon">
-                                <img src="./images/ce5.png" alt="Icon" width="28">
+                                <img src="./images/ce5.png" alt="Icon" width="28" height="28" loading="lazy">
                             </div>
                             <h4 class="card-title">Large Material &<br>Decor Inventory</h4>
                         </div>
                     </div>
 
                     <div class="card span-7">
-                        <img src="images/card6.png" alt="Fully Customized" class="card-img" />
+                        <img src="images/card6.png" alt="Fully Customized" class="card-img" loading="lazy" decoding="async" width="700" height="400" />
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon">
-                                <img src="./images/ce6.png" alt="Icon" width="28">
+                                <img src="./images/ce6.png" alt="Icon" width="28" height="28" loading="lazy">
                             </div>
                             <h4 class="card-title">Fully Customized<br>Event Solutions</h4>
                         </div>
@@ -548,7 +551,7 @@
                     </div>
                     <div class="test-video-card" data-index="1"
                         data-video-url="images/test2.mp4">
-                        <video class="test-thumbnail-video" muted preload="metadata">
+                        <video class="test-thumbnail-video" muted preload="none">
                             <source src="images/test2.mp4" type="video/mp4">
                         </video>
                         <div class="play-btn">
@@ -559,7 +562,7 @@
                     </div>
                     <div class="test-video-card" data-index="2"
                         data-video-url="images/test3.mp4">
-                        <video class="test-thumbnail-video" muted preload="metadata">
+                        <video class="test-thumbnail-video" muted preload="none">
                             <source src="images/test3.mp4" type="video/mp4">
                         </video>
                         <div class="play-btn">
@@ -570,7 +573,7 @@
                     </div>
                     <div class="test-video-card" data-index="3"
                         data-video-url="images/test2.mp4">
-                        <video class="test-thumbnail-video" muted preload="metadata">
+                        <video class="test-thumbnail-video" muted preload="none">
                             <source src="images/test2.mp4" type="video/mp4">
                         </video>
                         <div class="play-btn">
@@ -653,40 +656,40 @@
             <div class="venue-fan-wrapper">
                 <!-- Venue Card 1 (Far Left) -->
                 <div class="venue-card pos-far-left">
-                    <img src="images/vc1.png"
-                        alt="Venue 1" draggable="false">
+                    <img loading="lazy" decoding="async" src="images/vc1.png"
+                        alt="Venue 1" draggable="false" width="400" height="550">
                     <div class="venue-info-bar">
                         <h3>ITC Grand Chola - Chennai</h3>
                     </div>
                 </div>
                 <!-- Venue Card 2 (Left) -->
                 <div class="venue-card pos-left">
-                    <img src="images/vc2.png"
-                        alt="Venue 2" draggable="false">
+                    <img loading="lazy" decoding="async" src="images/vc2.png"
+                        alt="Venue 2" draggable="false" width="400" height="550">
                     <div class="venue-info-bar">
                         <h3>The Leela Palace - Chennai</h3>
                     </div>
                 </div>
                 <!-- Venue Card 3 (Center) -->
                 <div class="venue-card pos-center">
-                    <img src="images/vc3.png"
-                        alt="Venue 3" draggable="false">
+                    <img loading="lazy" decoding="async" src="images/vc3.png"
+                        alt="Venue 3" draggable="false" width="400" height="550">
                     <div class="venue-info-bar">
                         <h3>Taj Connemara - Chennai</h3>
                     </div>
                 </div>
                 <!-- Venue Card 4 (Right) -->
                 <div class="venue-card pos-right">
-                    <img src="images/vc4.png"
-                        alt="Venue 4" draggable="false">
+                    <img loading="lazy" decoding="async" src="images/vc4.png"
+                        alt="Venue 4" draggable="false" width="400" height="550">
                     <div class="venue-info-bar">
                         <h3>Holiday Inn Chennai OMR IT Expressway</h3>
                     </div>
                 </div>
                 <!-- Venue Card 5 (Far Right) -->
                 <div class="venue-card pos-far-right">
-                    <img src="images/vc5.png"
-                        alt="Venue 5" draggable="false">
+                    <img loading="lazy" decoding="async" src="images/vc5.png"
+                        alt="Venue 5" draggable="false" width="400" height="550">
                     <div class="venue-info-bar">
                         <h3>SPP Gardens</h3>
                     </div>
@@ -735,68 +738,68 @@
                 <!-- Mixed Order for All Events -->
                 <!-- Set 1 -->
                 <div class="moment-item" data-category="wedding">
-                    <img src="images/Wedding/7J6A0157.JPG" alt="Wedding 1">
+                    <img loading="lazy" decoding="async" src="images/Wedding/7J6A0157.JPG" alt="Wedding 1">
                 </div>
                 <div class="moment-item" data-category="reception">
-                    <img src="images/Reception/7J6A0530.JPG" alt="Reception 1">
+                    <img loading="lazy" decoding="async" src="images/Reception/7J6A0530.JPG" alt="Reception 1">
                 </div>
                 <div class="moment-item" data-category="haldi">
-                    <img src="images/Haldi/BPV02048.JPG" alt="Haldi 1">
+                    <img loading="lazy" decoding="async" src="images/Haldi/BPV02048.JPG" alt="Haldi 1">
                 </div>
                 <div class="moment-item" data-category="birthday">
-                    <img src="images/Birthday/bd1.JPG" alt="Birthday 1">
+                    <img loading="lazy" decoding="async" src="images/Birthday/bd1.JPG" alt="Birthday 1">
                 </div>
                 <!-- Set 2 -->
                 <div class="moment-item" data-category="wedding">
-                    <img src="images/Wedding/7J6A0275.JPG" alt="Wedding 2">
+                    <img loading="lazy" decoding="async" src="images/Wedding/7J6A0275.JPG" alt="Wedding 2">
                 </div>
                 <div class="moment-item" data-category="reception">
-                    <img src="images/Reception/7J6A0619.JPG" alt="Reception 2">
+                    <img loading="lazy" decoding="async" src="images/Reception/7J6A0619.JPG" alt="Reception 2">
                 </div>
                 <div class="moment-item" data-category="haldi">
-                    <img src="images/Haldi/BPV02049.JPG" alt="Haldi 2">
+                    <img loading="lazy" decoding="async" src="images/Haldi/BPV02049.JPG" alt="Haldi 2">
                 </div>
                 <div class="moment-item" data-category="birthday">
-                    <img src="images/Birthday/bd2.JPG" alt="Birthday 2">
+                    <img loading="lazy" decoding="async" src="images/Birthday/bd2.JPG" alt="Birthday 2">
                 </div>
                 <!-- Set 3 -->
                 <div class="moment-item" data-category="wedding">
-                    <img src="images/Wedding/7J6A0932.JPG" alt="Wedding 3">
+                    <img loading="lazy" decoding="async" src="images/Wedding/7J6A0932.JPG" alt="Wedding 3">
                 </div>
                 <div class="moment-item" data-category="reception">
-                    <img src="images/Reception/DSC_7232.JPG" alt="Reception 3">
+                    <img loading="lazy" decoding="async" src="images/Reception/DSC_7232.JPG" alt="Reception 3">
                 </div>
                 <div class="moment-item" data-category="haldi">
-                    <img src="images/Haldi/BPV02059.JPG" alt="Haldi 3">
+                    <img loading="lazy" decoding="async" src="images/Haldi/BPV02059.JPG" alt="Haldi 3">
                 </div>
                 <div class="moment-item" data-category="birthday">
-                    <img src="images/Birthday/bd3.JPG" alt="Birthday 3">
+                    <img loading="lazy" decoding="async" src="images/Birthday/bd3.JPG" alt="Birthday 3">
                 </div>
                 <!-- Set 4 -->
                 <div class="moment-item" data-category="wedding">
-                    <img src="images/Wedding/7J6A1027.JPG" alt="Wedding 4">
+                    <img loading="lazy" decoding="async" src="images/Wedding/7J6A1027.JPG" alt="Wedding 4">
                 </div>
                 <div class="moment-item" data-category="reception">
-                    <img src="images/Reception/DSC_7261.JPG" alt="Reception 4">
+                    <img loading="lazy" decoding="async" src="images/Reception/DSC_7261.JPG" alt="Reception 4">
                 </div>
                 <div class="moment-item" data-category="haldi">
-                    <img src="images/Haldi/BPV02061.JPG" alt="Haldi 4">
+                    <img loading="lazy" decoding="async" src="images/Haldi/BPV02061.JPG" alt="Haldi 4">
                 </div>
                 <div class="moment-item" data-category="birthday">
-                    <img src="images/Birthday/bd4.JPG" alt="Birthday 4">
+                    <img loading="lazy" decoding="async" src="images/Birthday/bd4.JPG" alt="Birthday 4">
                 </div>
                 <!-- Set 5 -->
                 <div class="moment-item" data-category="wedding">
-                    <img src="images/Wedding/7J6A1034.JPG" alt="Wedding 5">
+                    <img loading="lazy" decoding="async" src="images/Wedding/7J6A1034.JPG" alt="Wedding 5">
                 </div>
                 <div class="moment-item" data-category="reception">
-                    <img src="images/Reception/7J6A1720.JPG" alt="Reception 5">
+                    <img loading="lazy" decoding="async" src="images/Reception/7J6A1720.JPG" alt="Reception 5">
                 </div>
                 <div class="moment-item" data-category="haldi">
-                    <img src="images/Haldi/BPV02092.JPG" alt="Haldi 5">
+                    <img loading="lazy" decoding="async" src="images/Haldi/BPV02092.JPG" alt="Haldi 5">
                 </div>
                 <div class="moment-item" data-category="birthday">
-                    <img src="images/Birthday/bd5.JPG" alt="Birthday 5">
+                    <img loading="lazy" decoding="async" src="images/Birthday/bd5.JPG" alt="Birthday 5">
                 </div>
             </div>
             <button class="gallery-nav-btn next" id="nextMoment">
@@ -817,7 +820,7 @@
                 Our team ensures smooth coordination at every stage. Giving you a hassle-free event experience.</p>
 
             <div class="why-image-wrap">
-                <img src="./images/whyimg.png" alt="Wedding Decor">
+                <img loading="lazy" decoding="async" src="./images/whyimg.png" alt="Wedding Decor" width="700" height="500">
             </div>
 
             <div class="accordion">
@@ -943,7 +946,7 @@
             <!-- Column 1: Logo & Company -->
             <div class="footer-col col-info">
                 <div class="footer-logo">
-                    <img src="images/logo.png" alt="Timeline Stories Logo" class="footer-logo-img">
+                    <img loading="lazy" src="images/logo.png" alt="Timeline Stories Logo" class="footer-logo-img" width="120" height="120">
                     <!-- <div class="logo-text-footer">
                         <h3>Timeline Stories</h3>
                         <span>Wedding & Event Organizers</span>
