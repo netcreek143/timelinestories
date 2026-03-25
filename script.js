@@ -1255,6 +1255,75 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Gallery Lightbox Logic ---
+    const lightbox = document.getElementById('galleryLightbox');
+    const lightboxImg = document.getElementById('lightboxImage');
+    const lightboxCat = document.getElementById('lightboxCategory');
+    const closeLightbox = document.getElementById('closeLightbox');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    let currentLightboxImages = [];
+    let currentLightboxIndex = 0;
+
+    const updateLightbox = () => {
+        if (!currentLightboxImages[currentLightboxIndex]) return;
+        const data = currentLightboxImages[currentLightboxIndex];
+        lightboxImg.src = data.src;
+        lightboxCat.textContent = data.category;
+    };
+
+    const openLightbox = (index, images) => {
+        currentLightboxImages = images;
+        currentLightboxIndex = index;
+        updateLightbox();
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeLightboxModal = () => {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+
+    // Initialize click listeners for moments images
+    momentItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const category = item.getAttribute('data-category');
+            // Filter all available images in the respective types as requested
+            const filteredSiblings = Array.from(momentItems).filter(mi => mi.getAttribute('data-category') === category);
+            const imagesData = filteredSiblings.map(mi => ({
+                src: mi.querySelector('img').src,
+                category: category
+            }));
+            const index = filteredSiblings.indexOf(item);
+            openLightbox(index, imagesData);
+        });
+    });
+
+    closeLightbox?.addEventListener('click', closeLightboxModal);
+    lightboxPrev?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentLightboxIndex = (currentLightboxIndex - 1 + currentLightboxImages.length) % currentLightboxImages.length;
+        updateLightbox();
+    });
+    lightboxNext?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentLightboxIndex = (currentLightboxIndex + 1) % currentLightboxImages.length;
+        updateLightbox();
+    });
+
+    lightbox?.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightboxModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+        if (lightbox?.classList.contains('active')) {
+            if (e.key === 'Escape') closeLightboxModal();
+            if (e.key === 'ArrowLeft') lightboxPrev?.click();
+            if (e.key === 'ArrowRight') lightboxNext?.click();
+        }
+    });
+
     // --- Our Process Mobile Carousel: Infinite Loop & Swipe ---
     const processSliderWp = document.querySelector('.process-slider-wrapper');
     const processCards = Array.from(document.querySelectorAll('.process-card'));

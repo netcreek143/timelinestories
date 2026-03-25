@@ -736,67 +736,87 @@
                 <!-- Set 1 -->
                 <div class="moment-item" data-category="wedding">
                     <img loading="lazy" decoding="async" src="images/Wedding/7J6A0157.JPG" alt="Wedding 1">
+                    <div class="moment-overlay">Wedding</div>
                 </div>
                 <div class="moment-item" data-category="reception">
                     <img loading="lazy" decoding="async" src="images/Reception/7J6A0530.JPG" alt="Reception 1">
+                    <div class="moment-overlay">Reception</div>
                 </div>
                 <div class="moment-item" data-category="haldi">
                     <img loading="lazy" decoding="async" src="images/Haldi/BPV02048.JPG" alt="Haldi 1">
+                    <div class="moment-overlay">Haldi</div>
                 </div>
                 <div class="moment-item" data-category="birthday">
                     <img loading="lazy" decoding="async" src="images/Birthday/bd1.JPG" alt="Birthday 1">
+                    <div class="moment-overlay">Birthday</div>
                 </div>
                 <!-- Set 2 -->
                 <div class="moment-item" data-category="wedding">
                     <img loading="lazy" decoding="async" src="images/Wedding/7J6A0275.JPG" alt="Wedding 2">
+                    <div class="moment-overlay">Wedding</div>
                 </div>
                 <div class="moment-item" data-category="reception">
                     <img loading="lazy" decoding="async" src="images/Reception/7J6A0619.JPG" alt="Reception 2">
+                    <div class="moment-overlay">Reception</div>
                 </div>
                 <div class="moment-item" data-category="haldi">
                     <img loading="lazy" decoding="async" src="images/Haldi/BPV02049.JPG" alt="Haldi 2">
+                    <div class="moment-overlay">Haldi</div>
                 </div>
                 <div class="moment-item" data-category="birthday">
                     <img loading="lazy" decoding="async" src="images/Birthday/bd2.JPG" alt="Birthday 2">
+                    <div class="moment-overlay">Birthday</div>
                 </div>
                 <!-- Set 3 -->
                 <div class="moment-item" data-category="wedding">
                     <img loading="lazy" decoding="async" src="images/Wedding/7J6A0932.JPG" alt="Wedding 3">
+                    <div class="moment-overlay">Wedding</div>
                 </div>
                 <div class="moment-item" data-category="reception">
                     <img loading="lazy" decoding="async" src="images/Reception/DSC_7232.JPG" alt="Reception 3">
+                    <div class="moment-overlay">Reception</div>
                 </div>
                 <div class="moment-item" data-category="haldi">
                     <img loading="lazy" decoding="async" src="images/Haldi/BPV02059.JPG" alt="Haldi 3">
+                    <div class="moment-overlay">Haldi</div>
                 </div>
                 <div class="moment-item" data-category="birthday">
                     <img loading="lazy" decoding="async" src="images/Birthday/bd3.JPG" alt="Birthday 3">
+                    <div class="moment-overlay">Birthday</div>
                 </div>
                 <!-- Set 4 -->
                 <div class="moment-item" data-category="wedding">
                     <img loading="lazy" decoding="async" src="images/Wedding/7J6A1027.JPG" alt="Wedding 4">
+                    <div class="moment-overlay">Wedding</div>
                 </div>
                 <div class="moment-item" data-category="reception">
                     <img loading="lazy" decoding="async" src="images/Reception/DSC_7261.JPG" alt="Reception 4">
+                    <div class="moment-overlay">Reception</div>
                 </div>
                 <div class="moment-item" data-category="haldi">
                     <img loading="lazy" decoding="async" src="images/Haldi/BPV02061.JPG" alt="Haldi 4">
+                    <div class="moment-overlay">Haldi</div>
                 </div>
                 <div class="moment-item" data-category="birthday">
                     <img loading="lazy" decoding="async" src="images/Birthday/bd4.JPG" alt="Birthday 4">
+                    <div class="moment-overlay">Birthday</div>
                 </div>
                 <!-- Set 5 -->
                 <div class="moment-item" data-category="wedding">
                     <img loading="lazy" decoding="async" src="images/Wedding/7J6A1034.JPG" alt="Wedding 5">
+                    <div class="moment-overlay">Wedding</div>
                 </div>
                 <div class="moment-item" data-category="reception">
                     <img loading="lazy" decoding="async" src="images/Reception/7J6A1720.JPG" alt="Reception 5">
+                    <div class="moment-overlay">Reception</div>
                 </div>
                 <div class="moment-item" data-category="haldi">
                     <img loading="lazy" decoding="async" src="images/Haldi/BPV02092.JPG" alt="Haldi 5">
+                    <div class="moment-overlay">Haldi</div>
                 </div>
                 <div class="moment-item" data-category="birthday">
                     <img loading="lazy" decoding="async" src="images/Birthday/bd5.JPG" alt="Birthday 5">
+                    <div class="moment-overlay">Birthday</div>
                 </div>
             </div>
             <button class="gallery-nav-btn next" id="nextMoment">
@@ -884,6 +904,30 @@
                 </div>
             </div>
     </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="galleryLightbox">
+        <div class="lightbox-close" id="closeLightbox">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </div>
+        <button class="lightbox-nav prev" id="lightboxPrev">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        <div class="lightbox-content">
+            <img src="" alt="Enlarged moment" id="lightboxImage">
+            <div class="lightbox-category" id="lightboxCategory">Wedding</div>
+        </div>
+        <button class="lightbox-nav next" id="lightboxNext">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+    </div>
 
     <!-- Contact Form Section (Light) -->
     <section class="contact-form-section" id="contact">
