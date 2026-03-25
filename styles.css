@@ -3470,7 +3470,8 @@ html.lenis {
   transition: all 0.2s ease;
 }
 
-.custom-option:hover {
+.custom-option:hover,
+.custom-option.keyboard-hover {
   background: #D4AF37;
   color: #000;
 }

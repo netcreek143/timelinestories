@@ -1342,34 +1342,88 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const trigger = container.querySelector('.select-trigger');
         const optionsContainer = container.querySelector('.custom-options');
-        const options = container.querySelectorAll('.custom-option');
+        const options = Array.from(container.querySelectorAll('.custom-option'));
         const hiddenInput = container.querySelector('input[type="hidden"]');
         const triggerText = trigger.querySelector('span');
+        let activeIndex = -1;
+
+        const updateActiveOption = (index) => {
+            options.forEach(opt => opt.classList.remove('keyboard-hover'));
+            if (index >= 0 && index < options.length) {
+                options[index].classList.add('keyboard-hover');
+                options[index].scrollIntoView({ block: 'nearest' });
+            }
+            activeIndex = index;
+        };
+
+        const toggleDropdown = (show) => {
+            const isShowing = show !== undefined ? show : !optionsContainer.classList.contains('open');
+            if (isShowing) {
+                // Close other custom selects first
+                document.querySelectorAll('.custom-options.open').forEach(openDropdown => {
+                    if (openDropdown !== optionsContainer) {
+                        openDropdown.classList.remove('open');
+                        openDropdown.parentElement.querySelector('.select-trigger').classList.remove('active');
+                    }
+                });
+                optionsContainer.classList.add('open');
+                trigger.classList.add('active');
+                // Reset active index when opening
+                activeIndex = -1;
+                updateActiveOption(-1);
+            } else {
+                optionsContainer.classList.remove('open');
+                trigger.classList.remove('active');
+            }
+        };
+
+        const selectOption = (option) => {
+            const value = option.getAttribute('data-value');
+            const text = option.textContent;
+            triggerText.textContent = text;
+            hiddenInput.value = value;
+            trigger.classList.add('selected');
+            toggleDropdown(false);
+            trigger.focus();
+        };
 
         trigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            // Close other custom selects first
-            document.querySelectorAll('.custom-options').forEach(openDropdown => {
-                if (openDropdown !== optionsContainer) {
-                    openDropdown.classList.remove('open');
-                    openDropdown.parentElement.querySelector('.select-trigger').classList.remove('active');
-                }
-            });
-            optionsContainer.classList.toggle('open');
-            trigger.classList.toggle('active');
+            toggleDropdown();
         });
 
-        options.forEach(option => {
-            option.addEventListener('click', () => {
-                const value = option.getAttribute('data-value');
-                const text = option.textContent;
-                
-                triggerText.textContent = text;
-                hiddenInput.value = value;
-                
-                trigger.classList.add('selected');
-                optionsContainer.classList.remove('open');
-                trigger.classList.remove('active');
+        trigger.addEventListener('keydown', (e) => {
+            const isOpen = optionsContainer.classList.contains('open');
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (!isOpen) toggleDropdown(true);
+                updateActiveOption(Math.min(activeIndex + 1, options.length - 1));
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (!isOpen) toggleDropdown(true);
+                updateActiveOption(Math.max(activeIndex - 1, 0));
+            } else if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (!isOpen) {
+                    toggleDropdown(true);
+                } else if (activeIndex >= 0) {
+                    selectOption(options[activeIndex]);
+                }
+            } else if (e.key === 'Escape') {
+                toggleDropdown(false);
+            } else if (e.key === 'Tab') {
+                toggleDropdown(false);
+            }
+        });
+
+        options.forEach((option, index) => {
+            option.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selectOption(option);
+            });
+            option.addEventListener('mouseenter', () => {
+                updateActiveOption(index);
             });
         });
     }
