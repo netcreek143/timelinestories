@@ -1426,6 +1426,7 @@ html.lenis {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
 /* The vertical line appearing only when active */
@@ -1440,6 +1441,7 @@ html.lenis {
   transform-origin: top center;
   transition: height 0.5s ease, opacity 0.5s ease;
   opacity: 0;
+  z-index: 1;
 }
 
 .arc-indicator.active .node-number-badge {
@@ -1452,6 +1454,7 @@ html.lenis {
 .arc-indicator.active .node-dot {
   background-color: var(--primary-gold);
   box-shadow: 0 0 15px var(--primary-gold);
+  opacity: 1;
 }
 
 .arc-indicator.active .node-line {
