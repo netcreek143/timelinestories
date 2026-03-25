@@ -138,7 +138,7 @@ html.lenis {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 24px var(--fluid-gutter);
+  padding: 24px 0;
   background: #000;
   backdrop-filter: blur(10px);
   z-index: 2000;
@@ -708,7 +708,7 @@ html.lenis {
   }
 
   .navbar-wrapper {
-    padding: 0 20px;
+    padding: 0 10px;
     height: 100%;
   }
 
@@ -734,7 +734,7 @@ html.lenis {
     right: 0;
     top: auto;
     transform: none;
-    padding: 0 24px;
+    padding: 0 20px;
     text-align: left;
     max-width: 100%;
   }
@@ -799,7 +799,7 @@ html.lenis {
 
   .slider-controls {
     bottom: 30px;
-    left: 24px;
+    left: 15px;
     transform: none;
     width: auto;
     justify-content: flex-start;
@@ -809,7 +809,7 @@ html.lenis {
 
   /* About / Creating Memories Mobile Refinements */
   .section-header {
-    padding: 0 20px;
+    padding: 0 15px;
     margin-bottom: 30px;
   }
 
@@ -2786,7 +2786,7 @@ html.lenis {
   }
 
   .moments-filter-container {
-    padding: 0 24px;
+    padding: 0 15px;
     flex-direction: column;
     align-items: flex-start;
   }
@@ -2940,13 +2940,22 @@ html.lenis {
 
 /* Responsive Fix for Smaller Desktop (Why Section) */
 @media (max-width: 1440px) {
+
+  .why-title {
+  font-size: clamp(3rem, 4vw, 4rem);
+    width: 700px;
+  }
   .why-top-desc {
-    font-size: 0.9rem;
-    padding-top: 10px;
+    font-size: 0.81rem; /* Increased (+20% from 0.9rem) */
+    padding-top: 10px; /* Added as per request */
+    width: 100%;
   }
 
+  .why-image-wrap {
+    width: 600px;
+}
+
   .container-why {
-    width: calc(100% - 100px);
     gap: 40px;
     row-gap: 30px;
     align-items: stretch; /* Match accordion height to image */
@@ -2957,11 +2966,11 @@ html.lenis {
   }
 
   .accordion-header h3 {
-    font-size: 1.15rem; /* Slightly reduced */
+    font-size: 1.38rem; /* Increased (+20% from 1.15rem) */
   }
 
   .accordion-content p {
-    font-size: 0.9rem;
+    font-size: 1.08rem; /* Increased (+20% from 0.9rem) */
     padding-bottom: 15px; /* Reduced from 20px */
   }
 }
@@ -3291,7 +3300,7 @@ html.lenis {
   text-align: center;
   max-width: 1400px;
   margin: 0 auto 80px;
-  padding: 0 20px;
+  padding: 0 15px;
 
 }
 
@@ -3335,7 +3344,7 @@ html.lenis {
   }
 
   .form-container {
-    padding: 0 24px !important;
+    padding: 0 15px !important;
   }
 
   .form-group input,
@@ -3713,7 +3722,7 @@ html.lenis {
   }
 
   .footer-container {
-    padding: 0 30px 60px;
+    padding: 0 15px 60px;
     flex-direction: column;
     gap: 50px;
   }
@@ -3940,7 +3949,7 @@ html.lenis {
 
   /* ORDER 3: DESCRIPTION TEXT CONTENT */
   .test-content-wrap {
-    padding: 10px 24px !important; /* Reduced from 20px 24px */
+    padding: 10px 15px !important; /* Reduced from 20px 24px */
     text-align: left !important;
     width: 100% !important;
     display: block !important;
@@ -3991,7 +4000,7 @@ html.lenis {
 
   .venues-header {
     margin-bottom: 10px !important; /* Reduced from 20px */
-    padding: 0 20px !important;
+    padding: 0 15px !important;
   }
 
   .venues-title {
@@ -4002,7 +4011,7 @@ html.lenis {
   .venues-desc {
     font-size: 16px !important;
     line-height: 1.6 !important;
-    padding: 0 10px !important;
+    padding: 0 15px !important;
   }
 
   /* --- MOMENTS SECTION MOBILE REINFORCEMENT --- */
@@ -4111,7 +4120,7 @@ html.lenis {
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
-    padding: 0 24px !important;
+    padding: 0 15px !important;
     gap: 0 !important;
     margin: 0 !important;
   }
@@ -4365,7 +4374,7 @@ html.lenis {
   }
 
   .bottom-container {
-    padding: 0 20px !important;
+    padding: 0 15px !important;
     gap: 20px !important;
   }
 
