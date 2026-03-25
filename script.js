@@ -385,11 +385,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let mouseX = 0, mouseY = 0;
     let cursorX = 0, cursorY = 0;
     let isInside = false;
+    let isCursorInitialized = false;
 
     if (caseSection && dragCursor) {
         caseSection.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
+
+            if (!isCursorInitialized) {
+                cursorX = mouseX;
+                cursorY = mouseY;
+                isCursorInitialized = true;
+            }
+
             if (!isInside) {
                 isInside = true;
                 dragCursor.classList.add('active');
@@ -399,11 +407,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         caseSection.addEventListener('mouseleave', () => {
             isInside = false;
+            isCursorInitialized = false;
             dragCursor.classList.remove('active');
             caseSection.style.cursor = 'default';
         });
 
-        let isDragging = false;
+        let isCaseDragging = false;
         let startX_drag = 0;
         let lastX_drag = 0;
         let position = 1;
@@ -413,14 +422,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const FRICTION = 0.92;
         const VELOCITY_FACTOR = 0.0006;
         const EDGE_RESISTANCE = 0.1;
-        const CURSOR_LERP = 0.14;
+        const CURSOR_LERP = 0.2;
 
         let startY_drag = 0;
         let directionLocked = false;
         let isHorizontalDrag = false;
 
         const onPointerDown = (e) => {
-            isDragging = true;
+            isCaseDragging = true;
             directionLocked = false;
             isHorizontalDrag = false;
             startX_drag = e.clientX || (e.touches && e.touches[0].clientX);
@@ -437,7 +446,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 mouseX = x;
                 mouseY = y;
             }
-            if (!isDragging) return;
+            if (!isCaseDragging) return;
 
             // On mobile, detect direction before locking
             if (!directionLocked && e.touches) {
@@ -450,7 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!directionLocked) return; // wait for direction
                 if (!isHorizontalDrag) {
                     // Vertical scroll — cancel drag and let browser handle
-                    isDragging = false;
+                    isCaseDragging = false;
                     dragCursor.classList.remove('dragging');
                     return;
                 }
@@ -462,13 +471,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const onPointerUp = () => {
-            if (isDragging && isHorizontalDrag) {
+            if (isCaseDragging && isHorizontalDrag) {
                 const deltaX = lastX_drag - startX_drag;
                 velocity = deltaX * VELOCITY_FACTOR;
                 // Limit velocity to move roughly one by one
                 velocity = Math.max(-0.15, Math.min(0.15, velocity));
             }
-            isDragging = false;
+            isCaseDragging = false;
             directionLocked = false;
             isHorizontalDrag = false;
             dragCursor.classList.remove('dragging');
@@ -488,11 +497,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             cursorX += (targetX - cursorX) * CURSOR_LERP;
             cursorY += (targetY - cursorY) * CURSOR_LERP;
-            dragCursor.style.left = `${cursorX}px`;
-            dragCursor.style.top = `${cursorY}px`;
+            
+            // Set CSS variables for translate3d in styles.css
+            dragCursor.style.setProperty('--cursor-x', `${cursorX}px`);
+            dragCursor.style.setProperty('--cursor-y', `${cursorY}px`);
 
             const n = caseCards.length;
-            if (!isDragging) {
+            if (!isCaseDragging) {
                 position -= velocity;
                 velocity *= FRICTION;
 
@@ -1026,10 +1037,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const customCursor = document.querySelector('.venues-custom-cursor');
     const positions = ['pos-far-left', 'pos-left', 'pos-center', 'pos-right', 'pos-far-right'];
     
-    let startX = 0;
-    let isDragging = false;
+    let venueStartX = 0;
+    let isVenueDragging = false;
     let hasMoved = false; 
-    let threshold = 50; 
+    let venueThreshold = 50; 
 
     // Custom Cursor tracking variables
     let vMouseX = 0, vMouseY = 0;
@@ -1064,11 +1075,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const animateVenueCursor = () => {
             if (customCursor) {
-                // Lerp movement for that "weighty" feel
-                vCursorX += (vMouseX - vCursorX) * 0.14;
-                vCursorY += (vMouseY - vCursorY) * 0.14;
-                customCursor.style.left = `${vCursorX}px`;
-                customCursor.style.top = `${vCursorY}px`;
+                // Lerp movement for that "weighty" feel (increased from 0.14)
+                vCursorX += (vMouseX - vCursorX) * 0.2;
+                vCursorY += (vMouseY - vCursorY) * 0.2;
+                
+                // Set CSS variables for translate3d in styles.css
+                customCursor.style.setProperty('--v-cursor-x', `${vCursorX}px`);
+                customCursor.style.setProperty('--v-cursor-y', `${vCursorY}px`);
             }
             requestAnimationFrame(animateVenueCursor);
         };
@@ -1101,11 +1114,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let venueIsHorizontal = false;
 
         const handleDragStart = (e) => {
-            isDragging = true;
+            isVenueDragging = true;
             hasMoved = false;
             venueDirLocked = false;
             venueIsHorizontal = false;
-            startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            venueStartX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
             venueStartY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
             venuesContainer.classList.add('grabbing');
             customCursor?.classList.add('dragging');
@@ -1119,11 +1132,11 @@ document.addEventListener('DOMContentLoaded', () => {
             vMouseX = x;
             vMouseY = y;
 
-            if (!isDragging || hasMoved) return;
+            if (!isVenueDragging || hasMoved) return;
 
             // On touch, detect direction before intercepting
             if (e.touches && !venueDirLocked) {
-                const dx = Math.abs(x - startX);
+                const dx = Math.abs(x - venueStartX);
                 const dy = Math.abs(y - venueStartY);
                 if (dx + dy > 10) {
                     venueDirLocked = true;
@@ -1132,7 +1145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!venueDirLocked) return;
                 if (!venueIsHorizontal) {
                     // Let vertical scroll through
-                    isDragging = false;
+                    isVenueDragging = false;
                     venuesContainer.classList.remove('grabbing');
                     return;
                 }
@@ -1140,16 +1153,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             e.preventDefault();
             
-            const diff = x - startX;
+            const diff = x - venueStartX;
 
-            if (Math.abs(diff) > threshold) {
+            if (Math.abs(diff) > venueThreshold) {
                 updatePositions(diff > 0 ? 'prev' : 'next');
                 hasMoved = true;
             }
         };
 
         const handleDragEnd = () => {
-            isDragging = false;
+            isVenueDragging = false;
             venueDirLocked = false;
             venueIsHorizontal = false;
             venuesContainer.classList.remove('grabbing');
@@ -1250,8 +1263,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (processSliderWp && processCards.length > 0) {
         let currentIndex = 0;
-        let startX = 0;
-        let isDragging = false;
+        let processStartX = 0;
+        let isProcessDragging = false;
         let diffX = 0;
 
         const updateProcessClasses = () => {
@@ -1287,20 +1300,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Swipe Handlers
         processSliderWp.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            isDragging = true;
+            processStartX = e.touches[0].clientX;
+            isProcessDragging = true;
             diffX = 0;
         }, { passive: true });
 
         processSliderWp.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
+            if (!isProcessDragging) return;
             const currentX = e.touches[0].clientX;
-            diffX = startX - currentX;
+            diffX = processStartX - currentX;
         }, { passive: true });
 
         processSliderWp.addEventListener('touchend', () => {
-            if (!isDragging) return;
-            isDragging = false;
+            if (!isProcessDragging) return;
+            isProcessDragging = false;
             
             if (Math.abs(diffX) > 50) {
                 if (diffX > 0) goToNext();
