@@ -261,7 +261,7 @@
                     <div class="process-icon-badge">
                         <img src="images/op4b.png" alt="Approval Icon" class="icon-inactive">
                         <img src="images/op4g.png" alt="Approval Icon" class="icon-active">
-                    </div>
+                    </div>  
                     <h4>Client Approval &<br>Refinement</h4>
                     <p>We refine and adjust until every detail feels flawless, bringing your vision to reality.</p>
                 </div>
@@ -906,15 +906,22 @@
                     <div class="form-group">
                         <input type="email" id="email" name="email" placeholder="Email" required>
                     </div>
-                    <div class="form-group select-group">
-                        <select id="eventType" name="eventType" required>
-                            <option value="" disabled selected>Event Type</option>
-                            <option value="wedding">Wedding</option>
-                            <option value="reception">Reception</option>
-                            <option value="corporate">Corporate</option>
-                            <option value="other">Other</option>
-                        </select>
-                        <span class="select-arrow"></span>
+                    <div class="form-group custom-select" id="mainEventTypeSelect">
+                        <div class="select-trigger">
+                            <span>Event Type</span>
+                            <div class="select-arrow"></div>
+                        </div>
+                        <div class="custom-options">
+                            <div class="custom-option" data-value="Wedding">Wedding</div>
+                            <div class="custom-option" data-value="Reception">Reception</div>
+                            <div class="custom-option" data-value="Engagement">Engagement</div>
+                            <div class="custom-option" data-value="Birthday">Birthday</div>
+                            <div class="custom-option" data-value="Puberty">Puberty</div>
+                            <div class="custom-option" data-value="Baby Shower">Baby Shower</div>
+                            <div class="custom-option" data-value="Corporate Event">Corporate Event</div>
+                            <div class="custom-option" data-value="Other Event">Other Event</div>
+                        </div>
+                        <input type="hidden" name="eventType" required>
                     </div>
                     <div class="form-group">
                         <input type="date" id="date" name="date" placeholder="Date" required>
@@ -1077,15 +1084,22 @@
                     <div class="form-group">
                         <input type="email" name="email" placeholder="Email" required>
                     </div>
-                    <div class="form-group select-group">
-                        <select name="eventType" required>
-                            <option value="" disabled selected>Event Type</option>
-                            <option value="wedding">Wedding</option>
-                            <option value="reception">Reception</option>
-                            <option value="corporate">Corporate</option>
-                            <option value="other">Other</option>
-                        </select>
-                        <span class="select-arrow"></span>
+                    <div class="form-group custom-select" id="modalEventTypeSelect">
+                        <div class="select-trigger">
+                            <span>Event Type</span>
+                            <div class="select-arrow"></div>
+                        </div>
+                        <div class="custom-options">
+                            <div class="custom-option" data-value="Wedding">Wedding</div>
+                            <div class="custom-option" data-value="Reception">Reception</div>
+                            <div class="custom-option" data-value="Engagement">Engagement</div>
+                            <div class="custom-option" data-value="Birthday">Birthday</div>
+                            <div class="custom-option" data-value="Puberty">Puberty</div>
+                            <div class="custom-option" data-value="Baby Shower">Baby Shower</div>
+                            <div class="custom-option" data-value="Corporate Event">Corporate Event</div>
+                            <div class="custom-option" data-value="Other Event">Other Event</div>
+                        </div>
+                        <input type="hidden" name="eventType" required>
                     </div>
                     <div class="form-group">
                         <input type="date" name="date" placeholder="Date" required>

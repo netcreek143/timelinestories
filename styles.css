@@ -516,7 +516,6 @@ html.lenis {
   object-fit: cover;
   transition: transform 0.1s ease-out;
   /* Fast response for parallax */
-  transform: scale(1.15);
   /* Provide room for parallax movement */
 }
 
@@ -572,9 +571,8 @@ html.lenis {
 /* Gaussian Focus Blur - Card Siblings Only */
 @media (min-width: 769px) {
   .cards-grid:hover .card:not(:hover) {
-    filter: brightness(0.9);
-    opacity: 0.9;
-    transform: scale(0.97);
+    filter: brightness(1);
+    opacity: 1;
   }
 }
 
@@ -3156,6 +3154,7 @@ html.lenis {
 /* Custom Flatpickr Overrides for Luxury Theme */
 .flatpickr-calendar {
   font-family: 'Inter', sans-serif !important;
+  background: #1a1a1a;
 }
 
 .flatpickr-day.selected,
@@ -3178,7 +3177,7 @@ html.lenis {
 .flatpickr-day.endRange.nextMonthDay {
   background: #D4AF37 !important;
   border-color: #D4AF37 !important;
-  color: #000 !important;
+  color: #111 !important;
 }
 
 .flatpickr-day.today {
@@ -3189,7 +3188,7 @@ html.lenis {
 .modal-container .form-group select:focus,
 .modal-container .form-group textarea:focus {
   border-color: #D4AF37 !important;
-  background: #222 !important;
+  background: #111 !important;
 }
 
 .modal-submit-wrap {
@@ -3381,16 +3380,15 @@ html.lenis {
 }
 
 .form-group input,
-.form-group select,
+.form-group .select-trigger,
 .form-group textarea {
   width: 100%;
   padding: 22px 30px;
-  background: #ffffff;
-  border: 1px solid transparent;
-  /* More rectangular */
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
-  color: #333;
+  color: #fff;
   transition: all 0.3s ease;
   outline: none;
 }
@@ -3401,33 +3399,85 @@ html.lenis {
 }
 
 .form-group input:focus,
-.form-group select:focus,
+.form-group .select-trigger.active,
 .form-group textarea:focus {
-  background: #fff;
+  background: #111;
   border-color: #D4AF37;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Dropdown styling */
-.select-group {
+/* Custom Dropdown Styling */
+.custom-select {
   position: relative;
+  user-select: none;
 }
 
-.select-group select {
-  appearance: none;
+.select-trigger {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
   cursor: pointer;
+  color: #999 !important; /* Placeholder color initial */
+}
+
+.select-trigger.selected {
+  color: #fff !important;
 }
 
 .select-arrow {
-  position: absolute;
-  right: 25px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 10px;
-  height: 6px;
+  width: 12px;
+  height: 8px;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' fill='none' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat center;
-  pointer-events: none;
+  transition: transform 0.3s ease;
 }
+
+.select-trigger.active .select-arrow {
+  transform: rotate(180deg);
+}
+
+.custom-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #1a1a1a;
+  border: 1px solid #D4AF37;
+  border-top: none;
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  display: none;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
+
+.custom-options.open {
+  display: block;
+}
+
+.custom-option {
+  padding: 15px 30px;
+  color: #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-option:hover {
+  background: #D4AF37;
+  color: #000;
+}
+
+/* Scrollbar for custom options */
+.custom-options::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-options::-webkit-scrollbar-track {
+  background: #111;
+}
+.custom-options::-webkit-scrollbar-thumb {
+  background: #333;
+}
+
+/* Legacy Dropdown styles removed for custom DIV-based implementation */
 
 .full-width {
   grid-column: span 2;

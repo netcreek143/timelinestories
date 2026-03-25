@@ -1334,4 +1334,55 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- Custom Dropdown Logic ---
+    function setupCustomSelect(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const trigger = container.querySelector('.select-trigger');
+        const optionsContainer = container.querySelector('.custom-options');
+        const options = container.querySelectorAll('.custom-option');
+        const hiddenInput = container.querySelector('input[type="hidden"]');
+        const triggerText = trigger.querySelector('span');
+
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // Close other custom selects first
+            document.querySelectorAll('.custom-options').forEach(openDropdown => {
+                if (openDropdown !== optionsContainer) {
+                    openDropdown.classList.remove('open');
+                    openDropdown.parentElement.querySelector('.select-trigger').classList.remove('active');
+                }
+            });
+            optionsContainer.classList.toggle('open');
+            trigger.classList.toggle('active');
+        });
+
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                const value = option.getAttribute('data-value');
+                const text = option.textContent;
+                
+                triggerText.textContent = text;
+                hiddenInput.value = value;
+                
+                trigger.classList.add('selected');
+                optionsContainer.classList.remove('open');
+                trigger.classList.remove('active');
+            });
+        });
+    }
+
+    setupCustomSelect('mainEventTypeSelect');
+    setupCustomSelect('modalEventTypeSelect');
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.custom-options.open').forEach(openDropdown => {
+            openDropdown.classList.remove('open');
+            openDropdown.parentElement.querySelector('.select-trigger').classList.remove('active');
+        });
+    });
+
 });
