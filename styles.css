@@ -3383,7 +3383,9 @@ html.lenis {
 .form-group .select-trigger,
 .form-group textarea {
   width: 100%;
-  padding: 22px 30px;
+  padding: 0 30px; /* Removed vertical padding in favor of height/line-height */
+  height: 66px;
+  line-height: 66px;
   background: #1a1a1a;
   border: 1px solid rgba(255, 255, 255, 0.1);
   font-family: 'Inter', sans-serif;
@@ -3391,6 +3393,13 @@ html.lenis {
   color: #fff;
   transition: all 0.3s ease;
   outline: none;
+  box-sizing: border-box;
+}
+
+.form-group textarea {
+  height: auto;
+  line-height: 1.5;
+  padding: 22px 30px;
 }
 
 .form-group input::placeholder,
@@ -3468,13 +3477,20 @@ html.lenis {
 
 /* Scrollbar for custom options */
 .custom-options::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
+  display: block;
 }
 .custom-options::-webkit-scrollbar-track {
   background: #111;
 }
 .custom-options::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #D4AF37;
+  border-radius: 10px;
+}
+/* Ensure the scrollbar is always visible when content overflows */
+.custom-options {
+  scrollbar-width: thin;
+  scrollbar-color: #D4AF37 #111;
 }
 
 /* Legacy Dropdown styles removed for custom DIV-based implementation */
