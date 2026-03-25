@@ -2812,6 +2812,7 @@ html.lenis {
   font-weight: 400;
   margin-bottom: 0; /* Removed bottom margin as Row 2 handles spacing */
   line-height: 1.1;
+  width: 800px;
   letter-spacing: -2px;
 }
 
@@ -2836,6 +2837,7 @@ html.lenis {
 
 .why-image-wrap {
   border-radius: 20px;
+  width: 700px;
   overflow: hidden;
   box-shadow: none;
 }
