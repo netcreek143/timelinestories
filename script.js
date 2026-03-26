@@ -161,62 +161,66 @@ document.addEventListener('DOMContentLoaded', () => {
         if (index === currentHeroIdx || !sliderData[index]) return;
 
         const nextSlide = sliderData[index];
-        const prevIndex = currentHeroIdx;
         currentHeroIdx = index;
 
-        // Update dots immediately
+        // 1. Instantly update UI indicators (dots)
         heroDots.forEach((dot, i) => dot.classList.toggle('active', i === currentHeroIdx));
 
-        // Kill any running GSAP tweens
-        gsap.killTweensOf([heroHeadline, heroSubtitle, heroDesc]);
-        heroBgs.forEach(bg => gsap.killTweensOf(bg));
+        // 2. Identify Active/Inactive Layers
+        const activeBg = document.querySelector('.hero-bg.active');
+        const inactiveBg = Array.from(heroBgs).find(bg => bg !== activeBg);
+        if (!activeBg || !inactiveBg) return;
+
+        // 3. Kill any running GSAP tweens for clean start
+        gsap.killTweensOf([heroHeadline, heroSubtitle, heroDesc, activeBg, inactiveBg]);
+
+        // 4. Set the next image on the inactive layer
+        inactiveBg.style.backgroundImage = `url('${nextSlide.image}')`;
+        inactiveBg.style.opacity = 0; // Ensure it starts from 0
 
         const tl = gsap.timeline();
 
-        // 1. Fade out current text content
+        // PART A: Fade out current text and Start background cross-fade
         tl.to([heroHeadline, heroSubtitle, heroDesc], {
             opacity: 0,
-            y: 20,
-            duration: 0.35,
-            stagger: 0.04,
+            y: 15,
+            duration: 0.4,
+            stagger: 0.05,
             ease: "power2.in"
         });
 
-        // 2. Prepare next background on the currently inactive layer
-        tl.add(() => {
-            const activeBg = document.querySelector('.hero-bg.active');
-            const inactiveBg = Array.from(heroBgs).find(bg => bg !== activeBg);
-
-            if (inactiveBg && activeBg) {
-                // Set the next image on the inactive layer
-                inactiveBg.style.backgroundImage = `url('${nextSlide.image}')`;
-
-                // Cross-fade background layers
-                gsap.to(inactiveBg, { opacity: 1, duration: 1.2, ease: "linear" });
-                gsap.to(activeBg, {
-                    opacity: 0,
-                    duration: 1.2,
-                    ease: "linear",
-                    onComplete: () => {
-                        activeBg.classList.remove('active');
-                        inactiveBg.classList.add('active');
-                    }
-                });
+        // Start background cross-fade concurrently with text fade-out
+        tl.to(inactiveBg, { 
+            opacity: 1, 
+            duration: 1.0, 
+            ease: "power1.inOut" 
+        }, 0.1); 
+        
+        tl.to(activeBg, { 
+            opacity: 0, 
+            duration: 1.0, 
+            ease: "power1.inOut",
+            onComplete: () => {
+                activeBg.classList.remove('active');
+                inactiveBg.classList.add('active');
             }
+        }, 0.1);
 
-            // Sync other content
+        // PART B: Update HTML Content mid-transition
+        tl.add(() => {
             heroHeadline.innerHTML = nextSlide.title;
             heroSubtitle.innerHTML = nextSlide.subtitle;
             heroDesc.innerHTML = nextSlide.desc;
             updateNavbarColor(nextSlide.image);
-            preloadNextHeroImages(); // Preload upcoming slides
-        }, "-=0.2"); // Start transition slightly earlier
+            preloadNextHeroImages();
+        }, 0.5); // Peak of the cross-fade
 
-        // 3. Fade in new text content
+        // PART C: Fade in new text content
         tl.fromTo(
             [heroHeadline, heroSubtitle, heroDesc],
-            { opacity: 0, y: -20 },
-            { opacity: 1, y: 0, duration: 0.55, stagger: 0.08, ease: "power2.out" }
+            { opacity: 0, y: -15 },
+            { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power2.out" },
+            0.6 // Start appearing as the new background becomes dominant
         );
     }
 
@@ -302,12 +306,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Hide/Show based on scroll direction with a threshold to prevent Lenis jitter
         const currentScrollY = window.scrollY;
+        const isDesktop = window.innerWidth > 1024;
+
         if (Math.abs(currentScrollY - lastScrollY) > 5) { // 5px threshold filter
-            if (currentScrollY > lastScrollY && currentScrollY > 120) {
-                // Scrolling down -> hide navbar
+            if (!isDesktop && currentScrollY > lastScrollY && currentScrollY > 120) {
+                // Scrolling down -> hide navbar (Mobile/Tablet only)
                 navbar.style.transform = "translateY(-100%)";
             } else {
-                // Scrolling up -> show navbar
+                // Scrolling up OR Desktop -> show navbar
                 navbar.style.transform = "translateY(0)";
             }
             lastScrollY = currentScrollY;
@@ -378,7 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Case Study Section (Curved Drag) ---
     const caseSection = document.querySelector('.case-study-section');
-    const dragCursor = document.getElementById('dragCursor');
+    const caseCursor = document.getElementById('caseCursor');
     const caseWrapper = document.getElementById('caseCardsWrapper');
     const caseCards = document.querySelectorAll('.case-card');
 
@@ -387,10 +393,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let isInside = false;
     let isCursorInitialized = false;
 
-    if (caseSection && dragCursor) {
+    if (caseSection && caseCursor) {
         caseSection.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
+
+            const rect = caseSection.getBoundingClientRect();
+            const relX = mouseX - rect.left;
+            
+            // Reverted arrow directions to original state (points Left on Left, Right on Right)
+            if (relX < rect.width / 2) {
+                caseCursor.classList.add('left-side'); // Points Left
+            } else {
+                caseCursor.classList.remove('left-side'); // Points Right
+            }
 
             if (!isCursorInitialized) {
                 cursorX = mouseX;
@@ -400,16 +416,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!isInside) {
                 isInside = true;
-                dragCursor.classList.add('active');
-                caseSection.style.cursor = 'none';
+                caseCursor.classList.add('active');
             }
         });
 
         caseSection.addEventListener('mouseleave', () => {
             isInside = false;
             isCursorInitialized = false;
-            dragCursor.classList.remove('active');
-            caseSection.style.cursor = 'default';
+            caseCursor.classList.remove('active');
         });
 
         let isCaseDragging = false;
@@ -428,6 +442,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let directionLocked = false;
         let isHorizontalDrag = false;
 
+        caseSection.addEventListener('click', (e) => {
+            const rect = caseSection.getBoundingClientRect();
+            const relX = e.clientX - rect.left;
+            // Inverted directions: Left click moves right, Right click moves left
+            velocity = (relX < rect.width / 2 ? 0.1 : -0.1);
+        });
+
         const onPointerDown = (e) => {
             isCaseDragging = true;
             directionLocked = false;
@@ -436,7 +457,6 @@ document.addEventListener('DOMContentLoaded', () => {
             startY_drag = e.clientY || (e.touches && e.touches[0].clientY);
             lastX_drag = startX_drag;
             velocity = 0;
-            dragCursor.classList.add('dragging');
         };
 
         const onPointerMove = (e) => {
@@ -460,7 +480,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!isHorizontalDrag) {
                     // Vertical scroll — cancel drag and let browser handle
                     isCaseDragging = false;
-                    dragCursor.classList.remove('dragging');
                     return;
                 }
             }
@@ -480,7 +499,6 @@ document.addEventListener('DOMContentLoaded', () => {
             isCaseDragging = false;
             directionLocked = false;
             isHorizontalDrag = false;
-            dragCursor.classList.remove('dragging');
         };
 
         caseWrapper.addEventListener('mousedown', onPointerDown);
@@ -498,8 +516,8 @@ document.addEventListener('DOMContentLoaded', () => {
             cursorX += (targetX - cursorX) * CURSOR_LERP;
             cursorY += (targetY - cursorY) * CURSOR_LERP;
             
-            // Pure movement via translate3d (avoids collision with CSS translate/scale properties)
-            dragCursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
+            // Pure movement via translate (avoids collision with CSS translate/scale properties)
+            caseCursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
 
             const n = caseCards.length;
             if (!isCaseDragging) {
@@ -511,7 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const limit = Math.round(position);
                 if (Math.abs(velocity) < 0.001) {
-                    position += (limit - position) * 0.12;
+                    position += (limit - position) * 0.08; // Smoother, slower snapping
                     velocity = 0;
                 }
             } else {
@@ -539,8 +557,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const angle = (cardOffset * spacing) / radius;
                 const translateX = Math.sin(angle) * radius;
                 const translateY = (1 - Math.cos(angle)) * radius + (absOffset * 10);
-                const rotationY = cardOffset * (isMobile ? -10 : -15);
-                const rotationZ = cardOffset * (isMobile ? 15 : 25);
+                const rotationY = cardOffset * (isMobile ? -8 : -10);
+                const rotationZ = cardOffset * (isMobile ? 10 : 12);
                 const scale = Math.max(0.92, 1 - (absOffset * scaleFactor));
                 const zIndex = Math.round(100 - absOffset * 10);
                 // Keep cards fully opaque while on stage to prevent connectors showing through
@@ -605,145 +623,47 @@ document.addEventListener('DOMContentLoaded', () => {
         animateCase();
     }
 
-    // --- Testimonials Slider Logic ---
-    const testPrevBtn = document.getElementById('prevTest');
-    const testNextBtn = document.getElementById('nextTest');
-    const testDots = document.querySelectorAll('.test-dots .dot');
+    // --- Testimonials Reel-Style Interactions ---
     const testCards = document.querySelectorAll('.test-video-card');
-    const testTexts = document.querySelectorAll('.test-text-content');
-    let testIdx = 0;
 
-    function updateTestSlider(direction = 'init') {
-        const n = testCards.length;
+    testCards.forEach(card => {
+        const video = card.querySelector('.test-thumbnail-video');
+        const muteBtn = card.querySelector('.mute-icon');
+        const progressFill = card.querySelector('.progress-fill');
 
-        testCards.forEach((card, i) => {
-            let diff = (i - testIdx + n) % n;
-            let currentClass = Array.from(card.classList).find(c => c.startsWith('pos-'));
-            let newClass = '';
+        if (!video) return;
 
-            if (diff === 0) newClass = 'pos-3'; // Active
-            else if (diff === n - 1) newClass = 'pos-2'; // Middle Left
-            else if (diff === n - 2) newClass = 'pos-1'; // Far Left
-            else newClass = 'pos-right'; // Wait Right
+        // Auto-play video and show progress
+        video.play().catch(err => console.log("Auto-play blocked:", err));
 
-            // Handle Teleportation to prevent crossing the screen
-            let needsTeleport = false;
-            if (direction === 'next' && currentClass === 'pos-1' && newClass === 'pos-right') {
-                needsTeleport = true;
-            } else if (direction === 'prev' && currentClass === 'pos-right' && newClass === 'pos-1') {
-                needsTeleport = true;
-            }
-
-            if (needsTeleport) {
-                card.style.transition = 'none';
-            }
-
-            // Apply new classes
-            card.classList.remove('pos-1', 'pos-2', 'pos-3', 'pos-right');
-            card.classList.add(newClass);
-
-            if (needsTeleport) {
-                // Force reflow
-                void card.offsetWidth;
-                // Restore transition immediately after reflow so future moves are animated
-                card.style.transition = '';
+        // Update progress bar as video plays
+        video.addEventListener('timeupdate', () => {
+            if (video.duration) {
+                const percent = (video.currentTime / video.duration) * 100;
+                if (progressFill) progressFill.style.width = `${percent}%`;
             }
         });
 
-        // Update text content and dots based on Pos 3 (testIdx)
-        testTexts.forEach((text, i) => {
-            text.classList.toggle('active', i === testIdx);
-            text.style.display = (i === testIdx) ? 'block' : 'none';
+        // Reset progress when video ends (loop is on, but just in case)
+        video.addEventListener('ended', () => {
+            if (progressFill) progressFill.style.width = '0%';
         });
 
-        testDots.forEach((dot, i) => dot.classList.toggle('active', i === testIdx));
-    }
-
-    if (testPrevBtn) {
-        testIdx = 2; // Start with 3rd card as main to fill all positions
-        updateTestSlider();
-
-        testPrevBtn.addEventListener('click', () => {
-            testIdx = (testIdx > 0) ? testIdx - 1 : testCards.length - 1;
-            updateTestSlider('prev');
-        });
-
-        testNextBtn.addEventListener('click', () => {
-            testIdx = (testIdx + 1) % testCards.length;
-            updateTestSlider('next');
-        });
-        testDots.forEach((dot, i) => {
-            dot.addEventListener('click', () => {
-                testIdx = i;
-                updateTestSlider('jump');
-            });
-        });
-
-        // Add Wheel Support for "Scrolled Next" requirement
-        const testSection = document.querySelector('.testimonials-section');
-        let lastScrollTime = 0;
-        const scrollDebounce = 1000; // 1s sync with transition
-
-        if (testSection) {
-            testSection.addEventListener('wheel', (e) => {
-                const now = Date.now();
-                if (now - lastScrollTime < scrollDebounce) return;
-
-                if (Math.abs(e.deltaY) > 30) {
-                    if (e.deltaY > 0) {
-                        // Scroll down -> Next
-                        testIdx = (testIdx + 1) % testCards.length;
-                        updateTestSlider('next');
-                    } else {
-                        // Scroll up -> Prev
-                        testIdx = (testIdx > 0) ? testIdx - 1 : testCards.length - 1;
-                        updateTestSlider('prev');
-                    }
-                    lastScrollTime = now;
-                    e.preventDefault();
+        // Mute/Unmute Toggle
+        if (muteBtn) {
+            muteBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent card trigger
+                video.muted = !video.muted;
+                
+                // Optional: Update mute icon visually
+                if (video.muted) {
+                    muteBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>`;
+                } else {
+                    muteBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
                 }
-            }, { passive: true });
-
-            // --- Touch Swipe Support ---
-            let testStartX = 0;
-            let testStartY = 0;
-            let testIsDown = false;
-            let testSwiped = false;
-            
-            testSection.addEventListener('touchstart', (e) => {
-                testStartX = e.touches[0].clientX;
-                testStartY = e.touches[0].clientY;
-                testIsDown = true;
-                testSwiped = false;
-            }, { passive: true });
-
-            testSection.addEventListener('touchmove', (e) => {
-                if (!testIsDown || testSwiped) return;
-                const x = e.touches[0].clientX;
-                const y = e.touches[0].clientY;
-                const dx = x - testStartX;
-                const dy = y - testStartY;
-
-                // Detect horizontal swipe
-                if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
-                    if (dx > 0) {
-                        // Swipe Right -> Prev
-                        testIdx = (testIdx > 0) ? testIdx - 1 : testCards.length - 1;
-                        updateTestSlider('prev');
-                    } else {
-                        // Swipe Left -> Next
-                        testIdx = (testIdx + 1) % testCards.length;
-                        updateTestSlider('next');
-                    }
-                    testSwiped = true;
-                }
-            }, { passive: true });
-
-            testSection.addEventListener('touchend', () => {
-                testIsDown = false;
             });
         }
-    }
+    });
 
     // --- Why Section Accordion Logic ---
     const accItems = document.querySelectorAll('.accordion-item');
@@ -1259,6 +1179,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('galleryLightbox');
     const lightboxImg = document.getElementById('lightboxImage');
     const lightboxCat = document.getElementById('lightboxCategory');
+    const lightboxCounter = document.getElementById('lightboxCounter');
     const closeLightbox = document.getElementById('closeLightbox');
     const lightboxPrev = document.getElementById('lightboxPrev');
     const lightboxNext = document.getElementById('lightboxNext');
@@ -1270,6 +1191,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = currentLightboxImages[currentLightboxIndex];
         lightboxImg.src = data.src;
         lightboxCat.textContent = data.category;
+        
+        if (lightboxCounter) {
+            lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${currentLightboxImages.length}`;
+        }
     };
 
     const openLightbox = (index, images) => {

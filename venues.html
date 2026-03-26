@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Venue Partners - Timeline Stories</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Prata&family=Playfair+Display:wght@400;500;600&family=Great+Vibes&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #D4AF37;
+            --bg-black: #000000;
+            --card-bg: #111111;
+            --font-serif: 'Prata', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-black) !important;
+            color: #fff !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: var(--font-sans) !important;
+            overflow-x: hidden !important;
+            display: block !important;
+        }
+
+        /* Hero */
+        .venExp-hero {
+            padding: 180px 0 80px;
+            text-align: center;
+            background: #000;
+            width: 100% !important;
+            display: block !important;
+        }
+
+        .venExp-subtitle {
+            color: var(--primary-gold);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .venExp-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin: 0;
+            font-weight: 400;
+        }
+
+        /* Main Wrapper */
+        .venExp-main {
+            background-color: var(--bg-black);
+            width: 100% !important;
+            padding-bottom: 100px;
+            display: block !important;
+        }
+
+        /* Category Grid */
+        .venExp-cat-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .venExp-cat-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            height: 500px;
+            cursor: pointer;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .venExp-cat-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); }
+        .venExp-cat-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5); transition: transform 0.6s ease; }
+        .venExp-cat-card:hover .venExp-cat-img { transform: scale(1.05); filter: brightness(0.7); }
+        .venExp-cat-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); box-sizing: border-box; text-align: center; }
+        .venExp-cat-name { font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
+        .venExp-btn-view { display: inline-block; padding: 10px 24px; border: 1px solid var(--primary-gold); color: var(--primary-gold); border-radius: 40px; font-size: 0.85rem; }
+
+        /* Detail View */
+        #venExp-detailView {
+            display: none;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .venExp-back-nav { margin-bottom: 40px; }
+        .venExp-btn-back {
+            background: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .venExp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            width: 100% !important;
+        }
+
+        .venExp-card {
+            background: #111;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .venExp-card:hover { border-color: var(--primary-gold); }
+        .venExp-thumb-wrap { width: 100%; height: 240px; overflow: hidden; }
+        .venExp-thumb { width:100%; height:100%; object-fit: cover; }
+        .venExp-info { padding: 24px; text-align: center; }
+        .venExp-card-title { font-family: var(--font-serif); font-size: 1.2rem; color: #fff; margin: 0; line-height: 1.4; }
+
+        /* Navbar & Modal */
+        .navbar { position: fixed; top: 0; width: 100%; z-index: 2000; background: #000; padding: 20px 0; }
+        .navbar-wrapper { max-width: 1400px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-img { height: 60px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: #fff; text-decoration: none; font-weight: 500; }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .venExp-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="navbar-wrapper">
+            <div class="logo"><a href="index.html"><img src="images/logo.png" alt="Logo" class="logo-img"></a></div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#about">About Us</a>
+                <a href="index.html#process">Our Process</a>
+                <a href="index.html#case-study">Case Study</a>
+                <a href="index.html#testimonials">Testimonials</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+            <div class="nav-action"><button class="btn-gold-pill plan-event-btn"><span class="btn-text">Plan My Event</span></button></div>
+        </div>
+    </header>
+
+    <div class="venExp-hero">
+        <span class="venExp-subtitle">Venue Partners</span>
+        <h1 class="venExp-title">Our Exclusive Venues</h1>
+    </div>
+
+    <div class="venExp-main">
+        <div class="venExp-cat-container" id="venExp-catView">
+            <div class="venExp-cat-card" onclick="venExp_show('luxury')">
+                <img src="images/ourvenues/Luxury/lv1.png" class="venExp-cat-img" alt="Luxury Hotels">
+                <div class="venExp-cat-overlay">
+                    <h2 class="venExp-cat-name">Luxury Hotels &<br>Premium Venues</h2>
+                    <span class="venExp-btn-view">Click to View</span>
+                </div>
+            </div>
+            <div class="venExp-cat-card" onclick="venExp_show('convention')">
+                <img src="images/ourvenues/conventions/cv1.jpg" class="venExp-cat-img" alt="Convention Centers">
+                <div class="venExp-cat-overlay">
+                    <h2 class="venExp-cat-name">Convention Centers &<br>Garden Venues</h2>
+                    <span class="venExp-btn-view">Click to View</span>
+                </div>
+            </div>
+            <div class="venExp-cat-card" onclick="venExp_show('party')">
+                <img src="images/ourvenues/partyhalls/pv1.png" class="venExp-cat-img" alt="Party Halls">
+                <div class="venExp-cat-overlay">
+                    <h2 class="venExp-cat-name">Party Halls &<br>Event Spaces</h2>
+                    <span class="venExp-btn-view">Click to View</span>
+                </div>
+            </div>
+            <div class="venExp-cat-card" onclick="venExp_show('resorts')">
+                <img src="images/ourvenues/resorts/rv1.jpg" class="venExp-cat-img" alt="Resorts">
+                <div class="venExp-cat-overlay">
+                    <h2 class="venExp-cat-name">Resorts &<br>Outdoor Venues</h2>
+                    <span class="venExp-btn-view">Click to View</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="venExp-detailView">
+            <div class="venExp-back-nav">
+                <button class="venExp-btn-back" onclick="venExp_hide()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Back to Categories
+                </button>
+            </div>
+            <span class="venExp-subtitle">Venue Partners</span>
+            <h2 class="venExp-title" id="venExp-detailTitle" style="color: var(--primary-gold); margin-bottom: 50px;"></h2>
+            <div class="venExp-grid" id="venExp-grid"></div>
+        </div>
+    </div>
+
+    <div id="planEventModal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <div class="modal-header">
+                <h2 class="modal-title">Plan Your Event</h2>
+                <p class="modal-subtitle">Share your vision and we'll bring it to life.</p>
+            </div>
+            <form id="modalContactForm">
+                <div class="modal-form-grid">
+                    <div class="form-group"><input type="text" name="name" placeholder="Name" required></div>
+                    <div class="form-group"><input type="text" name="phone" placeholder="Phone" required></div>
+                    <div class="form-group"><input type="email" name="email" placeholder="Email" required></div>
+                    <div class="form-group"><input type="text" name="location" placeholder="Location" required></div>
+                </div>
+                <div class="form-group full-width"><textarea name="message" placeholder="Your Message" rows="4" required></textarea></div>
+                <div class="modal-submit-wrap"><button type="submit" class="btn-gold-fill">Submit Inquiry</button></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const venData = {
+            luxury: {
+                title: "Luxury Hotels & Premium Venues",
+                items: [
+                    { name: "ITC Grand Chola, Chennai", img: "images/ourvenues/Luxury/lv1.png" },
+                    { name: "The Leela Palace Chennai", img: "images/ourvenues/Luxury/lv2.jpg" },
+                    { name: "Taj Wellington Mews, Chennai", img: "images/ourvenues/Luxury/lv3.jpg" },
+                    { name: "Taj Connemara, Chennai", img: "images/ourvenues/Luxury/lv4.jpg" },
+                    { name: "Taj Fisherman’s Cove Resort & Spa, Chennai", img: "images/ourvenues/Luxury/lv5.webp" },
+                    { name: "Hyatt Regency Chennai", img: "images/ourvenues/Luxury/lv6.jpg" },
+                    { name: "InterContinental Chennai Mahabalipuram Resort", img: "images/ourvenues/Luxury/lv7.jpg" },
+                    { name: "Kaldan Samudhra Palace, Mahabalipuram", img: "images/ourvenues/Luxury/lv8.avif" },
+                    { name: "The Sunway Manor, Puducherry", img: "images/ourvenues/Luxury/lv9.jpg" },
+                    { name: "Hablis Hotel, Chennai", img: "images/ourvenues/Luxury/lv10.jpg" },
+                    { name: "Welcomhotel by ITC Hotels, Sriperumbudur", img: "images/ourvenues/Luxury/lv11.jpg" },
+                    { name: "Feathers – A Radha Hotel, Chennai", img: "images/ourvenues/Luxury/lv12.jpg" },
+                    { name: "The Raintree, St. Mary’s Road, Chennai", img: "images/ourvenues/Luxury/lv13.jpg" },
+                    { name: "The Raintree, Anna Salai, Chennai", img: "images/ourvenues/Luxury/lv14.jpeg" },
+                    { name: "Le Royal Méridien Chennai", img: "images/ourvenues/Luxury/lv15.jpg" },
+                    { name: "Park Hyatt Chennai", img: "images/ourvenues/Luxury/lv16.jpg" },
+                    { name: "Grand Chennai by GRT Hotels", img: "images/ourvenues/Luxury/lv17.webp" },
+                    { name: "Accord Metropolitan, T. Nagar, Chennai", img: "images/ourvenues/Luxury/lv18.jpg" },
+                    { name: "Radisson Blu Hotel, Chennai", img: "images/ourvenues/Luxury/lv19.jpeg" },
+                    { name: "Trident Chennai", img: "images/ourvenues/Luxury/lv20.avif" },
+                    { name: "Ramada by Wyndham Chennai Egmore", img: "images/ourvenues/Luxury/lv21.webp" },
+                    { name: "Four Points by Sheraton Mahabalipuram Resort & Convention Center", img: "images/ourvenues/Luxury/lv22.jpg" },
+                    { name: "Holiday Inn Chennai OMR IT Expressway", img: "images/ourvenues/Luxury/lv23.avif" },
+                    { name: "Hotel Green Park, Chennai", img: "images/ourvenues/Luxury/lv24.avif" },
+                    { name: "Hotel Woodlands, Chennai", img: "images/ourvenues/Luxury/lv25.jpeg" },
+                    { name: "Novotel Chennai OMR, Sholinganallur", img: "images/ourvenues/Luxury/lv26.jpg" },
+                    { name: "Royal Palms Resort, Chennai", img: "images/ourvenues/Luxury/lv27.jpeg" },
+                    { name: "Landmark Pallava, Chennai", img: "images/ourvenues/Luxury/lv28.jpg" },
+                    { name: "Bay Treasure Hotel, Chennai", img: "images/ourvenues/Luxury/lv29.avif" }
+                ]
+            },
+            convention: {
+                title: "Convention Centers & Garden Venues",
+                items: [
+                    { name: "Akshaya Grand Convention Centre", img: "images/ourvenues/conventions/cv1.jpg" },
+                    { name: "SPP Gardens", img: "images/ourvenues/conventions/cv2.jpg" },
+                    { name: "Chennai Convention Centre", img: "images/ourvenues/conventions/cv3.jpg" },
+                    { name: "Harsha Gardens", img: "images/ourvenues/conventions/cv4.jpg" },
+                    { name: "Gopinath Gardens", img: "images/ourvenues/conventions/cv5.jpeg" },
+                    { name: "Great Circle Kishkinta lawn", img: "images/ourvenues/conventions/cv6.jpg" },
+                    { name: "Sathyam Grand Resort, Sriperumbudur", img: "images/ourvenues/conventions/cv7.jpeg" },
+                    { name: "Snega Gardens", img: "images/ourvenues/conventions/cv8.jpeg" }
+                ]
+            },
+            party: {
+                title: "Party Halls & Event Spaces",
+                items: [
+                    { name: "KBR Mahal", img: "images/ourvenues/partyhalls/pv1.png" },
+                    { name: "M’s Party Hall", img: "images/ourvenues/partyhalls/pv2.png" },
+                    { name: "Dhuvaraga Palace", img: "images/ourvenues/partyhalls/pv3.jpg" },
+                    { name: "PRC Party Hall", img: "images/ourvenues/partyhalls/pv4.jpg" },
+                    { name: "Mitham Hall, ECR", img: "images/ourvenues/partyhalls/pv5.jpg" },
+                    { name: "Oaza Rooftop Banquet", img: "images/ourvenues/partyhalls/pv6.jpg" },
+                    { name: "Leelavathi Banquets", img: "images/ourvenues/partyhalls/pv7.png" }
+                ]
+            },
+            resorts: {
+                title: "Resorts & Outdoor Venues",
+                items: [
+                    { name: "ESS EMM Farm, Kalpakkam", img: "images/ourvenues/resorts/rv1.jpg" },
+                    { name: "VGP Golden Beach Resort, Chennai", img: "images/ourvenues/resorts/rv2.jpg" },
+                    { name: "Umino Beach Resort, ECR", img: "images/ourvenues/resorts/rv3.jpg" },
+                    { name: "Kadal Breeze (Kadal B Hive), Nemmeli", img: "images/ourvenues/resorts/rv4.jpeg" },
+                    { name: "Celebrity Resort, Chennai", img: "images/ourvenues/resorts/rv5.jpeg" },
+                    { name: "Samaaya Beach Resort, ECR", img: "images/ourvenues/resorts/rv6.jpg" },
+                    { name: "ECR Terrace (Rooftop Venue), ECR", img: "images/ourvenues/resorts/rv7.jpg" }
+                ]
+            }
+        };
+
+        function venExp_show(key) {
+            const data = venData[key];
+            const cat = document.getElementById('venExp-catView');
+            const det = document.getElementById('venExp-detailView');
+            const grid = document.getElementById('venExp-grid');
+            const tit = document.getElementById('venExp-detailTitle');
+
+            tit.textContent = data.title;
+            grid.innerHTML = data.items.map(item => `
+                <div class="venExp-card">
+                    <div class="venExp-thumb-wrap"><img src="${item.img}" class="venExp-thumb" alt="${item.name}"></div>
+                    <div class="venExp-info">
+                        <h3 class="venExp-card-title">${item.name}</h3>
+                    </div>
+                </div>
+            `).join('');
+
+            cat.style.display = 'none';
+            det.style.display = 'block';
+            window.scrollTo({ top: 300, behavior: 'auto' });
+        }
+
+        function venExp_hide() {
+            document.getElementById('venExp-catView').style.display = 'grid';
+            document.getElementById('venExp-detailView').style.display = 'none';
+            window.scrollTo({ top: 300, behavior: 'auto' });
+        }
+
+        // --- Navbar & Modal Logic ---
+        function setupModals() {
+            const modal = document.getElementById('planEventModal');
+            const triggerBtns = document.querySelectorAll('.plan-event-btn');
+            const closeBtn = document.getElementById('closeModal');
+
+            triggerBtns.forEach(btn => {
+                btn.onclick = (e) => { e.preventDefault(); modal.style.display = 'flex'; };
+            });
+
+            if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
+            window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+        }
+        setupModals();
+    </script>
+</body>
+</html>
